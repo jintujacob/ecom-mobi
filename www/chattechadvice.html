@@ -10,19 +10,55 @@
 
 <body> 
  
-<div data-role="page" id="chattechadvice">
- 	<div data-role="header" data-position="fixed">
+<div data-role="page"  id="pageChatAssister">
+
+  	<div data-role="header" data-position="fixed" id="hdrOnlineSellers">
         <div class="headerlogo"> </div>
 	    <div class="headertext">
-	       Technical advice by chat
+	       Chat Assister
 	    </div>
 	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
 	        <a href="index.html" data-role="button" >Home</a>
 			<a href="uganda.html" data-role="button" >Back</a>
 		</div>
 	</div>
+  	
+  	<div data-role="content" id="contentOnlineSellers"> 
+	    Sellers available online are :
+	     
+       	<table id="sellersOnline">
+       		<tr>
+       			<td> 
+       				<a id="sellernametest" > name1 </a> 
+       			</td>
+       			<td> firm1 </td>
+       		</tr>
+       		<tr>
+       			<td>name</td>
+       			<td>firm2 </td>
+       		</tr>
+   		</table>
+	</div>  
+	
+	<div data-role="footer" id="ftrOnlineSellers">
+		<h2>hello</h2>
+  	</div>
+
+
+ 	
+ 	<!-- ------------------chat box hdr, content & ftr ------------------------->
+ 	<div data-role="header" data-position="fixed" id="hdrChatBox">
+        <div class="headerlogo"> </div>
+	    <div class="headertext">
+	       Chat Assister
+	    </div>
+	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+	        <a href="index.html" data-role="button" >Home</a>
+			<a id="backChatBox" data-role="button" >Back</a>
+		</div>
+	</div>
  
-  	<div data-role="content"> 
+  	<div data-role="content" id="contentChatBox"> 
 	    chatbox
 	    <div style="margin-top: 30px;"> 
 	       	<table id="chathistory">
@@ -40,75 +76,84 @@
 	     </div>
 	</div>  
    
-  	<div data-role="footer">
-    	<h1>footer</h1>
+  	<div data-role="footer" id="ftrChatBox">
+    	<h1>footerChatbox</h1>
   	</div>
-  
+  	<!-- -------------------------end of chat box --------------------- -->
+  	
+  	
+  	
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
 <script type="text/javascript">
-
+	
 	$(document).ready(function() {
-		showContentMain();
+		showContentOnlineSellers();
 	});
-
-	$('#logmein').click(function () {	
-		showTransition();
-		doProcessInputs();
-		return(false);	// ! mandatory
+	
+	$('#sellernametest').click(function () {	
+		showContentChatBox();
 	});
+	
+	$('#backChatBox').click(function (){
+		showContentOnlineSellers();
+	});
+	
+	
+	function showContentOnlineSellers()
+	{
+		$('#ftrChatBox').hide();
+		$('#contentChatBox').hide();
+		$('#hdrChatBox').hide();
 
-	function showContentMain(){
+		$('#hdrOnlineSellers').show();
+		$('#contentOnlineSellers').show();
+		$('#ftrOnlineSellers').show();
+	}
+
+	function showContentChatBox()
+	{
+		$('#hdrOnlineSellers').hide();
+		$('#contentOnlineSellers').hide();
+		$('#ftrOnlineSellers').hide();
+	
+		$('#ftrChatBox').show();
+		$('#contentChatBox').show();
+		$('#hdrChatBox').show();
+	}
+
+/*
+
+
+	function showContentMain()
+	{
+		$('#contentTransition').hide();
+		$('#contentSuccess').hide();
 		$('#hdrMain').show();
 		$('#contentMain').show();
 		$('#ftrMain').show();
-		$('#contentTransition').hide();
 	}
 	
-	function showTransition(){
-		$('#contentTransition').show();
+	function showTransition()
+	{
 		$('#contentMain').hide();
 		$('#hdrMain').hide();
 		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#contentTransition').show();
 	}
 
-	function doProcessInputs(){
-		var username=$("#username").val();
-		var password=$("#password").val();
-		if (username =='') {
-			return false;
-		} 
-		if (password =='') {
-			return false;
-		} 
-		var serviceurl = '../services/accesscontrolaction.php' ;
-		
-		$.post(
-			serviceurl ,
-			{ 	username:username, 	password:password, 
-				action:'doLogin' ,	type:'consumer' 	
-			} ,
-		 	function(data){
-			    var resobj =jQuery.parseJSON(data);
-			    //alert(resobj.result);
-			    manageLoginResult(resobj.result);
-			}
-		);  // end of $.post --
+	function showSuccess()
+	{
+		$('#contentTransition').hide();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').show();
 	}
-	
-	
-	function manageLoginResult(result){
-		if(result == true){
-			location.href = 'index.html';
-			//or to the home page.
-		}
-		else{
-			showContentMain();
-			$('#setloginerror').append("invalid username / password. Please try again");
-		}
-	}
-	
+
+*/	
 
     
 </script>
