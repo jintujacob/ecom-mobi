@@ -1,0 +1,202 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="registerconsumer">
+ 
+	<div data-role="header" data-position="fixed" id="hdrMain">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Register
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentMain"> 
+	    <p> Register here to get access to all the functionalities</p>
+	    
+	    <span id="showErrorMessage" style="color:red;">
+			<!-- js populate --> 
+		</span>
+ 
+	    <form name="registrationform" action="registeraction" >
+	        <div data-role="fieldcontain">
+		        <label for="username">Username:</label>
+		        <input type="text" name="username" id="username" value="" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="password">Password:</label>
+		        <input type="password" name="password" id="password" value="" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="confirmpassword">Confirm Password:</label>
+		        <input type="password" name="confirmpassword" id="confirmpassword" value="" data-mini="true" />
+		    </div>
+		    
+		    
+		    <br />
+		    <div data-role="fieldcontain">
+		        <label for="email">Email:</label>
+		        <input type="text" name="email" id="email" value="" data-mini="true" />
+		    </div>
+		
+			<div data-role="fieldcontain">
+		        <label for="name">Full Name:</label>
+		        <input type="text" name="name" id="name" value="" data-mini="true" />
+		    </div>
+
+			<div data-role="fieldcontain">
+		        <label for="mobile">Contact No:</label>
+		        <input type="text" name="mobile" id="mobile" value="" data-mini="true" />
+		    </div>
+
+			
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="registerme" type="submit" data-theme="a" data-mini="true">Submit</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+  
+  	<div data-role="footer" id="ftrMain">
+        <a href="#login" data-role="button">Already registered! Take me to login page</a>
+  	</div>
+  	
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="images/ajax-loader.gif"/></div>
+	</div>	<!-- contentTransition -->
+	
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentSuccess" name="contentTransition">	
+	 <div align="CENTER"><h4>Registration process completed successfully</h4></div>
+	 <div align="CENTER"><h4>You are currently logged in.</h4></div>
+	 <div align="CENTER">Click to navigate to<a href="index.html" > Home Page</a> </div>
+	</div>	<!-- contentTransition -->
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showContentMain();
+	});
+
+	$('#registerme').click(function () {	
+		showTransition();
+		doProcessInputs();
+		return(false); // ! mandatory
+	});
+
+	function showContentMain()
+	{
+		$('#contentTransition').hide();
+		$('#contentSuccess').hide();
+		$('#hdrMain').show();
+		$('#contentMain').show();
+		$('#ftrMain').show();
+	}
+	
+	function showTransition()
+	{
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#contentTransition').show();
+	}
+
+	function showSuccess()
+	{
+		$('#contentTransition').hide();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').show();
+	}
+
+	function doProcessInputs()
+	{
+		var username=$("#username").val();
+        var email=$("#email").val();
+		var password=$("#password").val();
+        var confirmpassword=$("#confirmpassword").val();   
+        var name=$("#name").val();            
+		var mobile=$("#mobile").val();
+		
+	//	var address=$("#address").val();
+ 	//	var dob=$("#dob").val();
+
+ 		var address='0'; //for what ???
+  		var dob='0';   //for what ??? 
+ 
+ 
+ 		if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		}
+		//validate the rest 
+	
+		if (password != confirmpassword) {
+			return false;
+		}
+		
+		var serviceurl = '../services/accesscontrolaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	
+			    username : username,
+                email : email,
+			    password : password,
+                dob : dob,
+			    name : name,
+			    mobile : mobile,
+			    address : address,
+				action:'doRegister' ,	
+				type:'consumer' 	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    manageRegisterResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+	function manageRegisterResult(result)
+	{
+		if(result == true){
+			showSuccess();
+		}
+		else{
+			showContentMain();
+			$('#showErrorMessage').html("<br />unable to complete registration !");
+		}
+	}
+    
+</script>
+
+</div>
+</body>
+</html>
+
+

@@ -1,0 +1,226 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+
+<!-- page : search Guide  --------------------------------------------- --> 
+<div data-role="page" id="pageSearchGuide">
+	
+	<div data-role="header" data-position="fixed" id="hdrSearchGuide">
+		    <div class="headerlogo"> </div>
+		    <div class="headertext">
+		       Search assistant
+		    </div>
+		    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		        <a href="index.html" data-role="button" >Home</a>
+				<a href="?" data-role="button" >Back</a>
+			</div>
+	</div>
+ 
+  	<div data-role="content" id="contentSearchGuide"> 
+	    <div>
+	        <h3>How to use ? </h3>
+	        <ul>        
+	            <li>Enter the search key </li>
+	            <li>Select from the recommendations</li>
+	            <li>Hit the + button to add preferences</li>
+	            <li>Hit the 'View & Compare' button </li>
+	        </ul>
+	        <br>        
+	    </div>    
+		<div class="ui-body">
+		    <div class="ui-block-b">
+		       <button type="submit" id="searchnow" data-theme="a"  data-icon="gear" >Yep! I am ready.</button> 
+		    </div>
+		</div>
+  	</div>
+  
+  	<div data-role="footer" id="ftrSearchGuide">
+    	<h2>ftr</h2>
+  	</div>
+	
+
+
+
+
+<!-- page : search Products  --------------------------------------------- 
+<div data-role="page" id="pageSearchMain">
+	--> 
+	
+	<div data-role="header" data-position="fixed" id="hdrSearchMain">
+		    <div class="headerlogo"> </div>
+		    <div class="headertext">
+		       Search Products
+		    </div>
+		    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		        <a href="index.html" data-role="button" >Home</a>
+				<a id="backSearchMain" data-role="button" >Back</a>
+			</div>
+	</div>
+ 
+	<div data-role="content" id="contentSearchMain"> 
+		    <br>
+		    <h4> Preferences </h4>
+		    <table align="center" border=0px; width="95%" >
+		        <!--  move to css -->
+		        <tr> 
+		            <td> ......... </td> 
+		            <td> .........</td>
+		            <td> .........</td>
+		        </tr>
+		    </table>
+		    
+		    <fieldset class="ui-grid-a">
+				<div style="width:40%; float:right; ">
+					<button type="submit" id="clearlistMain" data-theme="a" data-mini="true">Clear List</button>
+				</div>
+		    </fieldset>
+		    <hr>
+		    <form name="searchproductform" >
+		    <div style="margin-top: 30px;"> 
+		        <div>  
+		            <label for="prefernce">Add your Preference below</label> 
+		        </div>
+		        <div> <!-- container -->
+		            <div class="search_inputbox">
+			            <input class="searchpreference" type="text" name="preference" id="preference" value=""  />
+			            <div class="searchresultcount">
+			                <b> 4 </b>  matches found
+			            </div>
+			        </div>
+			        <div class="search_buttongroup">
+		                <button id="addprefMain" type="submit" data-theme="a" > + </button> 
+		                <button type="reset" data-theme="d" data-mini="true">reset</button>
+			        </div>   
+			        
+			    </div>    
+			</div>
+			</form> 
+		
+			<div class="recommendation_table">
+			    <table width="80%" cellspacing="5px">
+			        <tr><td class="recommendation_item"> ajax val1 </td></tr>
+			        <tr><td class="recommendation_item"> ajax val2 </td></tr>
+			        <tr><td class="recommendation_item"> ajax val3 </td></tr>
+			        <tr><td class="recommendation_item"> ajax val4 </td></tr>
+			    </table>
+			</div>
+  	</div>
+  
+  	<div data-role="footer" id="ftrSearchMain">
+		    <div data-role="navbar" data-iconpos="bottom">
+				<ul>
+					<li><a href="#viewitemlist" data-icon="grid">View & Compare items</a> </li>
+					<li><a href="#" data-icon="info">Get Technical Advice</a> </li>
+				</ul>
+				
+			</div>
+  	</div>
+ 
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showPageSearchGuide();
+	});
+	
+	$('#searchnow').click(function () {	
+		showPageSearchMain();
+	});
+	
+	$('#backSearchMain').click(function () {	
+		showPageSearchGuide();
+	});
+	
+	$('#clearlistMain').click(function () {	
+		alert("define action when clear list button is pressed");
+	});
+	
+	$('#addprefMain').click(function () {	
+		alert("define action when the + button is pressed");
+		return false; // hence this is a form
+	});
+
+	
+	
+	
+	function showPageSearchGuide(){
+		$('#hdrSearchGuide').show();
+		$('#contentSearchGuide').show();
+		$('#ftrSearchGuide').show();
+	
+		$('#hdrSearchMain').hide();
+		$('#contentSearchMain').hide();
+		$('#ftrSearchMain').hide();
+	}
+	
+	function showPageSearchMain(){
+		$('#hdrSearchGuide').hide();
+		$('#contentSearchGuide').hide();
+		$('#ftrSearchGuide').hide();
+	
+		$('#hdrSearchMain').show();
+		$('#contentSearchMain').show();
+		$('#ftrSearchMain').show();
+	}
+	
+
+
+/*
+	function doProcessInputs(){
+		var username=$("#username").val();
+		var password=$("#password").val();
+		if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		} 
+		var serviceurl = '../services/accesscontrolaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	username:username, 	password:password, 
+				action:'doLogin' ,	type:'consumer' 	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    //alert(resobj.result);
+			    manageLoginResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+	
+	function manageLoginResult(result){
+		if(result == true){
+			location.href = 'index.html';
+			//or to the home page.
+		}
+		else{
+			showContentMain();
+			$('#setloginerror').append("invalid username / password. Please try again");
+		}
+	}
+*/	
+
+    
+</script>
+</div>
+</body>
+</html>
+
+
+
+

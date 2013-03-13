@@ -1,0 +1,61 @@
+<!-- page : view Result of product search----------------------------------> 
+<div data-role="page" id="viewitemlist">
+ 
+  <div data-role="header" data-position="fixed">
+    <div class="headerlogo"> </div>
+    <div class="headertext">
+        Products List
+    </div>
+    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+        <a href="index.html" data-role="button" >Home</a>
+		<a href="searchmain.html" data-role="button" >Back</a>
+	</div>
+  </div>
+ 
+  <div data-role="content"> 
+    <p>List of items that matches the search. Select 4 items to compare</p>    
+    <h2>Simple list</h2>
+    <form>
+    <table width="100%" >
+        <tr>
+            <td width="90%">
+               <a href="#viewsoloitem" data-role="button" data-mini="true" >item 1</a> </td>
+            <td>
+                <input type="checkbox" name="box1" id="box1" class="custom" /> 
+				<label for="box1"></label> </td>
+        </tr>
+        <tr>
+            <td width="90%">
+               <a href="#viewsoloitem" data-role="button" data-mini="true" >item 2</a> </td>
+            <td>
+                <input type="checkbox" name="box2" id="box2" class="custom" />
+				<label for="box2"></label> </td>
+        </tr>
+        <tr>
+            <td width="90%">
+               <a href="#viewsoloitem" data-role="button" data-mini="true" >item 2</a> </td>
+            <td>
+                <input type="checkbox" name="box3" id="box3" class="custom" />
+				<label for="box3"></label> </td>
+        </tr>
+        
+        <tr>
+            <td width="90%">
+               <a href="#viewsoloitem" data-role="button" data-mini="true" >item 2</a> </td>
+            <td>
+                <input type="checkbox" name="box4" id="box4" class="custom" />
+				<label for="box4"></label> </td>
+        </tr>
+    </table>
+    </form>
+  </div>
+  
+  <div data-role="footer">
+    <div data-role="navbar" data-iconpos="bottom">
+		<ul>
+			<li><a href="#compareitemshome" >Compare Items</a> </li>
+			<li><a href="#comparevendorshome" data-icon="info">Compare Vendors</a> </li>
+		</ul>
+		
+  </div>
+</div> 

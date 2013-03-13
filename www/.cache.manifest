@@ -1,0 +1,24 @@
+CACHE MANIFEST
+
+#consumer application
+
+NETWORK:
+*
+
+CACHE:
+
+css/style.css
+css/themes/default/jquery.mobile-1.2.0.css
+
+js/jquery.js
+js/jquery.mobile-1.2.0.js
+js/messenger.js
+js/accesscontrol.js
+
+
+index.html
+landing.html
+loginConsumer.html
+registerConsumer.html
+
+

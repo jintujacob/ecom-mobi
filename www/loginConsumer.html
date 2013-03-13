@@ -1,0 +1,142 @@
+<!-- do maintain the cache.manifest file to cache the pages. --> 
+
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="loginconsumer">
+ 
+	<div data-role="header" data-position="fixed" id="hdrMain">
+    	<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Login
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="landing.html" data-role="button" >Back</a>
+		</div>
+  	</div>
+ 
+  	<div data-role="content" id="contentMain"> 
+	    <p> 
+	        Login here to access get access to all the functionalities in the app.
+	        If you are new to here click the<a href="registerConsumer.html"> register </a>here to start.
+	    </p>
+	    
+		<span id="setloginerror" style="color:red;">
+			<!-- js populate --> 
+		</span>
+	
+	    <form name="loginform">
+	        <div data-role="fieldcontain">
+		        <label for="username">Username:</label>
+		        <input type="text" name="username" id="username" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="password">Password:</label>
+		        <input type="password" name="password" id="password"  data-mini="true" />
+		    </div>
+		
+		   	<div class="ui-body">
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a">
+						<!--<input type="submit"  value = "Login" data-theme="e" data-mini="true" />-->  
+						<button id="logmein" data-theme="e" data-mini="true">  Login  </button>
+					</div>
+			    </fieldset>
+			</div>
+	    </form> 
+	</div>
+	
+  	<div data-role="footer" id="ftrMain">
+    	<h2></h2>
+  	</div>
+	
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="images/ajax-loader.gif"/></div>
+	</div>	<!-- contentTransition -->
+
+  
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showContentMain();
+	});
+
+	$('#logmein').click(function () {	
+		showTransition();
+		doProcessInputs();
+		return(false);	// ! mandatory
+	});
+
+	function showContentMain(){
+		$('#hdrMain').show();
+		$('#contentMain').show();
+		$('#ftrMain').show();
+		$('#contentTransition').hide();
+	}
+	
+	function showTransition(){
+		$('#contentTransition').show();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+	}
+
+	function doProcessInputs(){
+		var username=$("#username").val();
+		var password=$("#password").val();
+		if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		} 
+		var serviceurl = '../services/accesscontrolaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	username:username, 	password:password, 
+				action:'doLogin' ,	type:'consumer' 	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    //alert(resobj.result);
+			    manageLoginResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+	
+	function manageLoginResult(result){
+		if(result == true){
+			location.href = 'index.html';
+			//or to the home page.
+		}
+		else{
+			showContentMain();
+			$('#setloginerror').append("invalid username / password. Please try again");
+		}
+	}
+	
+
+    
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,60 @@
+
+<!-- get tech advice by email -------------------------------------------------- --> 
+<div data-role="page" id="emailtechadvice">
+ 
+  <div data-role="header" data-position="fixed">
+    
+    <div class="headerlogo"> </div>
+    <div class="headertext">
+       Technical advice by email
+    </div>
+    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+        <a href="index.html" data-role="button" >Home</a>
+		<a href="?" data-role="button" >Back</a>
+	</div>
+  </div>
+ 
+  <div data-role="content"> 
+    <p> Drop your inquiry here. Our experts will guide you through the best products available</p> 
+    <form name="emailtechadviceform" action="emailtechadviceaction" >
+        
+        <div data-role="fieldcontain">
+	        <label for="email">Name :</label>
+	        <input type="text" name="name" id="name" value="" data-mini="true" />
+	    </div>
+        
+        <div data-role="fieldcontain">
+	        <label for="email">Email:</label>
+	        <input type="text" name="email" id="email" value="" data-mini="true" />
+	    </div>
+        
+        <div data-role="fieldcontain">
+	        <label for="phone" >Contact No :</label>
+	        <input type="text" name="phone" id="phone" value="" data-mini="true" />
+	    </div>
+	
+	    <div data-role="fieldcontain">
+	        <label for="title">Title:</label>
+	        <input type="text" name="title" id="title" value="" data-mini="true" />
+	    </div>
+	
+	    <div data-role="fieldcontain">
+	        <label for="title" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
+	        <textarea name="question" data-mini="true"></textarea>
+	    </div>
+	
+	   	<div class="ui-body">
+		<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><button type="submit" data-theme="d" data-mini="true">Cancel</button></div>
+				<div class="ui-block-b"><button type="submit" data-theme="a" data-mini="true">Submit</button></div>
+	    </fieldset>
+		</div>
+	</form> 
+  </div>
+  
+  <div data-role="footer" >
+        footer
+  </div>
+  
+</div>
+
