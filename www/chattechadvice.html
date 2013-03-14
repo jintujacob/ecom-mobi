@@ -89,70 +89,50 @@
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		showContentOnlineSellers();
+		showPageOnlineSellers();
 	});
 	
 	$('#sellernametest').click(function () {	
-		showContentChatBox();
+		showPageChatBox();
 	});
 	
 	$('#backChatBox').click(function (){
-		showContentOnlineSellers();
+		showPageOnlineSellers();
 	});
 	
-	
-	function showContentOnlineSellers()
-	{
-		$('#ftrChatBox').hide();
-		$('#contentChatBox').hide();
-		$('#hdrChatBox').hide();
-
-		$('#hdrOnlineSellers').show();
-		$('#contentOnlineSellers').show();
-		$('#ftrOnlineSellers').show();
+	function showPageOnlineSellers(){
+		hideContentChatBox();
+		showContentOnlineSellers();
 	}
-
-	function showContentChatBox()
-	{
-		$('#hdrOnlineSellers').hide();
-		$('#contentOnlineSellers').hide();
-		$('#ftrOnlineSellers').hide();
 	
-		$('#ftrChatBox').show();
-		$('#contentChatBox').show();
-		$('#hdrChatBox').show();
+	function showPageChatBox(){
+		hideContentOnlineSellers();
+		showContentChatBox();
 	}
+	
+		function showContentOnlineSellers()	{
+			$('#hdrOnlineSellers').show();
+			$('#contentOnlineSellers').show();
+			$('#ftrOnlineSellers').show();
+		}
+		function hideContentOnlineSellers()	{
+			$('#hdrOnlineSellers').hide();
+			$('#contentOnlineSellers').hide();
+			$('#ftrOnlineSellers').hide();
+		}
+		
+		function hideContentChatBox(){
+			$('#ftrChatBox').hide();
+			$('#contentChatBox').hide();
+			$('#hdrChatBox').hide();
+		}
+		function showContentChatBox(){
+			$('#ftrChatBox').show();
+			$('#contentChatBox').show();
+			$('#hdrChatBox').show();
+		}
 
 /*
-
-
-	function showContentMain()
-	{
-		$('#contentTransition').hide();
-		$('#contentSuccess').hide();
-		$('#hdrMain').show();
-		$('#contentMain').show();
-		$('#ftrMain').show();
-	}
-	
-	function showTransition()
-	{
-		$('#contentMain').hide();
-		$('#hdrMain').hide();
-		$('#ftrMain').hide();
-		$('#contentSuccess').hide();
-		$('#contentTransition').show();
-	}
-
-	function showSuccess()
-	{
-		$('#contentTransition').hide();
-		$('#contentMain').hide();
-		$('#hdrMain').hide();
-		$('#ftrMain').hide();
-		$('#contentSuccess').show();
-	}
-
 */	
 
     

@@ -1,6 +1,20 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+
+
 <div data-role="page" id="viewtechadvicehome">
-<!-- -------------------- landing -------------------- --> 
- 	<div data-role="header" data-position="fixed">
+	<!-- -------------------- landing -------------------- --> 
+ 	<div data-role="header" data-position="fixed" id="hdrTechAdvice">
 	    <div class="headerlogo"> </div>
 	    <div class="headertext">
 	      Get Technical Advice
@@ -11,20 +25,72 @@
 		</div>
   	</div>
  
-  	<div data-role="content"> 
+  	<div data-role="content" id="contentTechAdvice"> 
 	  	<br />
-	    <a href="chattechadvice.html" data-role="button" data-theme="a" > Chat with experts </a>
+	    <a href="chattechadvice.html" rel="external" data-role="button" data-theme="a" > Chat with experts </a>
 	    <br />
-	    <a href="emailtechadvice.html" data-role="button" data-theme="a" > Send an Email </a>
+	    <a href="emailtechadvice.html" rel="external" data-role="button" data-theme="a" > Send an Email </a>
 	    <br />
   	</div>
   
-	<div data-role="footer">
+	<div data-role="footer" id="ftrTechAdvice">
 	   	<h1>footer</h1>
 	</div>
 
- 	<!-- -------------------- end of landing -------------------- -->
- 
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
 
+<script type="text/javascript">
+
+		
+	$(document).ready(function() {
+		showContentTechAdvice();
+		
+	});
+	
+	function showContentTechAdvice(){
+		$('#hdrTechAdvice').show();
+		$('#contentTechAdvice').show();
+		$('#ftrTechAdvice').show();
+	}
+	
+	
+
+
+/*
+	function doProcessInputs(){
+		var username=$("#username").val();
+		var password=$("#password").val();
+		if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		} 
+		var serviceurl = '../services/accesscontrolaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	username:username, 	password:password, 
+				action:'doLogin' ,	type:'consumer' 	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    //alert(resobj.result);
+			    manageLoginResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+
+*/	
+
+    
+</script>
 </div>
+</body>
+</html>
+
+
+
 
