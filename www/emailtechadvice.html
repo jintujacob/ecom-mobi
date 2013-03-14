@@ -1,60 +1,135 @@
-
-<!-- get tech advice by email -------------------------------------------------- --> 
-<div data-role="page" id="emailtechadvice">
- 
-  <div data-role="header" data-position="fixed">
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
     
-    <div class="headerlogo"> </div>
-    <div class="headertext">
-       Technical advice by email
-    </div>
-    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
-        <a href="index.html" data-role="button" >Home</a>
-		<a href="?" data-role="button" >Back</a>
-	</div>
-  </div>
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+<!-- get tech advice by email -------------------------------------------------- --> 
+<div data-role="page" id="pageEmailAssister">
  
-  <div data-role="content"> 
-    <p> Drop your inquiry here. Our experts will guide you through the best products available</p> 
-    <form name="emailtechadviceform" action="emailtechadviceaction" >
-        
-        <div data-role="fieldcontain">
-	        <label for="email">Name :</label>
-	        <input type="text" name="name" id="name" value="" data-mini="true" />
+	<div data-role="header" data-position="fixed" id="hdrEmailForm">
+    
+	    <div class="headerlogo"> </div>
+	    <div class="headertext">
+	       Technical advice by email
 	    </div>
-        
-        <div data-role="fieldcontain">
-	        <label for="email">Email:</label>
-	        <input type="text" name="email" id="email" value="" data-mini="true" />
-	    </div>
-        
-        <div data-role="fieldcontain">
-	        <label for="phone" >Contact No :</label>
-	        <input type="text" name="phone" id="phone" value="" data-mini="true" />
-	    </div>
-	
-	    <div data-role="fieldcontain">
-	        <label for="title">Title:</label>
-	        <input type="text" name="title" id="title" value="" data-mini="true" />
-	    </div>
-	
-	    <div data-role="fieldcontain">
-	        <label for="title" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
-	        <textarea name="question" data-mini="true"></textarea>
-	    </div>
-	
-	   	<div class="ui-body">
-		<fieldset class="ui-grid-a">
-				<div class="ui-block-a"><button type="submit" data-theme="d" data-mini="true">Cancel</button></div>
-				<div class="ui-block-b"><button type="submit" data-theme="a" data-mini="true">Submit</button></div>
-	    </fieldset>
+	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+	        <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
 		</div>
-	</form> 
-  </div>
-  
-  <div data-role="footer" >
-        footer
-  </div>
-  
+  	</div>
+ 
+  	<div data-role="content" id="contentEmailForm"> 
+	    <p> Drop your inquiry here. Our experts will guide you through the best products available</p> 
+	    <form name="emailtechadviceform"  >
+	        
+	        <div data-role="fieldcontain">
+		        <label for="email">Name :</label>
+		        <input type="text" name="name" id="name" value="" data-mini="true" />
+		    </div>
+	        
+	        <div data-role="fieldcontain">
+		        <label for="email">Email:</label>
+		        <input type="text" name="email" id="email" value="" data-mini="true" />
+		    </div>
+	        
+	        <div data-role="fieldcontain">
+		        <label for="phone" >Contact No :</label>
+		        <input type="text" name="phone" id="phone" value="" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="title">Title:</label>
+		        <input type="text" name="title" id="title" value="" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="title" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
+		        <textarea name="question" data-mini="true"></textarea>
+		    </div>
+		
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="submit" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b">
+						<button type="submit" id="submitEmailForm" data-theme="a" data-mini="true">Submit</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+	
+	<div data-role="footer" id="ftrEmailForm">
+	     footer
+	</div>
+	  
+	  
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentSuccess" name="contentSuccess">	
+	 <div align="CENTER"><h4>Thank you. Your Inquiry is Submitted.</h4></div>
+	 <div align="CENTER">Click to navigate to<a href="viewtechadvicehome.html" rel="external"> Home Page</a> </div>
+	</div>	<!-- contentTransition -->  
+ 	
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+	
+	$(document).ready(function() {
+		showPageEmailForm();
+	});
+	
+	$('#submitEmailForm').click( function ()  {
+		showPageContentSuccess();
+		return false;  // !mandatory
+	});
+	
+	function showPageEmailForm(){
+		hideContentSuccess();
+		showContentEmailForm();
+	
+	}
+	
+	function showPageContentSuccess(){
+		hideContentEmailForm();
+		showContentSuccess();
+	}
+	
+		function showContentEmailForm()	{
+			$('#hdrEmailForm').show();
+			$('#contentEmailForm').show();
+			$('#ftrEmailForm').show();
+		}
+		function hideContentEmailForm()	{
+			$('#hdrEmailForm').hide();
+			$('#contentEmailForm').hide();
+			$('#ftrEmailForm').hide();
+		}
+		
+		function showContentSuccess()	{
+			//$('#hdrEmailForm').show();
+			$('#contentSuccess').show();
+			//$('#ftrEmailForm').show();
+		}
+		function hideContentSuccess()	{
+			//$('#hdrEmailForm').hide();
+			$('#contentSuccess').hide();
+			//$('#ftrEmailForm').hide();
+		}
+		
+
+/*
+*/	
+
+    
+</script>
+
 </div>
+</body>
+</html>
+
 
