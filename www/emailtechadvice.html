@@ -27,37 +27,22 @@
   	<div data-role="content" id="contentEmailForm"> 
 	    <p> Drop your inquiry here. Our experts will guide you through the best products available</p> 
 	    <form name="emailtechadviceform"  >
-	        
-	        <div data-role="fieldcontain">
-		        <label for="email">Name :</label>
-		        <input type="text" name="name" id="name" value="" data-mini="true" />
-		    </div>
-	        
-	        <div data-role="fieldcontain">
-		        <label for="email">Email:</label>
-		        <input type="text" name="email" id="email" value="" data-mini="true" />
-		    </div>
-	        
-	        <div data-role="fieldcontain">
-		        <label for="phone" >Contact No :</label>
-		        <input type="text" name="phone" id="phone" value="" data-mini="true" />
+		    <div data-role="fieldcontain">
+		        <label for="titleEmailForm">Title:</label>
+		        <input type="text" id="titleEmailForm" value="" data-mini="true" />
 		    </div>
 		
 		    <div data-role="fieldcontain">
-		        <label for="title">Title:</label>
-		        <input type="text" name="title" id="title" value="" data-mini="true" />
-		    </div>
-		
-		    <div data-role="fieldcontain">
-		        <label for="title" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
-		        <textarea name="question" data-mini="true"></textarea>
+		        <label for="descEmailForm" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
+		        <textarea name="descEmailForm" data-mini="true"></textarea>
 		    </div>
 		
 		   	<div class="ui-body">
 			<fieldset class="ui-grid-a">
-					<div class="ui-block-a"><button type="submit" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
 					<div class="ui-block-b">
-						<button type="submit" id="submitEmailForm" data-theme="a" data-mini="true">Submit</button></div>
+						<button type="submit" id="submitEmailForm" data-theme="a" data-mini="true">Submit</button>
+					</div>
 		    </fieldset>
 			</div>
 		</form> 
@@ -71,7 +56,13 @@
 	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentSuccess" name="contentSuccess">	
 	 <div align="CENTER"><h4>Thank you. Your Inquiry is Submitted.</h4></div>
-	 <div align="CENTER">Click to navigate to<a href="viewtechadvicehome.html" rel="external"> Home Page</a> </div>
+	 <div align="CENTER">
+	 	<h4>You will get a response from this seller shortly on : </h4>
+	 	<p id="getEmailId">  
+	 		<!-- ajax populate --> 
+	 	</p>
+	 </div>
+	 <div align="CENTER">Back to :<a href="viewtechadvicehome.html" rel="external"> Home </a> </div>
 	</div>	<!-- contentTransition -->  
  	
 <script src="js/jquery.js"></script>
@@ -84,6 +75,7 @@
 	});
 	
 	$('#submitEmailForm').click( function ()  {
+		doProcessInputs();
 		showPageContentSuccess();
 		return false;  // !mandatory
 	});
@@ -91,7 +83,6 @@
 	function showPageEmailForm(){
 		hideContentSuccess();
 		showContentEmailForm();
-	
 	}
 	
 	function showPageContentSuccess(){
@@ -120,7 +111,34 @@
 			$('#contentSuccess').hide();
 			//$('#ftrEmailForm').hide();
 		}
+	
+	
+	//utility methodes	
+	function doProcessInputs(){
+		var titleEmailForm=$('#titleEmailForm').val();
+		var descEmailForm=$('#descEmailForm').val();
+		if (titleEmailForm =='') {
+			return false;
+			// set dom through a function
+		} 
+		if (descEmailForm =='') {
+			return false;
+			// set dom through a function
+		} 
+		var serviceurl = '../services/emailformaction.php' ;
 		
+		$.post(
+			serviceurl ,
+			{ 	username:username, 	password:password, 
+				action:'doLogin' ,	type:'consumer' 	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    //alert(resobj.result);
+			    manageLoginResult(resobj.result);
+			}
+		);  // end of $.post --
+	}	
 
 /*
 */	
