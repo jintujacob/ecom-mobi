@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 17, 2013 at 01:08 PM
+-- Generation Time: Mar 18, 2013 at 03:42 AM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -71,10 +71,22 @@ INSERT INTO `chatbox` (`slno`, `sender`, `recipient`, `message`, `time`, `readfl
 --
 
 CREATE TABLE IF NOT EXISTS `config_category` (
-  `configuration` varchar(20) NOT NULL,
-  `categoty` varchar(20) NOT NULL,
-  `unit` int(20) NOT NULL
+  `config` varchar(20) NOT NULL,
+  `category` varchar(20) NOT NULL,
+  `unit` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `config_category`
+--
+
+INSERT INTO `config_category` (`config`, `category`, `unit`) VALUES
+('RAM', 'Laptop', 'GB'),
+('BRAND', 'Laptop', ''),
+('HDD', 'Laptop', 'GB'),
+('WARRANTY', 'Laptop', 'year'),
+('WARRANTY', 'Mobile', 'year'),
+('PROCESSOR', 'Laptop', '');
 
 -- --------------------------------------------------------
 
@@ -99,6 +111,21 @@ CREATE TABLE IF NOT EXISTS `consumer` (
 INSERT INTO `consumer` (`username`, `name`, `email`, `mobile`, `address`, `dob`) VALUES
 ('qa', 'qa unittest', 'qa@mail.com', '123456789', '0', '0'),
 ('x', 'x', 'x', 'xx', '0', '0');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emailbox`
+--
+
+CREATE TABLE IF NOT EXISTS `emailbox` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `description` varchar(500) NOT NULL,
+  `mail_from` varchar(20) NOT NULL,
+  `mail_to` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
 
@@ -195,6 +222,14 @@ CREATE TABLE IF NOT EXISTS `sellerprofile` (
   `latitude` varchar(10) NOT NULL,
   `longitude` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sellerprofile`
+--
+
+INSERT INTO `sellerprofile` (`display_name`, `operator_name`, `email`, `address`, `zipcode`, `ph_no`, `landmark`, `near_city`, `latitude`, `longitude`) VALUES
+('1', '2', '3', '5', '6', '4', '7', '8', '9', '10'),
+('dispname', 'oprname', 'email', 'address', 'zip', 'ctctno', 'landmark', 'nr.city', 'lat', 'lonng');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
