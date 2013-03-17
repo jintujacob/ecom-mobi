@@ -34,6 +34,7 @@ elseif($action == "doRegister")
 	$type		= (isset($_POST["type"])) 		? $_POST["type"]	: "" ;
 	
 	$data = array( $username, $password, $name, $email, $mobile, $address, $dob );
+	
 	//order of array elements is mandatory
 	doRegisteruser($data, $type);
 }
