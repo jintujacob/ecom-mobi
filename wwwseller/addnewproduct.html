@@ -31,21 +31,7 @@
 		</span>
  
 	    <form name="addproductform" >
-	       <!--
 	        <div data-role="fieldcontain">
-		        <label for="prod_no">product no:</label>
-		        <input type="text" name="prod_no" id="prod_no" value="" data-mini="true" />
-		    </div>
-			-->
-			
-			<!--
-		    <div data-role="fieldcontain">
-		        <label for="sellerid">seller id:</label>
-		        <input type="text" name="sellerid" id="sellerid" value="" data-mini="true" />
-		    </div>
-		   -->
-		   
-		    <div data-role="fieldcontain">
 		        <label for="prodname">Product Name</label>
 		        <input type="text"  id="prodname" name="prodname"  data-mini="true" />
 		    </div>
@@ -55,10 +41,12 @@
 		        <input type="text" name="description" id="description" value="" data-mini="true" />
 		    </div>
 		    
-			<div data-role="fieldcontain">
+			<div data-role="fieldcontain" >
 		        <label for="category">category:</label>
-		        <input type="text" name="category" id="category" value="" data-mini="true" />
-		    </div>
+		        <select id="category" data-mini="true">
+		        	<option value="none"> </option>
+			   	</select>
+	    	</div>    
 
 			<div data-role="fieldcontain">
 		        <label for="count">count:</label>
@@ -67,14 +55,39 @@
 		   	<div class="ui-body">
 			<fieldset class="ui-grid-a">
 					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
-					<div class="ui-block-b"><button id="submitBasicForm" type="submit" data-theme="a" data-mini="true">Save</button></div>
+					<div class="ui-block-b"><button id="submitBasicForm" type="submit" data-theme="a" data-mini="true">Next</button></div>
 		    </fieldset>
 			</div>
 		</form> 
   	</div>
+  	
+  	<div data-role="content" id="contentConfigForm"> 
+		<p> Add the product configuration now.</p>
+	    <form name="addproductform">
+	    	
+	    <div data-role="fieldcontain">
+			<table border="0" cellpadding"2" id="tableConfigList">
+	          	<tr>
+		          	<th>configuration</th>
+		          	<th>Value</th>
+		          	<th>unit</th>
+	          	</tr>
+	       </table>
+		</div>
+		
+		<div class="ui-body">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+				<div class="ui-block-b"><button id="submitConfigForm" type="submit" data-theme="a" data-mini="true">Save</button></div>
+	    	</fieldset>
+		</div>
+		
+		</form> 
+	</div> <!-- contentConfigForm  -->
+
   
   	<div data-role="footer" id="ftrBasicForm">
-       
+       <h1>footer</h1>
   	</div>
   	
 	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
@@ -85,10 +98,13 @@
 	
 	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentSuccess" name="contentSuccess">	
-	 <div align="CENTER"><h4>Pofile saved successfully</h4></div>
+	 <div align="CENTER"><h4>Item added successfully</h4></div>
 	<!-- <div align="CENTER"><h4>You are currently logged in.</h4></div>-->
 	 <div align="CENTER">Click to navigate to<a href="index.html" > Home Page</a> </div>
 	</div>	<!-- contentTransition -->
+
+	
+
 
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
@@ -97,44 +113,152 @@
 
 	$(document).ready(function() {
 		showPageBasicForm();
+		populateCategoryDropDown();
 	});
 
 	$('#submitBasicForm').click(function () {	
 		showPageTransition();
-		doProcessInputs();
+		populateConfigurationForm();
+		//doProcessBasicFormInputs();
+		showPageConfigForm();
 		return(false); // ! mandatory
 	});
 	
+	$('#submitConfigForm').click(function (){
+		showPageSuccess();
+		return(false);
+	});
+	
 	function showPageBasicForm(){
-		showContentBasicForm();
+		hideContentConfigForm();
 		hideContentTransition();
 		hideContentSuccess();
+		$('#hdrBasicForm').show();
+		showContentBasicForm();
+		$('#ftrBasicForm').show();
+
 	}
-	function showPageTransition(){
-		showContentTransition();
+
+	function showPageConfigForm(){
 		hideContentBasicForm();
+		hideContentTransition();
 		hideContentSuccess();
+		$('#hdrBasicForm').show();
+		showContentConfigForm();
+		$('#ftrBasicForm').show();
+	}
+
+	function showPageTransition(){
+		hideContentBasicForm();
+		hideContentConfigForm();
+		hideContentSuccess();
+		$('#hdrBasicForm').hide();
+		$('#ftrBasicForm').hide();
+		showContentTransition();
 	}
 	
 	function showPageSuccess(){
-		showContentSuccess();
 		hideContentTransition();
 		hideContentBasicForm();
-	}
-	
-	
-	function showContentBasicForm(){
-		$('#hdrBasicForm').show();
-		$('#contentBasicForm').show();
-		$('#ftrBasicForm').show();
-	}
-	
-	function hideContentBasicForm(){
+		hideContentConfigForm()
 		$('#hdrBasicForm').hide();
-		$('#contentBasicForm').hide();
 		$('#ftrBasicForm').hide();
+		showContentSuccess();
+	}
+	
+	
+	function populateCategoryDropDown()
+	{
+		var serviceurl = '../services/productsearchutils.php' ;
+		$.post(
+			serviceurl ,
+			{ 	action:'getAllCategoryList'	} ,
+		 	function(data){
+		 	    var resobj =jQuery.parseJSON(data);
+		 	    for(i=0;i<resobj.length;i++){
+		 	    	$('#category').append(
+						"<option value='" + resobj[i].category + " ' >" + 
+							resobj[i].category + 
+						"</option>"
+					);
+			   	}
+			}
+		);  // end of $.post --
+	}
+	
+	function populateConfigurationForm()
+	{
+		var serviceurl = '../services/productsearchutils.php' ;
+		var category=$("#category").val();
+		
+		$.post(
+			serviceurl ,
+			{ 	action:'getConfigList',	
+				category : category
+			} ,
+		 	function(data){
+		 	    var resobj =jQuery.parseJSON(data);
+		 	    for(i=0;i<resobj.length;i++){
+		 	    	appendConfigurationItem(resobj[i].config, resobj[i].unit);
+			   	}
+			}
+		);  // end of $.post --
+	}
+	
+	function appendConfigurationItem(config, unit){
+		
+		var str = ""; 
+		    str += "<tr>" ;      	
+		    str += "	<td align='right'> "+ config + "</td> " ;
+		    str += "	<td> <input type='text' id='"+config+"' data-mini='true'/> </td>" ;      		
+		    str += "	<td> "+ unit + "</td> ";
+		    str += "</tr> ";
+
+		$('#tableConfigList').append(str);	
+	}
+	
+	function doSubmitInputs()
+	{
+		var name=$("#prodname").val();
+        var description=$("#description").val();   
+        var category=$("#category").val();            
+		var count=$("#count").val();
+		
+		//get config variables;	
+		var serviceurl = '../services/productsearchutils.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	name:name,
+                descripion:description,
+			    category:category,
+			    count:count,
+				action:'addProductBasic'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    
+			}
+		);  // end of $.post --
+	}
+    
+    
+	function showContentBasicForm(){
+		$('#contentBasicForm').show();
 	}
 
+	function hideContentBasicForm(){
+		$('#contentBasicForm').hide();
+	}
+
+	function showContentConfigForm(){
+		$('#contentConfigForm').show();
+	} 
+	
+	function hideContentConfigForm(){
+		$('#contentConfigForm').hide();
+	} 
+	
 	function showContentTransition(){
 		$('#contentTransition').show(); }
 	
@@ -146,45 +270,6 @@
 		
 	function hideContentSuccess(){
 		$('#contentSuccess').hide();	}
-	
-	
-	function doProcessInputs()
-	{
-		var prod_no=$("#prod_no").val();
-        var sellerid=$("#selleridq").val();
-		var name=$("#name").val();
-        var description=$("#description").val();   
-        var category=$("#category").val();            
-		var count=$("#count").val();
-	
-		var serviceurl = '../services/sellerprofileaction.php' ;
-		
-		$.post(
-			serviceurl ,
-			{ 	name:name,
-                descripion:description,
-			    category:category,
-			    count:count,
-				action:'addproducts'	
-			} ,
-		 	function(data){
-			    var resobj =jQuery.parseJSON(data);
-			    manageRegisterResult(resobj.result);
-			}
-		);  // end of $.post --
-	}
-	
-	function manageRegisterResult(result)
-	{
-		if(result == true){
-			showSuccess();
-		}
-		else{
-			showContentMain();
-			$('#showErrorMessage').html("<br />unable to complete registration !");
-		}
-	}
-    
     
    
     

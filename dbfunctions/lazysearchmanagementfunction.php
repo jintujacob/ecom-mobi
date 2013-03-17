@@ -8,8 +8,7 @@ include("connection.php");
 function getProductListDB($data  ){
 	
 	$count=count($data);
-	$querystart ="select * from product_seller where prod_no in( ".
-				   "SELECT product_id FROM keyword_searchengine where";
+	$querystart ="select * from product_seller where prod_no in( SELECT distinct product_id FROM keyword_searchengine where";
 			
 	$condition="";
 	for($i=0;$i<$count;$i++){
@@ -21,9 +20,8 @@ function getProductListDB($data  ){
 		else
 			$condition=$condition." or keyword like '%$data[$i]%'";
 	}				
-
-	$querytail = ")";				
-	$query=$querystart.$condition.$query;	
+	$querytail=")";				
+	$query=$querystart.$condition.$querytail;	
 	
 	$result = mysql_query($query);
 	

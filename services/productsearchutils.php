@@ -9,18 +9,22 @@ $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
 if($action == "getAllCategoryList"){
 	getAllCategoryList();
 }
+
 if($action == "getConfigList"){
 	$category 	= (isset( $_POST['category'])) 	? $_POST['category'] 	: "" ;
 	getConfigList($category);
 }
 
+if ($action == "addProductBasic"){
+	
+}
+
 
 //------------------ utility methodes
-function getAllCategoryList()
-{
+function getAllCategoryList() {
 	$result = getAllCategoryListDB();
-	
 	$list_array = array();
+	
 	while($row = mysql_fetch_array($result)){	
 		$array = array( "category" => $row["category"]);
 		array_push($list_array, $array);
@@ -29,8 +33,7 @@ function getAllCategoryList()
 }
 
 function getConfigList($category){
-	echo "calling";	
-	$result = getConfigListDB();
+	$result = getConfigListDB($category);
 	
 	$list_array = array();
 	while($row = mysql_fetch_array($result)){	

@@ -22,13 +22,19 @@ if($action == "searchproduct")
  function getProductList($data)
  {
     $result= getProductListDB($data);
-    
 	$list_array = array();
 	while($row = mysql_fetch_array($result)){	
-		$array = array( 
-			"product_id" => $row["product_id"],
-			);
+		$array = array(
+		 "prod_no" => $row["prod_no"],
+		 "sellerid" => $row["sellerid"],
+		 "name" => $row["name"],
+		 "description" => $row["description"],
+		 "category" => $row["category"],
+		 "count" => $row["count"]
+		 );
 		array_push($list_array, $array);
 	}
 	echo json_encode($list_array);
 }
+ 
+ ?>
