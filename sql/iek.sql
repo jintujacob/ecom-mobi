@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 14, 2013 at 01:28 PM
+-- Generation Time: Mar 17, 2013 at 01:08 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -67,15 +67,14 @@ INSERT INTO `chatbox` (`slno`, `sender`, `recipient`, `message`, `time`, `readfl
 -- --------------------------------------------------------
 
 --
--- Table structure for table `configuration`
+-- Table structure for table `config_category`
 --
 
-CREATE TABLE IF NOT EXISTS `configuration` (
-  `config_id` int(11) NOT NULL AUTO_INCREMENT,
-  `config_name` varchar(100) DEFAULT NULL,
-  `product_category` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`config_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `config_category` (
+  `configuration` varchar(20) NOT NULL,
+  `categoty` varchar(20) NOT NULL,
+  `unit` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -104,42 +103,14 @@ INSERT INTO `consumer` (`username`, `name`, `email`, `mobile`, `address`, `dob`)
 -- --------------------------------------------------------
 
 --
--- Table structure for table `consumer_products`
+-- Table structure for table `keyword_searchengine`
 --
 
-CREATE TABLE IF NOT EXISTS `consumer_products` (
-  `consumer_id` varchar(100) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE IF NOT EXISTS `keyword_searchengine` (
+  `keyword` varchar(20) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `prefer` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `knowledge_mapper`
---
-
-CREATE TABLE IF NOT EXISTS `knowledge_mapper` (
-  `slno` int(11) NOT NULL AUTO_INCREMENT,
-  `question_id` int(11) DEFAULT NULL,
-  `knowledge_id` int(11) DEFAULT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`slno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `knowledge_repository`
---
-
-CREATE TABLE IF NOT EXISTS `knowledge_repository` (
-  `slno` int(11) NOT NULL AUTO_INCREMENT,
-  `keywords` text,
-  `question` text,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`slno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -165,46 +136,30 @@ INSERT INTO `login` (`username`, `password`, `type`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `product`
---
-
-CREATE TABLE IF NOT EXISTS `product` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
-  `description` text,
-  `specification` text,
-  `price` float DEFAULT NULL,
-  `quantity` float DEFAULT '1',
-  `offers` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `product_configuration`
 --
 
 CREATE TABLE IF NOT EXISTS `product_configuration` (
-  `product_id` int(11) NOT NULL AUTO_INCREMENT,
-  `config_id` int(11) DEFAULT NULL,
-  `config_value` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`product_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `config_id` int(10) NOT NULL,
+  `prod_id` int(10) NOT NULL,
+  `string_value` varchar(20) NOT NULL,
+  `int_value` int(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `question_repository`
+-- Table structure for table `product_seller`
 --
 
-CREATE TABLE IF NOT EXISTS `question_repository` (
-  `slno` int(11) NOT NULL AUTO_INCREMENT,
-  `keywords` text,
-  `question` text,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`slno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+CREATE TABLE IF NOT EXISTS `product_seller` (
+  `prod_no` int(11) NOT NULL,
+  `sellerid` varchar(20) NOT NULL,
+  `name` varchar(30) NOT NULL,
+  `description` varchar(50) NOT NULL,
+  `category` varchar(30) NOT NULL,
+  `count` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -220,6 +175,25 @@ CREATE TABLE IF NOT EXISTS `seller` (
   `address` text,
   `dob` varchar(15) DEFAULT NULL,
   PRIMARY KEY (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sellerprofile`
+--
+
+CREATE TABLE IF NOT EXISTS `sellerprofile` (
+  `display_name` varchar(25) NOT NULL,
+  `operator_name` varchar(20) NOT NULL,
+  `email` varchar(20) NOT NULL,
+  `address` varchar(40) NOT NULL,
+  `zipcode` varchar(10) NOT NULL,
+  `ph_no` varchar(15) NOT NULL,
+  `landmark` varchar(30) NOT NULL,
+  `near_city` varchar(20) NOT NULL,
+  `latitude` varchar(10) NOT NULL,
+  `longitude` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
