@@ -1,7 +1,8 @@
 
 1. form validation in login and registration pages for consumer and seller.
 2. fixed width and floating header need to be revisited.
-3. fix the links if external reference rel="external"
+3. fix the links if external reference rel="external"5
+5. take the return for the insert queries and update queries from the dbfunctions
 
 $list_array = array();
 

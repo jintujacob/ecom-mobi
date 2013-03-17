@@ -6,19 +6,28 @@ include('../dbfunctions/emailservicefunctions.php');
 
 $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
 
-if($action == "doLogin")
+if($action == "doSendEmail")
 {
-	$type 		= (isset( $_POST['type'] ))		? $_POST['type'] 	: "" ;	
-	$username 	= (isset( $_POST['username'])) 	? $_POST['username']: "" ;
-	$password 	= (isset( $_POST['password'])) 	? $_POST['password']: "" ;
+	$type 	= (isset( $_POST['type'] ))		? $_POST['type'] 	: "" ;	
+	$title 	= (isset( $_POST['title'])) 	? $_POST['title']: "" ;
+	$desc 	= (isset( $_POST['desc'])) 	? $_POST['desc']: "" ;
 	
-	doValidateLogin($username, $password, $type);
+	doSendEmail($type, $title, $desc);	
 		
 }
 
 
 /* Utility Methods------------------------------------------------- */
-
+function doSendEmail($type, $title, $desc) {
+	$mailto = "notset";
+	$data  = array( "title" => $title,
+					"description" => $desc,
+					"mail_from" => $_SESSION['username'],
+					"mail_to" => $mailto	
+				  );	
+	$result = doAddEmailDB($data);
+	//echo json_encode(array("result"=>TRUE));
+}
 
 
 

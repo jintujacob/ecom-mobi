@@ -64,6 +64,14 @@
 	 </div>
 	 <div align="CENTER">Back to :<a href="viewtechadvicehome.html" rel="external"> Home </a> </div>
 	</div>	<!-- contentTransition -->  
+	
+	
+	 <!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="./css/images/ajax-loader.gif"/></div>
+	</div>	<!-- contentTransition -->
+
  	
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
@@ -71,25 +79,32 @@
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		showPageEmailForm();
+		showPageContentSuccess();
 	});
 	
 	$('#submitEmailForm').click( function ()  {
 		doProcessInputs();
-		showPageContentSuccess();
 		return false;  // !mandatory
 	});
 	
 	function showPageEmailForm(){
 		hideContentSuccess();
+		hideContentTransition();
 		showContentEmailForm();
 	}
 	
 	function showPageContentSuccess(){
 		hideContentEmailForm();
+		hideContentTransition();
 		showContentSuccess();
 	}
 	
+	function showPageContentTransition(){
+		hideContentEmailForm();
+		hideContentSuccess();
+		showContentTransition();
+	}
+
 		function showContentEmailForm()	{
 			$('#hdrEmailForm').show();
 			$('#contentEmailForm').show();
@@ -112,6 +127,19 @@
 			//$('#ftrEmailForm').hide();
 		}
 	
+		function showContentTransition()	{
+			//$('#hdrEmailForm').show();
+			$('#contentTranstion').show();
+			//$('#ftrEmailForm').show();
+		}
+		function hideContentTransition()	{
+			//$('#hdrEmailForm').show();
+			$('#contentTransition').hide();
+			//$('#ftrEmailForm').show();
+		}
+
+
+	
 	
 	//utility methodes	
 	function doProcessInputs(){
@@ -129,16 +157,30 @@
 		
 		$.post(
 			serviceurl ,
-			{ 	username:username, 	password:password, 
-				action:'doLogin' ,	type:'consumer' 	
+			{ 	title : titleEmailForm, 	
+				desc : descEmailForm, 
+				action :'doSendEmail' ,	
+				type:'consumer' 	
 			} ,
 		 	function(data){
 			    var resobj =jQuery.parseJSON(data);
 			    //alert(resobj.result);
-			    manageLoginResult(resobj.result);
+			    manageEmailResponse(resobj.result);
 			}
 		);  // end of $.post --
 	}	
+
+	function manageEmailResponse(result){
+		if(result == true){
+			showPageContentSuccess();
+		}
+		else{
+			showContentMain();
+			$('#setloginerror').append("invalid username / password. Please try again");
+		}
+	}
+	
+}
 
 /*
 */	
