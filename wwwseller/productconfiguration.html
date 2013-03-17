@@ -1,0 +1,128 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Seller Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="productconfiguration">
+ 
+	<div data-role="header" data-position="fixed" id="hdraddconfigurationform">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Profile
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentaddproductform"> 
+	    <p>Add or edit profile</p>
+	    
+	 
+ 
+	    <form name="addproductform" action="addproductformaction" >
+	        
+	        
+	       <div data-role="fieldcontain">
+		        <label for="category">category:</label>
+		        
+		        <select id="selectCategory">
+		        	<option value="cotegory1"> select</option>
+			   </select>
+			   
+			   
+		    </div>    
+		    <div data-role="fieldcontain">
+		        <label for="configuration">configuration:</label>
+		        <table border="1"
+		          <tr>
+		          	<th>configuration</th>
+		          	<th>category</th>
+		          	<th>unit</th>
+		          </tr>
+		         
+		        <tr>
+		          	<td>configuration1</td>
+		          	<td>category1</td>
+		          	<td>unit1</td>
+		          </tr>
+		         <tr>
+		          	<td>configuration2</td>
+		          	<td>category2</td>
+		          	<td>unit2</td>
+		          </tr>
+		        <tr>
+		          	<td>configuration3</td>
+		          	<td>category3</td>
+		          	<td>unit3</td>
+		          </tr>
+		         
+		       </table>
+		    </div>
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="saveprofile" type="submit" data-theme="a" data-mini="true">Save</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+  
+  	<div data-role="footer" id="ftraddproductform">
+       
+  	</div>
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		doProcessInputs();
+	});
+
+	function doProcessInputs()
+	{
+		var serviceurl = '../services/productsearchutils.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	
+				action:'getAllCategoryList'	
+			} ,
+		 	function(data){
+		 	    var resobj =jQuery.parseJSON(data);
+			    var count=resobj.length;
+			    for(i=0;i<count;i++){
+			    	populateDropDown(resobj[i].category);
+			   	}
+			}
+		);  // end of $.post --
+	}
+	function populateDropDown(category)
+	{
+		$('#selectCategory').append(
+			"<option value='" + category + " ' >" + 
+				category+ 
+			"</option>"
+		);
+	}
+	 
+</script>
+
+</div>
+</body>
+</html>
+
+
+
+

@@ -28,9 +28,10 @@ if($action == "savemyprofile")
 
  function doAddProfile($data)
  {
-     doAddProfileDB($data);
-     echo json_encode(array("result"=>TRUE));
-	
-	 
+    $result = doAddProfileDB($data);
+    if($result == true)
+     	echo json_encode(array("result"=>TRUE));
+	else
+     	echo json_encode(array("result"=>FALSE));
  }
  

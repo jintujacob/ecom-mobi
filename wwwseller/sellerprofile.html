@@ -30,7 +30,7 @@
 			<!-- js populate --> 
 		</span>
  
-	    <form name="registrationform" action="registeraction" >
+	    <form name="sellerProfileForm" action="sellerpofileaction" >
 	        <div data-role="fieldcontain">
 		        <label for="displayname">Displayname:</label>
 		        <input type="text" name="displayname" id="displayname" value="" data-mini="true" />
@@ -163,11 +163,25 @@
 		var nearcity=$("#nearcity").val();
 		var latitude=$("#latitude").val();
 		var longitude=$("#longitude").val();
-		
-		/* add validation whereever required.
-		 * identify mandatory fields.
-		 */	
+	//	var address=$("#address").val();
+ 	//	var dob=$("#dob").val();
+
+ 		//var address='0'; //for what ???
+  		//var dob='0';   //for what ??? 
+ 
+ 
+ 	/*	if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		}
+		//validate the rest 
 	
+		if (password != confirmpassword) {
+			return false;
+		}
+		*/
 		var serviceurl = '../services/sellerprofileaction.php' ;
 		
 		$.post(
@@ -187,20 +201,16 @@
 			} ,
 		 	function(data){
 			    var resobj =jQuery.parseJSON(data);
-			    manageResult(resobj.result);
+			    manageRegisterResult(resobj.result);
 			}
 		);  // end of $.post --
 	}
 	
-	function manageResult(result)
+	function manageRegisterResult(result)
 	{
 		if(result == true){
 			showSuccess();
-		}
-		else{
-			showPageProfileForm();
-			//create a div with id - 'setErrorMsg'
-			//set some friendle error message to that div here.	
+			
 		}
 		
 	}

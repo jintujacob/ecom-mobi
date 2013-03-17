@@ -10,7 +10,7 @@ if($action == "doSendEmail")
 {
 	$type 	= (isset( $_POST['type'] ))		? $_POST['type'] 	: "" ;	
 	$title 	= (isset( $_POST['title'])) 	? $_POST['title']: "" ;
-	$desc 	= (isset( $_POST['desc'])) 	? $_POST['desc']: "" ;
+	$desc 	= (isset( $_POST['desc'])) 		? $_POST['desc']: "" ;
 	
 	doSendEmail($type, $title, $desc);	
 		
@@ -20,13 +20,18 @@ if($action == "doSendEmail")
 /* Utility Methods------------------------------------------------- */
 function doSendEmail($type, $title, $desc) {
 	$mailto = "notset";
+	//	$username = $_SESSION['username'];
+	$username = "notset";
 	$data  = array( "title" => $title,
 					"description" => $desc,
-					"mail_from" => $_SESSION['username'],
+					"mail_from" => $username,
 					"mail_to" => $mailto	
 				  );	
 	$result = doAddEmailDB($data);
-	//echo json_encode(array("result"=>TRUE));
+	if($result == true)
+		echo json_encode(array("result"=>TRUE));
+	else 
+		echo json_encode(array("result"=>FALSE));
 }
 
 

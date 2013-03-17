@@ -31,7 +31,8 @@ $query ="insert into sellerprofile ".
 				$data[8] 	."', '".
 				$data[9] 	."') " ;
 					
-	$result = mysql_query($query);		 	
+	$result = mysql_query($query);
+	return $result;		 	
 }
 
 

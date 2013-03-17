@@ -1,0 +1,162 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Seller Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="pageSearchProduct">
+ 
+	<div data-role="header" data-position="fixed" id="hdrLazySearch">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Search Products
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentLazySearch"> 
+	    <p></p>
+	    
+	   <!-- <span id="showErrorMessage" style="color:red;">
+			<!-- js populate --> 
+		<!--</span>-->
+ 
+	    <form name="lazysearchform" action="lazysearchaction" >
+	        <div align="center" data-role="fieldcontain">
+		        <input type="text" name="searchkey"  placeholder="Enter Search Key" id="searchkey" value="" data-mini="true" />
+		    </div>
+		
+		    
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="searchproduct" type="submit" data-theme="a" data-mini="true">Search</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+    <div id="getProducts">
+    	
+    </div>
+    	
+  	<div data-role="footer" id="ftrLazySearch">
+        <h1></h1>
+  	</div>
+  	
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div><!-- contentTransition -->
+	
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentSuccess" name="contentTransition">	
+	 <div align="CENTER"><h4>Pofile saved successfully</h4></div>
+	<!-- <div align="CENTER"><h4>You are currently logged in.</h4></div>-->
+	 <div align="CENTER">Click to navigate to<a href="index.html" > Home Page</a> </div>
+	</div>	<!-- contentTransition -->
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showSearchProductForm();
+		
+	});
+
+	$('#searchproduct').click(function () {	
+		showTransition();
+		doProcessInputs();
+		return(false); // ! mandatory
+	});
+
+	function showSearchProductForm()
+	{
+		$('#contentTransition').hide();
+		$('#contentSuccess').hide();
+		$('#hdrLazySearch').show();
+		$('#contentLazySearch').show();
+		$('#ftrLazySearch').show();
+	}
+	
+	function showTransition()
+	{
+		
+		$('#contentSuccess').hide();
+		$('#hdrLazySearch').hide();
+		$('#contentLazySearch').hide();
+		$('#ftrLazySearch').hide();
+		$('#contentTransition').show();
+	}
+
+	function showSuccess()
+	{
+		$('#contentTransition').hide();	
+		$('#hdrLazySearch').hide();
+		$('#contentLazySearch').hide();
+		$('#ftrLazySearch').hide();
+		$('#contentSuccess').show();
+		
+	}
+   
+	function doProcessInputs()
+	{
+		
+		var searchkey=$("#searchkey").val();
+ 
+ 	/*	if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		}
+		//validate the rest 
+	
+		if (password != confirmpassword) {
+			return false;
+		}
+		*/
+		var serviceurl = '../services/lazysearchaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	
+			    searchkey : searchkey,             
+				action:'searchproduct'	
+			} ,
+		 	function(data){
+		 		alert (data);
+		 	
+			    var resobj =jQuery.parseJSON(data);
+			    manageRegisterResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+	function manageRegisterResult(result)
+	{
+		if(result == true){
+			showSuccess();
+			
+		}
+		
+	}
+    
+</script>
+
+</div>
+</body>
+</html>
+
+

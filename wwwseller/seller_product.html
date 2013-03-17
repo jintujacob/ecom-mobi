@@ -1,0 +1,197 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Seller Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="pageAddProduct">
+ 
+	<div data-role="header" data-position="fixed" id="hdrBasicForm">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Profile
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentBasicForm"> 
+	    <p>Add or edit profile</p>
+	    
+	    <span id="showErrorMessage" style="color:red;">
+			<!-- js populate --> 
+		</span>
+ 
+	    <form name="addproductform" >
+	       <!--
+	        <div data-role="fieldcontain">
+		        <label for="prod_no">product no:</label>
+		        <input type="text" name="prod_no" id="prod_no" value="" data-mini="true" />
+		    </div>
+			-->
+			
+			<!--
+		    <div data-role="fieldcontain">
+		        <label for="sellerid">seller id:</label>
+		        <input type="text" name="sellerid" id="sellerid" value="" data-mini="true" />
+		    </div>
+		   -->
+		   
+		    <div data-role="fieldcontain">
+		        <label for="prodname">Product Name</label>
+		        <input type="text"  id="prodname" name="prodname"  data-mini="true" />
+		    </div>
+		   
+		    <div data-role="fieldcontain">
+		        <label for="description">description:</label>
+		        <input type="text" name="description" id="description" value="" data-mini="true" />
+		    </div>
+		    
+			<div data-role="fieldcontain">
+		        <label for="category">category:</label>
+		        <input type="text" name="category" id="category" value="" data-mini="true" />
+		    </div>
+
+			<div data-role="fieldcontain">
+		        <label for="count">count:</label>
+		        <input type="text" name="count" id="count" value="" data-mini="true" />
+		    </div>
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="submitBasicForm" type="submit" data-theme="a" data-mini="true">Save</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+  
+  	<div data-role="footer" id="ftrBasicForm">
+       
+  	</div>
+  	
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div>	<!-- contentTransition -->
+	
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentSuccess" name="contentSuccess">	
+	 <div align="CENTER"><h4>Pofile saved successfully</h4></div>
+	<!-- <div align="CENTER"><h4>You are currently logged in.</h4></div>-->
+	 <div align="CENTER">Click to navigate to<a href="index.html" > Home Page</a> </div>
+	</div>	<!-- contentTransition -->
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showPageBasicForm();
+	});
+
+	$('#submitBasicForm').click(function () {	
+		showPageTransition();
+		doProcessInputs();
+		return(false); // ! mandatory
+	});
+	
+	function showPageBasicForm(){
+		showContentBasicForm();
+		hideContentTransition();
+		hideContentSuccess();
+	}
+	function showPageTransition(){
+		showContentTransition();
+		hideContentBasicForm();
+		hideContentSuccess();
+	}
+	
+	function showPageSuccess(){
+		showContentSuccess();
+		hideContentTransition();
+		hideContentBasicForm();
+	}
+	
+	
+	function showContentBasicForm(){
+		$('#hdrBasicForm').show();
+		$('#contentBasicForm').show();
+		$('#ftrBasicForm').show();
+	}
+	
+	function hideContentBasicForm(){
+		$('#hdrBasicForm').hide();
+		$('#contentBasicForm').hide();
+		$('#ftrBasicForm').hide();
+	}
+
+	function showContentTransition(){
+		$('#contentTransition').show(); }
+	
+	function hideContentTransition(){
+		$('#contentTransition').hide();	}
+	
+	function showContentSuccess(){
+		$('#contentSuccess').show();	}
+		
+	function hideContentSuccess(){
+		$('#contentSuccess').hide();	}
+	
+	
+	function doProcessInputs()
+	{
+		var prod_no=$("#prod_no").val();
+        var sellerid=$("#selleridq").val();
+		var name=$("#name").val();
+        var description=$("#description").val();   
+        var category=$("#category").val();            
+		var count=$("#count").val();
+	
+		var serviceurl = '../services/sellerprofileaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	name:name,
+                descripion:description,
+			    category:category,
+			    count:count,
+				action:'addproducts'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    manageRegisterResult(resobj.result);
+			}
+		);  // end of $.post --
+	}
+	
+	function manageRegisterResult(result)
+	{
+		if(result == true){
+			showSuccess();
+		}
+		else{
+			showContentMain();
+			$('#showErrorMessage').html("<br />unable to complete registration !");
+		}
+	}
+    
+    
+   
+    
+</script>
+
+</div>
+</body>
+</html>
+
+

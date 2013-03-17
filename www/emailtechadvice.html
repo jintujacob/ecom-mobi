@@ -26,15 +26,20 @@
  
   	<div data-role="content" id="contentEmailForm"> 
 	    <p> Drop your inquiry here. Our experts will guide you through the best products available</p> 
+	    
+	    <div id="setErrorMessage" style="color:red;">
+	    	
+    	</div>
+	    
 	    <form name="emailtechadviceform"  >
-		    <div data-role="fieldcontain">
+	    	<div data-role="fieldcontain">
 		        <label for="titleEmailForm">Title:</label>
 		        <input type="text" id="titleEmailForm" value="" data-mini="true" />
 		    </div>
 		
 		    <div data-role="fieldcontain">
 		        <label for="descEmailForm" >Question :   </label> &nbsp;&nbsp;&nbsp;&nbsp;
-		        <textarea name="descEmailForm" data-mini="true"></textarea>
+		        <textarea id="descEmailForm" data-mini="true"></textarea>
 		    </div>
 		
 		   	<div class="ui-body">
@@ -53,23 +58,23 @@
 	</div>
 	  
 	  
-	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	
 	<div data-role="content" id="contentSuccess" name="contentSuccess">	
-	 <div align="CENTER"><h4>Thank you. Your Inquiry is Submitted.</h4></div>
-	 <div align="CENTER">
-	 	<h4>You will get a response from this seller shortly on : </h4>
-	 	<p id="getEmailId">  
-	 		<!-- ajax populate --> 
-	 	</p>
-	 </div>
-	 <div align="CENTER">Back to :<a href="viewtechadvicehome.html" rel="external"> Home </a> </div>
-	</div>	<!-- contentTransition -->  
+		<div align="CENTER"><h4>Thank you. Your Inquiry is Submitted.</h4></div>
+		<div align="CENTER">
+		<h4>You will get a response from this seller shortly on : </h4>
+		<p id="getEmailId">  
+			<!-- ajax populate --> 
+		</p>
+		</div>
+		<div align="CENTER">Back to :<a href="viewtechadvicehome.html" rel="external"> Home </a> </div>
+	</div>	<!-- contentSuccess -->  
 	
 	
 	 <!-- contentTransition is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentTransition" name="contentTransition">	
-	 <div align="CENTER"><h4>Please wait.</h4></div>
-	 <div align="CENTER"><img id="spin" name="spin" src="./css/images/ajax-loader.gif"/></div>
+		 <div align="CENTER"><h4>Please wait.</h4></div>
+		 <div align="CENTER"><img id="spin" name="spin" src="./css/images/ajax-loader.gif"/></div>
 	</div>	<!-- contentTransition -->
 
  	
@@ -79,10 +84,11 @@
 <script type="text/javascript">
 	
 	$(document).ready(function() {
-		showPageContentSuccess();
+		showPageEmailForm();
 	});
 	
 	$('#submitEmailForm').click( function ()  {
+		showPageContentTransition();
 		doProcessInputs();
 		return false;  // !mandatory
 	});
@@ -117,34 +123,27 @@
 		}
 		
 		function showContentSuccess()	{
-			//$('#hdrEmailForm').show();
 			$('#contentSuccess').show();
-			//$('#ftrEmailForm').show();
 		}
 		function hideContentSuccess()	{
-			//$('#hdrEmailForm').hide();
 			$('#contentSuccess').hide();
-			//$('#ftrEmailForm').hide();
 		}
 	
 		function showContentTransition()	{
-			//$('#hdrEmailForm').show();
-			$('#contentTranstion').show();
-			//$('#ftrEmailForm').show();
+			$('#contentTransition').show();
+			
 		}
 		function hideContentTransition()	{
-			//$('#hdrEmailForm').show();
 			$('#contentTransition').hide();
-			//$('#ftrEmailForm').show();
+			
 		}
 
-
-	
-	
 	//utility methodes	
 	function doProcessInputs(){
 		var titleEmailForm=$('#titleEmailForm').val();
 		var descEmailForm=$('#descEmailForm').val();
+		
+		
 		if (titleEmailForm =='') {
 			return false;
 			// set dom through a function
@@ -175,12 +174,10 @@
 			showPageContentSuccess();
 		}
 		else{
-			showContentMain();
-			$('#setloginerror').append("invalid username / password. Please try again");
+			showPageEmailForm();
+			$('#setErrorMessage').append("<br>Unable to submit email at this point of time.<br>Please try again.");
 		}
 	}
-	
-}
 
 /*
 */	

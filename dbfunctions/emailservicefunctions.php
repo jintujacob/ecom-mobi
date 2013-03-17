@@ -6,21 +6,19 @@ include("connection.php");
 
 
 function doAddEmailDB($data){
-	$query ="insert into login ".
+	$query ="insert into emailbox ".
 			"(	title,
  				description,
  				mail_from,
  				mail_to
  			 ) values ( '".
-				$data['title'] 	."', '".
-				$data['desc'] 	."', '".
+				$data['title'] 		."', '".
+				$data['description']."', '".
 				$data['mail_from'] 	."', '".
 				$data['mail_to']	."') " ;
 				
-	$result=mysql_query($sql);
-	echo $query; 
-	echo "\n";
-	echo $result;
+	$result=mysql_query($query);
+	
 	return $result ;
 }
 
