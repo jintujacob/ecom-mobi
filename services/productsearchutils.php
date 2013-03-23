@@ -15,8 +15,14 @@ if($action == "getConfigList"){
 	getConfigList($category);
 }
 
-if ($action == "addProductBasic"){
+if ($action == "doAddProduct"){
+	$name 		= (isset( $_POST['name'])) 	? $_POST['name'] : "" ; 
+	$descripion = (isset( $_POST['descripion'])) ? $_POST['descripion'] : "" ;
+	$category 	= (isset( $_POST['category'])) 	? $_POST['category'] : "" ;
+	$count 		= (isset( $_POST['count'])) 	? $_POST['count'] : "" ;
+	$configList = (isset( $_POST['configparams'])) 	? $_POST['configparams'] : "" ;
 	
+	doAddProduct($name,$descripion, $category, $count, $configList);
 }
 
 
@@ -42,4 +48,10 @@ function getConfigList($category){
 	}
 	echo json_encode($list_array);
 }
- 
+
+function doAddProduct($name,$descripion, $category, $count, $configList){
+	echo $configList;	
+	$json_decoded = json_decode($configList);
+	echo $json_decoded;
+	//$result = doAddProductDB($name,$descripion, $category, $count, $configList);
+} 
