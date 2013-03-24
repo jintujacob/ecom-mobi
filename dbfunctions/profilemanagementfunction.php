@@ -9,7 +9,7 @@ function doAddProfileDB($data  ){
 
 $query ="insert into sellerprofile ".
 			"(	display_name  ,
-				operator_name ,
+				seller_id	  ,
 				email         ,
 				address       ,
 				zipcode       ,
@@ -35,7 +35,7 @@ $query ="insert into sellerprofile ".
 }
 
 function getSellerProfileDB($seller){
-	$query =   "select * from sellerprofile where operator_name='$seller'" ;
+	$query =   "select * from sellerprofile where seller_id='$seller'" ;
 	$result = mysql_query($query);
 	return $result;
 }

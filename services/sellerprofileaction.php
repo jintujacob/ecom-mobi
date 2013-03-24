@@ -44,7 +44,7 @@ if($action == "getProfileInfo"){
 	while($row = mysql_fetch_array($result)){	
 		$array = array( 
 					"display_name" => $row["display_name"],
-		 			"operator_name" => $row["operator_name"],
+		 			"seller_id" => $row["seller_id"],
 					"email" => $row["email"],
 					"address" => $row["address"],
 					"zipcode" => $row["zipcode"],

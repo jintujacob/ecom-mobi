@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 18, 2013 at 03:42 AM
+-- Generation Time: Mar 24, 2013 at 02:14 PM
 -- Server version: 5.5.24
 -- PHP Version: 5.3.10-1ubuntu3.4
 
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `emailbox` (
   `mail_from` varchar(20) NOT NULL,
   `mail_to` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -212,7 +212,7 @@ CREATE TABLE IF NOT EXISTS `seller` (
 
 CREATE TABLE IF NOT EXISTS `sellerprofile` (
   `display_name` varchar(25) NOT NULL,
-  `operator_name` varchar(20) NOT NULL,
+  `seller_id` varchar(20) NOT NULL,
   `email` varchar(20) NOT NULL,
   `address` varchar(40) NOT NULL,
   `zipcode` varchar(10) NOT NULL,
@@ -227,9 +227,10 @@ CREATE TABLE IF NOT EXISTS `sellerprofile` (
 -- Dumping data for table `sellerprofile`
 --
 
-INSERT INTO `sellerprofile` (`display_name`, `operator_name`, `email`, `address`, `zipcode`, `ph_no`, `landmark`, `near_city`, `latitude`, `longitude`) VALUES
+INSERT INTO `sellerprofile` (`display_name`, `seller_id`, `email`, `address`, `zipcode`, `ph_no`, `landmark`, `near_city`, `latitude`, `longitude`) VALUES
 ('1', '2', '3', '5', '6', '4', '7', '8', '9', '10'),
-('dispname', 'oprname', 'email', 'address', 'zip', 'ctctno', 'landmark', 'nr.city', 'lat', 'lonng');
+('dispname', 'oprname', 'email', 'address', 'zip', 'ctctno', 'landmark', 'nr.city', 'lat', 'lonng'),
+('dispname1', 'opname1', 'email1', 'address1', 'zip1', 'ctct1', 'landmark1', 'nr.city1', 'lat1', 'long1');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
