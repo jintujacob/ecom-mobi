@@ -21,8 +21,11 @@ if($action == "savemyprofile")
 	$data = array( $displayname, $operatorname, $email, $address, $zipcode, $contactno, $landmark, $nearcity, $latitude, $longitude);
 
 	doAddProfile($data);
-	
-		
+}
+
+if($action == "getProfileInfo"){
+	$seller =(isset( $_POST["selller"]))   ? $_POST["seller"]: "" ;
+	getSellerProfile($operatorname);
 }
 
 
@@ -33,5 +36,24 @@ if($action == "savemyprofile")
      	echo json_encode(array("result"=>TRUE));
 	else
      	echo json_encode(array("result"=>FALSE));
+ }
+ 
+ function getSellerProfile($seller){
+ 	$result = getSellerProfileDB($seller);
+	$list_array = array();
+	while($row = mysql_fetch_array($result)){	
+		$array = array( 
+					"display_name" => $row["display_name"],
+		 			"operator_name" => $row["operator_name"],
+					"email" => $row["email"],
+					"address" => $row["address"],
+					"zipcode" => $row["zipcode"],
+					"ph_no" => $row["ph_no"],
+					"landmark" => $row["landmark"],
+					"near_city" => $row["near_city"]
+				);
+		array_push($list_array, $array);
+	}
+	echo json_encode($list_array);
  }
  

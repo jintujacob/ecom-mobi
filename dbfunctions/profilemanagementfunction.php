@@ -19,7 +19,6 @@ $query ="insert into sellerprofile ".
 				latitude      ,
 				longitude 
  			 )values ( '".
-				
 				$data[0] 	."', '".
 				$data[1] 	."', '".
 				$data[2] 	."', '".
@@ -35,6 +34,11 @@ $query ="insert into sellerprofile ".
 	return $result;		 	
 }
 
+function getSellerProfileDB($seller){
+	$query =   "select * from sellerprofile where operator_name='$seller'" ;
+	$result = mysql_query($query);
+	return $result;
+}
 
 
 
