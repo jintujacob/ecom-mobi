@@ -18,7 +18,7 @@
 		   Register
 		</div>
 		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
-		    <a href="index.html" data-role="button" >Home</a>
+		    <a href="home.html" rel="external" data-role="button" >Home</a>
 			<a href="?" data-role="button" >Back</a>
 		</div>
 	</div>
@@ -30,7 +30,7 @@
 			<!-- js populate --> 
 		</span>
  
-	    <form name="registrationform" action="registeraction" >
+	    <form name="registrationform" >
 	        <div data-role="fieldcontain">
 		        <label for="username">Username:</label>
 		        <input type="text" name="username" id="username" value="" data-mini="true" />
@@ -45,6 +45,14 @@
 		        <label for="confirmpassword">Confirm Password:</label>
 		        <input type="password" name="confirmpassword" id="confirmpassword" value="" data-mini="true" />
 		    </div>
+		    <div data-role="fieldcontain">
+		        <label for="profiletype">Profile Type:</label>
+		        <select id="profiletype" data-mini="true">
+		        	<option value="consumer">consumer </option>
+		        	<option value="seller">seller </option>
+			   	</select>
+	    	</div>    
+
 		    
 		    
 		    <br />
@@ -62,6 +70,9 @@
 		        <label for="mobile">Contact No:</label>
 		        <input type="text" name="mobile" id="mobile" value="" data-mini="true" />
 		    </div>
+            <span id="setformerror" style="color:red;">
+			<!-- js populate --> 
+		 </span>
 
 			
 		   	<div class="ui-body">
@@ -74,34 +85,141 @@
   	</div>
   
   	<div data-role="footer" id="ftrMain">
-        <a href="#login" data-role="button">Already registered! Take me to login page</a>
+        <a href="loginConsumer.html" rel="external" data-role="button">Already registered! Take me to login page</a>
+  	</div>
+  	
+  	
+  	<!--seller profile page-->
+    <!--//
+	  	//
+	  	//
+	  	//
+	  	//
+	  	//-->
+  	
+  	
+ 
+	<div data-role="header" data-position="fixed" id="hdrProfileForm">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Profile
+		</div>
+		<!--<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>-->
+	</div>
+ 
+  	<div data-role="content" id="contentProfileForm"> 
+	    <p>Add or edit profile</p>
+	    
+	    <span id="showProfileErrorMessage" style="color:red;">
+			<!-- js populate --> 
+		</span>
+ 
+	    <form name="sellerprofileform"  >
+	        <div data-role="fieldcontain">
+		        <label for="displayname">Displayname:</label>
+		        <input type="text" name="displayname" id="displayname" value="" data-mini="true" />
+		    </div>
+		
+		    <div data-role="fieldcontain">
+		        <label for="operatorname">Operatorname:</label>
+		        <input type="text" name="operatorname" id="operatorname" value="" data-mini="true" />
+		    </div>
+		    
+		   <div data-role="fieldcontain">
+		        <label for="email">Email:</label>
+		        <input type="text" name="email" id="email" value="" data-mini="true" />
+			    </div>
+		   
+		    <div data-role="fieldcontain">
+		        <label for="contactno">Contact no:</label>
+		        <input type="text" name="contactno" id="contactno" value="" data-mini="true" />
+		    </div>
+		    
+			<div data-role="fieldcontain">
+		        <label for="address">Address:</label>
+		        <input type="text" name="address" id="address" value="" data-mini="true" />
+		    </div>
+
+			<div data-role="fieldcontain">
+		        <label for="zipcode">Zipcode:</label>
+		        <input type="text" name="zipcode" id="zipcode" value="" data-mini="true" />
+		    </div>
+
+			<div data-role="fieldcontain">
+		        <label for="landmark">Landmark:</label>
+		        <input type="text" name="landmark" id="landmark" value="" data-mini="true" />
+		    </div>
+		    
+		    <div data-role="fieldcontain">
+		        <label for="nearcity">Nearest City:</label>
+		        <input type="text" name="nearcity" id="nearcity" value="" data-mini="true" />
+		    </div>
+		    
+		    <div data-role="fieldcontain">
+		        <label for="latitude">Latitude:</label>
+		        <input type="text" name="latitude" id="latitude" value="" data-mini="true" />
+		    </div>
+		    
+		    <div data-role="fieldcontain">
+		        <label for="longitude">Longitude:</label>
+		        <input type="text" name="longitude" id="longitude" value="" data-mini="true" />
+		    </div>
+		      <span id="setprofileformerror" style="color:red;">
+		      </span>
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+				 
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="saveprofile" type="submit" data-theme="a" data-mini="true">Save</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+  
+  	<div data-role="footer" id="ftrProfileForm">
+        <h1></h1>
   	</div>
   	
 	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentTransition" name="contentTransition">	
 	 <div align="CENTER"><h4>Please wait.</h4></div>
-	 <div align="CENTER"><img id="spin" name="spin" src="images/ajax-loader.gif"/></div>
-	</div>	<!-- contentTransition -->
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div><!-- contentTransition -->
+	
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentProfileSuccess" name="contentProfileSuccess">	
+	 <div align="CENTER"><h4>Pofile saved successfully</h4></div>
+	<!-- <div align="CENTER"><h4>You are currently logged in.</h4></div>-->
+	 <div align="CENTER">Click to navigate to<a rel="external" href="home.html" > Home Page</a> </div>
+	</div>	<!-- contentProfileSuccess -->
+
 	
 	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentSuccess" name="contentTransition">	
 	 <div align="CENTER"><h4>Registration process completed successfully</h4></div>
 	 <div align="CENTER"><h4>You are currently logged in.</h4></div>
-	 <div align="CENTER">Click to navigate to<a href="index.html" > Home Page</a> </div>
+	 <div align="CENTER">Click to navigate to<a rel="external" href="home.html" > Home Page</a> </div>
 	</div>	<!-- contentTransition -->
 
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
 <script type="text/javascript">
-
+	var profiletype=$("#profiletype").val();
+	var error=true;
+	var profileerror=true;
 	$(document).ready(function() {
 		showContentMain();
 	});
 
 	$('#registerme').click(function () {	
+		
 		showTransition();
 		doProcessInputs();
+		//alert("clickevent");
 		return(false); // ! mandatory
 	});
 
@@ -109,6 +227,10 @@
 	{
 		$('#contentTransition').hide();
 		$('#contentSuccess').hide();
+		$('#contentProfileSuccess').hide();
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
 		$('#hdrMain').show();
 		$('#contentMain').show();
 		$('#ftrMain').show();
@@ -120,6 +242,10 @@
 		$('#hdrMain').hide();
 		$('#ftrMain').hide();
 		$('#contentSuccess').hide();
+		$('#contentProfileSuccess').hide();
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
 		$('#contentTransition').show();
 	}
 
@@ -129,6 +255,10 @@
 		$('#contentMain').hide();
 		$('#hdrMain').hide();
 		$('#ftrMain').hide();
+		$('#contentProfileSuccess').hide();
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
 		$('#contentSuccess').show();
 	}
 
@@ -140,11 +270,13 @@
         var confirmpassword=$("#confirmpassword").val();   
         var name=$("#name").val();            
 		var mobile=$("#mobile").val();
-		
+		if(username==''||email==''||password==''||confirmpassword==''||name==''||mobile==""||profiletype==''){
+	    error= manageError();
+	   }
 	//	var address=$("#address").val();
  	//	var dob=$("#dob").val();
 
- 		var address='0'; //for what ???
+ 	/*	var address='0'; //for what ???
   		var dob='0';   //for what ??? 
  
  
@@ -154,12 +286,15 @@
 		if (password =='') {
 			return false;
 		}
-		//validate the rest 
+	*/	//validate the rest 
 	
 		if (password != confirmpassword) {
+			showContentMain();
+				$('#showErrorMessage').html("<br />password mismatch !");
 			return false;
 		}
-		
+	if(error==true){
+			
 		var serviceurl = '../services/accesscontrolaction.php' ;
 		
 		$.post(
@@ -168,31 +303,190 @@
 			    username : username,
                 email : email,
 			    password : password,
-                dob : dob,
+                //dob : dob,
 			    name : name,
 			    mobile : mobile,
-			    address : address,
+			   // address : address,
 				action:'doRegister' ,	
-				type:'consumer' 	
+				profiletype:profiletype 	
 			} ,
 		 	function(data){
-			    var resobj =jQuery.parseJSON(data);
+			    var resobj=jQuery.parseJSON(data);
+			    //var result=resobj.result;
 			    manageRegisterResult(resobj.result);
 			}
-		);  // end of $.post --
+		
+		
+ 			); } // end of $.post --
 	}
 	
 	function manageRegisterResult(result)
-	{
-		if(result == true){
-			showSuccess();
+	{	
+		if(profiletype =='consumer'){
+			//alert("manageregresult");
+			if(result){
+				showSuccess();
+			}
+			else{
+				showContentMain();
+				$('#showErrorMessage').html("<br />unable to complete the registration !");
+			}
 		}
-		else{
-			showContentMain();
-			$('#showErrorMessage').html("<br />unable to complete registration !");
+		else if(profiletype =='seller'){
+			//alert(profiletype);
+			if(result){
+				showPageProfileForm();
+			}
+			else{
+				showContentMain();
+				$('#showErrorMessage').html("<br />unable to complete registration !");
+			}
 		}
 	}
     
+    function manageError(){
+
+			showContentMain();
+			$('#setformerror').append("mandatory fields empty.Please try again");
+			return(false);
+	}
+	
+//seller profile management
+//
+//
+//
+//
+//
+//
+
+$('#saveprofile').click(function () {	
+		showProfileTransition();
+		doProcessProfileInputs();
+		return(false); // ! mandatory
+	});
+
+	function showPageProfileForm()
+	{
+		$('#contentTransition').hide();
+		$('#contentProfileSuccess').hide();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#hdrProfileForm').show();
+		$('#contentProfileForm').show();
+		$('#ftrProfileForm').show();
+	}
+	function showProfileContentMain()
+	{   
+		$('#contentTransition').hide();
+        $('#contentProfileSuccess').hide();
+        $('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#hdrProfileForm').show();
+		$('#contentProfileForm').show();
+		$('#ftrProfileForm').show();
+		
+	}
+	
+	
+	function showProfileTransition()
+	{
+		
+		$('#contentProfileSuccess').hide();
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#contentTransition').show();
+	}
+
+	function showProfileSuccess()
+	{
+		$('#contentTransition').hide();	
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
+		$('#contentMain').hide();
+		$('#hdrMain').hide();
+		$('#ftrMain').hide();
+		$('#contentSuccess').hide();
+		$('#contentProfileSuccess').show();
+		
+	}
+   
+	function doProcessProfileInputs()
+	{
+		var displayname=$("#displayname").val();
+        var operatorname=$("#operatorname").val();
+		var email=$("#email").val();
+        var address=$("#address").val();   
+        var zipcode=$("#zipcode").val();            
+		var contactno=$("#contactno").val();
+		var landmark=$("#landmark").val();
+		var nearcity=$("#nearcity").val();
+		var latitude=$("#latitude").val();
+		var longitude=$("#longitude").val();
+		if(displayname==''||operatorname==''||email==''||address==''||zipcode==''||contactno==''||landmark==''||nearcity==''||latitude==''||longitude=='')
+		  {
+		  	 profileerror=manageProfileError();
+		  }
+		/* add validation whereever required.
+		 * identify mandatory fields.
+		 */	
+		 if(profileerror==true){
+		 	
+	
+	
+		var serviceurl = '../services/sellerprofileaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	
+			    displayname : displayname,
+                operatorname :operatorname,
+			    email:email,
+                address:address,
+			    zipcode:zipcode,
+			    contactno:contactno,
+			    landmark:landmark,
+			    nearcity:nearcity,
+			    latitude:latitude,
+			    longitude:longitude,
+				action:'savemyprofile'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    manageProfileResult(resobj.result);
+			}
+		);}  // end of $.post --
+	}
+	
+	function manageProfileResult(result)
+	{
+		if(result){
+			showProfileSuccess();
+		}
+		else{
+			showPageProfileForm();
+			$('#showProfileErrorMessage').html("<br />unable to save profile details !");
+			//create a div with id - 'setErrorMsg'
+			//set some friendle error message to that div here.	
+		}
+		
+	}
+    function manageProfileError()
+    {
+    	showProfileContentMain();
+    	$('#setprofileformerror').append("mandatory field empty.please try again");
+    	return(false);
+    }
+      
 </script>
 
 </div>

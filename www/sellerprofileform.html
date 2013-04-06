@@ -80,8 +80,11 @@
 		        <label for="longitude">Longitude:</label>
 		        <input type="text" name="longitude" id="longitude" value="" data-mini="true" />
 		    </div>
+		      <span id="setformerror" style="color:red;">
+		      </span>
 		   	<div class="ui-body">
 			<fieldset class="ui-grid-a">
+				 
 					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
 					<div class="ui-block-b"><button id="saveprofile" type="submit" data-theme="a" data-mini="true">Save</button></div>
 		    </fieldset>
@@ -118,7 +121,7 @@
 
 	$('#saveprofile').click(function () {	
 		showTransition();
-		doProcessInputs();
+		doProcessProfileInputs();
 		return(false); // ! mandatory
 	});
 
@@ -130,6 +133,15 @@
 		$('#contentProfileForm').show();
 		$('#ftrProfileForm').show();
 	}
+	function showContentMain()
+	{
+      $('#contentSuccess').hide();
+		$('#hdrProfileForm').show();
+		$('#contentProfileForm').show();
+		$('#ftrProfileForm').show();
+		$('#contentTransition').hide();
+	}
+	
 	
 	function showTransition()
 	{
@@ -151,7 +163,7 @@
 		
 	}
    
-	function doProcessInputs()
+	function doProcessProfileInputs()
 	{
 		var displayname=$("#displayname").val();
         var operatorname=$("#operatorname").val();
@@ -163,10 +175,16 @@
 		var nearcity=$("#nearcity").val();
 		var latitude=$("#latitude").val();
 		var longitude=$("#longitude").val();
-		
+		if(displayname==''||operatorname==''||email==''||address==''||zipcode==''||contactno==''||landmark==''||neracity==''||latitude==''||longitude=='')
+		  {
+		  	var error=manageError();
+		  }
 		/* add validation whereever required.
 		 * identify mandatory fields.
 		 */	
+		 if(error==true){
+		 	
+	
 	
 		var serviceurl = '../services/sellerprofileaction.php' ;
 		
@@ -189,7 +207,7 @@
 			    var resobj =jQuery.parseJSON(data);
 			    manageResult(resobj.result);
 			}
-		);  // end of $.post --
+		);}  // end of $.post --
 	}
 	
 	function manageResult(result)
@@ -204,7 +222,12 @@
 		}
 		
 	}
-    
+    function manageError()
+    {
+    	showContentMain();
+    	$('#setformerror').append("mandatory field empty.please try again");
+    	return(false);
+    }
 </script>
 
 </div>

@@ -20,7 +20,7 @@
 		   Login
 		</div>
 		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
-		    <a href="index.html" data-role="button" >Home</a>
+		    <a href="home.html" rel="external" data-role="button" >Home</a>
 			<a href="landing.html" data-role="button" >Back</a>
 		</div>
   	</div>
@@ -28,13 +28,13 @@
   	<div data-role="content" id="contentMain"> 
 	    <p> 
 	        Login here to access get access to all the functionalities in the app.
-	        If you are new to here click the<a href="registerConsumer.html"> register </a>here to start.
+	        If you are new to here click the<a rel="external" href="registerConsumer.html"> register </a>here to start.
 	    </p>
 	    
 		<span id="setloginerror" style="color:red;">
 			<!-- js populate --> 
 		</span>
-	
+			
 	    <form name="loginform">
 	        <div data-role="fieldcontain">
 		        <label for="username">Username:</label>
@@ -45,6 +45,10 @@
 		        <label for="password">Password:</label>
 		        <input type="password" name="password" id="password"  data-mini="true" />
 		    </div>
+		    <span id="setformerror" style="color:red;">
+			<!-- js populate --> 
+		 </span>
+
 		
 		   	<div class="ui-body">
 				<fieldset class="ui-grid-a">
@@ -72,7 +76,7 @@
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
 <script type="text/javascript">
-
+	var error=true;
 	$(document).ready(function() {
 		showContentMain();
 	});
@@ -80,6 +84,7 @@
 	$('#logmein').click(function () {	
 		showTransition();
 		doProcessInputs();
+		
 		return(false);	// ! mandatory
 	});
 
@@ -100,31 +105,30 @@
 	function doProcessInputs(){
 		var username=$("#username").val();
 		var password=$("#password").val();
-		if (username =='') {
-			return false;
+		if (username ==''||password=='') {
+		 error=manageError();
+			
 		} 
-		if (password =='') {
-			return false;
-		} 
+		if(error==true){
 		var serviceurl = '../services/accesscontrolaction.php' ;
 		
 		$.post(
 			serviceurl ,
 			{ 	username:username, 	password:password, 
-				action:'doLogin' ,	type:'consumer' 	
+				action:'doLogin'  	
 			} ,
 		 	function(data){
 			    var resobj =jQuery.parseJSON(data);
 			    //alert(resobj.result);
 			    manageLoginResult(resobj.result);
 			}
-		);  // end of $.post --
+		); } // end of $.post --
 	}
 	
 	
 	function manageLoginResult(result){
 		if(result == true){
-			location.href = 'index.html';
+			location.href = 'home.html';
 			//or to the home page.
 		}
 		else{
@@ -133,7 +137,14 @@
 		}
 	}
 	
+     function manageError(){
 
+			showContentMain();
+			$('#setformerror').append("mandatory fields empty.Please try again");
+			return(false);
+	}
+	
+		
     
 </script>
 

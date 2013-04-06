@@ -1,5 +1,4 @@
 
-
 1. form validation in login and registration pages for consumer/seller. (medium)
 2. fixed width and floating header need to be revisited. (low priority)
 3. fix the links if external reference.use  <a href="" rel="external" > </a> (high)
@@ -8,12 +7,15 @@
 6. fix the chat assitant(session control).
 7. view single product details and offers.
 8. view seller profile.
-9. compare products(need a better plan to move forward.) 
-
-10. where is username/password addition in seller registration.
+9. addnewproduct db function need to be completed  
 
 
-
+10.compare products(need a better plan to move forward.)
+11.product available locations within a perimeter.
+12.advanced search(view seller pofile).
+13.search flow(search & sellerprofileproducts)
+14.rating
+15.admin module
 
 $list_array = array();
 

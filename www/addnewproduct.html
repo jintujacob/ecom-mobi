@@ -1,0 +1,295 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Seller Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="pageAddProduct">
+ 
+	<div data-role="header" data-position="fixed" id="hdrBasicForm">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Profile
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentBasicForm"> 
+	    <p>Add new product</p>
+	    
+	    <span id="showErrorMessage" style="color:red;">
+			<!-- js populate --> 
+		</span>
+ 
+	    <form name="addproductform" >
+	        <div data-role="fieldcontain">
+		        <label for="prodname">Product Name:</label>
+		        <input type="text"  id="prodname" name="prodname"  data-mini="true" />
+		    </div>
+		   
+		    <div data-role="fieldcontain">
+		        <label for="description">description:</label>
+		        <input type="text" name="description" id="description" value="" data-mini="true" />
+		    </div>
+		    
+			<div data-role="fieldcontain" >
+		        <label for="category">category:</label>
+		        <select id="category" data-mini="true">
+		        	<option value="none"> </option>
+			   	</select>
+	    	</div>    
+
+			<div data-role="fieldcontain">
+		        <label for="count">count:</label>
+		        <input type="text" name="count" id="count" value="" data-mini="true" />
+		    </div>
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="submitBasicForm" type="submit" data-theme="a" data-mini="true">Next</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+  	</div>
+  	
+  	<div data-role="content" id="contentConfigForm"> 
+		<p> Add the product configuration now.</p>
+	    <form name="addproductform">
+	    	
+	    <div data-role="fieldcontain">
+			<table border="0" cellpadding"2" id="tableConfigList">
+	          	<tr>
+		          	<th>configuration</th>
+		          	<th>Value</th>
+		          	<th>unit</th>
+	          	</tr>
+	       </table>
+		</div>
+		
+		<div class="ui-body">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+				<div class="ui-block-b"><button id="submitConfigForm" type="submit" data-theme="a" data-mini="true">Save</button></div>
+	    	</fieldset>
+		</div>
+		
+		</form> 
+	</div> <!-- contentConfigForm  -->
+
+  
+  	<div data-role="footer" id="ftrBasicForm">
+       <h1>footer</h1>
+  	</div>
+  	
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div>	<!-- contentTransition -->
+	
+	<!-- contentSuccess is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentSuccess" name="contentSuccess">	
+	 <div align="CENTER"><h4>Item added successfully</h4></div>
+	<!-- <div align="CENTER"><h4>You are currently logged in.</h4></div>-->
+	 <div align="CENTER">Click to navigate to<a href="home.html" rel="external" > Home Page</a> </div>
+	</div>	<!-- contentTransition -->
+
+	
+
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	//globalvariables
+	var serviceurl = '../services/productsearchutils.php' ;
+	var categoryList = '';
+	var configList = '';
+	var name='';
+    var description='';   
+    var category='';            
+	var count='';
+
+
+	$(document).ready(function() {
+		showPageBasicForm();
+		populateCategoryDropDown();
+	});
+
+	$('#submitBasicForm').click(function () {
+		name = $("#prodname").val();
+        description = $("#description").val();   
+        category = $("#category").val();            
+		count = $("#count").val();
+			
+		showPageTransition();
+		populateConfigurationForm();
+		showPageConfigForm();
+		return(false); // ! mandatory
+	});
+	
+	$('#submitConfigForm').click(function (){
+		showPageTransition();
+		doSubmitInputs();
+		showPageSuccess();
+		return(false);
+	});
+	
+	function populateCategoryDropDown()
+	{
+		$.post(
+			serviceurl ,
+			{ 	action:'getAllCategoryList'	} ,
+		 	function(data){
+		 		//alert(data);
+		 	    categoryList =jQuery.parseJSON(data);
+		 	    for(i=0;i<categoryList.length;i++){
+		 	    	$('#category').append(
+						"<option value='" + categoryList[i].category + " ' >" + 
+							categoryList[i].category + 
+						"</option>"
+					);
+			   	}
+			}
+		);  // end of $.post --
+	}
+	
+	function populateConfigurationForm()
+	{
+		$.post(
+			serviceurl ,
+			{ 	action:'getConfigList',	
+				category : category
+			} ,
+		 	function(data){
+		 		//alert(data);
+		 		configList =jQuery.parseJSON(data);
+		 	    for(i=0;i<configList.length;i++){
+		 	    	appendConfigurationItem(configList[i].config, configList[i].unit);
+			   	}
+			}
+		);  // end of $.post --
+	}
+	
+	function appendConfigurationItem(config, unit)
+	{
+		var str = ""; 
+		    str += "<tr>" ;      	
+		    str += "	<td align='right'> "+ config + "</td> " ;
+		    str += "	<td> <input type='text' id='"+config+"' data-mini='true'/> </td>" ;      		
+		    str += "	<td> "+ unit + "</td> ";
+		    str += "</tr> ";
+		$('#tableConfigList').append(str);	
+	}
+	
+	function makeJson(){
+		var configSet = new Object(); 
+		for(var i=0; i<configList.length; i++){
+			var configName = configList[i].config ;
+			var idString = "#"+configList[i].config;
+			var configVal = $(idString).val();
+			configSet[configName] = configVal;
+		}
+		return configSet;
+	}
+	
+	function doSubmitInputs()
+	{	
+		configset = makeJson();	
+		$.post(
+			serviceurl ,
+			{ 	name: name,
+                descripion: description,
+			    category: category,
+			    count: count,
+			    configset : JSON.stringify(configset),
+				action:'doAddProduct'	
+			} ,
+		 	function(data){
+		 		//alert(data);
+			    //var resobj =jQuery.parseJSON(data);
+			    //do manage
+			}
+		);  // end of $.post --
+		
+	}
+    
+    function showPageBasicForm(){
+		hideContentConfigForm();
+		hideContentTransition();
+		hideContentSuccess();
+		$('#hdrBasicForm').show();
+		showContentBasicForm();
+		$('#ftrBasicForm').show();
+	}
+
+	function showPageConfigForm(){
+		hideContentBasicForm();
+		hideContentTransition();
+		hideContentSuccess();
+		$('#hdrBasicForm').show();
+		showContentConfigForm();
+		$('#ftrBasicForm').show();
+	}
+
+	function showPageTransition(){
+		hideContentBasicForm();
+		hideContentConfigForm();
+		hideContentSuccess();
+		$('#hdrBasicForm').hide();
+		$('#ftrBasicForm').hide();
+		showContentTransition();
+	}
+	
+	function showPageSuccess(){
+		hideContentTransition();
+		hideContentBasicForm();
+		hideContentConfigForm()
+		$('#hdrBasicForm').hide();
+		$('#ftrBasicForm').hide();
+		showContentSuccess();
+	}
+    
+	function showContentBasicForm(){
+		$('#contentBasicForm').show();	}
+
+	function hideContentBasicForm(){
+		$('#contentBasicForm').hide(); 	}
+
+	function showContentConfigForm(){
+		$('#contentConfigForm').show();	} 
+	
+	function hideContentConfigForm(){
+		$('#contentConfigForm').hide();	} 
+	
+	function showContentTransition(){
+		$('#contentTransition').show(); }
+	
+	function hideContentTransition(){
+		$('#contentTransition').hide();	}
+	
+	function showContentSuccess(){
+		$('#contentSuccess').show();	}
+		
+	function hideContentSuccess(){
+		$('#contentSuccess').hide();	}
+    
+   
+    
+</script>
+
+</div>
+</body>
+</html>
+
+

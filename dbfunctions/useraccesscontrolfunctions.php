@@ -12,10 +12,11 @@ function doValidateLoginDB($usr, $pass){
 	  // " 	 and type ='".$type."'" ; 
 		 
 	$result=mysql_query($sql);
+	//echo $result;
 	return $result ;
 }
 
-function doAddToLoginDB($usr, $pass, $type)
+function doAddToLoginDB($usr, $pass, $profiletype)
 {
 	$query ="insert into login ".
 			"(	username, 
@@ -24,14 +25,15 @@ function doAddToLoginDB($usr, $pass, $type)
  			 )values ( '".
 				$usr 	."', '".
 				$pass 	."', '".
-				$type	."') " ;
+				$profiletype	."') " ;
 				
-	$result = mysql_query($query);		 
+	$resaddlog = mysql_query($query);
+	return $resaddlog;		 
 }
 
-function doAddUserSessionDB($username)
+function doAddUserSessionDB($username,$type)
 {
-	$type = "C";
+	//$type = "C";
 	$time = "CURRENT_TIMESTAMP" ;	//sql function
 	$query ="insert into active_sessions ( 
  				user_id, 
@@ -40,7 +42,7 @@ function doAddUserSessionDB($username)
  			) values ( '".
 				$username 	."', ".
 				$time		." , '".
-				$type		."') " ;	
+				$type       ."') " ;	
 	$result = mysql_query($query);		 
 }
 
@@ -51,18 +53,14 @@ function doRegisterConsumerDB($data)
  				username, 
  				name,
  				email,
- 				mobile,
- 				address,
- 				dob
- 			) values ( '".
+ 				mobile
+ 				)values ( '".
 				$data[0] 	."', '".
 				$data[2] 	."', '".
 				$data[3] 	."', '".
-				$data[4] 	."', '".
-				$data[5] 	."', '".
-				$data[6] 	."') " ;
-				
-	$result = mysql_query($query);		 
+				$data[4] 	."') " ;			
+	$resregcon = mysql_query($query);		
+	return $resregcon; 
 }
 
 function doRegisterSellerDB($data)
@@ -72,18 +70,14 @@ function doRegisterSellerDB($data)
  				username, 
  				name,
  				email,
- 				mobile,
- 				address,
- 				dob
- 			) values ( '".
+ 				mobile
+ 				) values ( '".
 				$data[0] 	."', '".
 				$data[2] 	."', '".
 				$data[3] 	."', '".
-				$data[4] 	."', '".
-				$data[5] 	."', '".
-				$data[6] 	."') " ;
-	$result = mysql_query($query);		 
-	
+				$data[4]  	."') " ;
+	$resregsel = mysql_query($query);		 
+	return $resregsel;
 }
 
 

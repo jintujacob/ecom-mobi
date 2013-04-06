@@ -25,7 +25,7 @@ if($action == "searchproduct")
 	$list_array = array();
 	while($row = mysql_fetch_array($result)){	
 		$array = array(
-		 "prod_no" => $row["prod_no"],
+		 "prod_no" => $row["prod_id"],
 		 "sellerid" => $row["sellerid"],
 		 "name" => $row["name"],
 		 "description" => $row["description"],

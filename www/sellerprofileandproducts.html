@@ -1,0 +1,457 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="pageSellerProfileProducts">
+  
+  <!--for populating seller profile info div start-->
+	<div data-role="header" data-position="fixed" id="hdrProfileInfo">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Seller Profile 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentProfileInfo"> 
+	    
+	    
+	    
+  	</div>
+  
+  	<div data-role="footer" id="ftrProfileInfo">
+       
+        <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewcategory" type="button" data-theme="a" data-mini="true">viewcategory</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+  	</div>
+  <!--for populating seller profile info div end-->
+  
+  <!--for populating seller category info div start-->
+	<div data-role="header" data-position="fixed" id="hdrSellerCategory">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Seller Category 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentSellerCategory"> 
+	    
+	    <div data-role="fieldcontain" >
+		        <label for="category">category:</label>
+		        <select id="category" data-mini="true">
+		        	<option value="none"> </option>
+			   	</select>
+	    	</div>    
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrSellerCategory">
+       <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewproducts" type="button" data-theme="a" data-mini="true">viewproducts</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+        
+  	</div>
+  <!--for populating seller category info div end-->
+  
+  <!--for populating seller product info under a particular category div start-->	
+  	<div data-role="header" data-position="fixed" id="hdrProductUnderCategory">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Products under the Category 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentProductUnderCategory"> 
+	    
+	    <div data-role="fieldcontain" >
+		        <label for="products">products:</label>
+		        <select id="products" data-mini="true">
+		        	<option value="none"> </option>
+			   	</select>
+	    	</div>    
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrProductUnderCategory">
+       <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewproductdetail" type="button" data-theme="a" data-mini="true">viewproductdetail</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+        
+  	</div>
+  <!--for populating seller product info under a particular category div end-->
+  
+   <!--for populating a particular product detail div start-->	
+  	<div data-role="header" data-position="fixed" id="hdrSoloProductInfo">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Product Detail 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentSoloProductInfo"> 
+	    
+	    
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrSoloProductInfo">
+       <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<a href="?" data-role="button" >Back to search result</a>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+        
+  	</div>
+ <!--for populating a particular product detail div end-->	  
+ 
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div><!-- contentTransition -->
+	
+</div>	
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+
+	$(document).ready(function() {
+		showSellerProfileInfo();
+		getSellerProfileInfo();
+	});
+
+	/*$('#saveprofile').click(function () {	
+		showTransition();
+		doProcessInputs();
+		return(false); // ! mandatory
+	});*/
+	$('#viewcategory').click(function () {	
+		showTransition();
+		showSellerCategoryList();
+		getSellerCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproducts').click(function () {	
+		showTransition();
+		showProductsUnderCategory();
+		getProductsUnderCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproductdetail').click(function () {	
+		showTransition();
+		showSoloProductInfo();
+		getSoloProductInfo();
+		return(false); // ! mandatory
+	});
+	
+	function showTransition()
+	{	
+		$('#hdrSoloProductInfo').hide();	
+		$('#contentSoloProductInfo').hide();
+		$('#ftrSoloProductInfo').hide();
+		$('#hdrSellerCategory').hide();	
+		$('#contentSellerCategory').hide();
+		$('#ftrSellerCategory').hide();
+		$('#hdrProfileInfo').hide();
+		$('#contentProfileInfo').hide();
+		$('#ftrProfileInfo').hide();
+		$('#hdrProductUnderCategory').hide();
+		$('#contentProductUnderCategory').hide();
+		$('#ftrProductUnderCategory').hide();
+		$('#contentTransition').show();
+	}
+	function showSellerProfileInfo()
+	{	
+		$('#hdrSoloProductInfo').hide();	
+		$('#contentSoloProductInfo').hide();
+		$('#ftrSoloProductInfo').hide();
+		$('#contentTransition').hide();
+		$('#hdrSellerCategory').hide();	
+		$('#contentSellerCategory').hide();
+		$('#ftrSellerCategory').hide();
+		$('#hdrProductUnderCategory').hide();
+		$('#contentProductUnderCategory').hide();
+		$('#ftrProductUnderCategory').hide();
+		$('#hdrProfileInfo').show();
+		$('#contentProfileInfo').show();
+		$('#ftrProfileInfo').show();
+	}
+	
+	function showSellerCategoryList()
+	{	
+		$('#hdrSoloProductInfo').hide();	
+		$('#contentSoloProductInfo').hide();
+		$('#ftrSoloProductInfo').hide();
+		$('#contentTransition').hide();
+		$('#hdrProfileInfo').hide();
+		$('#contentProfileInfo').hide();
+		$('#ftrProfileInfo').hide();
+		$('#hdrProductUnderCategory').hide();
+		$('#contentProductUnderCategory').hide();
+		$('#ftrProductUnderCategory').hide();
+		$('#hdrSellerCategory').show();	
+		$('#contentSellerCategory').show();
+		$('#ftrSellerCategory').show();
+		
+	}
+	
+	function showProductsUnderCategory()
+	{	
+		$('#hdrSoloProductInfo').hide();	
+		$('#contentSoloProductInfo').hide();
+		$('#ftrSoloProductInfo').hide();
+		$('#contentTransition').hide();
+		$('#hdrSellerCategory').hide();	
+		$('#contentSellerCategory').hide();
+		$('#ftrSellerCategory').hide();
+		$('#hdrProfileInfo').hide();
+		$('#contentProfileInfo').hide();
+		$('#ftrProfileInfo').hide();
+		$('#hdrProductUnderCategory').show();
+		$('#contentProductUnderCategory').show();
+		$('#ftrProductUnderCategory').show();
+		
+	}
+	
+	function showSoloProductInfo()
+	{	
+		
+		$('#contentTransition').hide();
+		$('#hdrSellerCategory').hide();	
+		$('#contentSellerCategory').hide();
+		$('#ftrSellerCategory').hide();
+		$('#hdrProfileInfo').hide();
+		$('#contentProfileInfo').hide();
+		$('#ftrProfileInfo').hide();
+		$('#hdrProductUnderCategory').hide();
+		$('#contentProductUnderCategory').hide();
+		$('#ftrProductUnderCategory').hide();
+		$('#hdrSoloProductInfo').show();	
+		$('#contentSoloProductInfo').show();
+		$('#ftrSoloProductInfo').show();
+		
+	}
+	
+	/*function showTransition()
+	{getSellerCatagoryList
+		
+		$('#contentSuccess').hide();
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
+		$('#contentTransition').show();
+	}
+
+	function showSuccess()
+	{
+		$('#contentTransition').hide();	
+		$('#hdrProfileForm').hide();
+		$('#contentProfileForm').hide();
+		$('#ftrProfileForm').hide();
+		$('#contentSuccess').show();
+		
+	}
+   
+	function doProcessInputs()
+	{
+		var displayname=$("#displayname").val();
+        var operatorname=$("#operatorname").val();
+		var email=$("#email").val();
+        var address=$("#address").val();   
+        var zipcode=$("#zipcode").val();            
+		var contactno=$("#contactno").val();
+		var landmark=$("#landmark").val();
+		var nearcity=$("#nearcity").val();
+		var latitude=$("#latitude").val();
+		var longitude=$("#longitude").val();*/
+	//	var address=$("#address").val();
+ 	//	var dob=$("#dob").val();
+
+ 		//var address='0'; //for what ???
+  		//var dob='0';   //for what ??? 
+ 
+ 
+ 	/*	if (username =='') {
+			return false;
+		} 
+		if (password =='') {
+			return false;
+		}
+		//validate the rest 
+	
+		if (password != confirmpassword) {
+			return false;
+		}
+		*/
+		
+		function getSellerProfileInfo() {
+		  
+		var serviceurl = '../services/sellerprofileaction.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:'oprname',
+				action:'getProfileInfo'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateContentProfileInfo(resobj);
+			}
+		);  // end of $.post --
+
+	}
+	function populateContentProfileInfo(resobj){
+    	 
+    		$('#contentProfileInfo').append(
+    			'<table "border=0">' +
+    				
+    				'<tr><td>display_name:</td><td>'+ resobj[0].display_name + '</td></tr>' +
+    				'<tr><td>seller_id:</td><td>'+ resobj[0].seller_id + '</td></tr>' +
+    				'<tr><td>email:</td><td>'+ resobj[0].email + '</td></tr>' +
+    				'<tr><td>address:</td><td>'+ resobj[0].address + '</td></tr>' +
+    				'<tr><td>zipcode:</td><td>'+ resobj[0].zipcode + '</td></tr>' +
+    				'<tr><td>ph_no:</td><td>'+ resobj[0].ph_no + '</td></tr>' +
+    				'<tr><td>landmark:</td><td>'+ resobj[0].landmark + '</td></tr>' +
+    				'<tr><td>near_city:</td><td>'+ resobj[0].near_city + '</td></tr>' +
+    			'</table>'
+    		);		 	
+    	 
+    }
+    
+    
+    function getSellerCategory() {
+		  
+		var serviceurl = '../services/productsearchutils.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:'baiju',
+				action:'getSellerCategoryList'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateSellerCategoryList(resobj);
+			}
+		);  // end of $.post --
+
+	}
+    
+    function populateSellerCategoryList(resobj) {
+    	
+    	 for(i=0;i<resobj.length;i++){
+		 	    	$('#category').append(
+						"<option value='" + resobj[i].category + " ' >" + 
+							resobj[i].category + 
+						"</option>"
+					);
+			   	}
+    	
+      
+    }
+    
+    function getProductsUnderCategory() {
+		  
+		var serviceurl = '../services/productsearchutils.php' ;
+		var category=$("#category").val();
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:'baiju',
+			    category:category,
+				action:'getProductsUnderCategoryList'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateProductsUnderCategory(resobj);
+			}
+		);  // end of $.post --
+
+	}
+    
+    function populateProductsUnderCategory(resobj) {
+    	
+    	 for(i=0;i<resobj.length;i++){
+		 	    	$('#products').append(
+						"<option value='" + resobj[i].prod_id + " ' >" + 
+							resobj[i].name + 
+						"</option>"
+					);
+			   	}
+    	
+      
+    }
+    
+    function getSoloProductInfo() {
+		  
+		var serviceurl = '../services/productsearchutils.php' ;
+		var prod_id=$("#products").val();
+		$.post(
+			serviceurl ,
+			{ 	
+			    prod_id:prod_id,
+				action:'getSoloProduct'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateSoloProductInfo(resobj);
+			}
+		);  // end of $.post --
+
+	}
+    
+    function populateSoloProductInfo(resobj) {
+    	
+    	 for(i=0;i<resobj.length;i++){
+		 	    	$('#contentSoloProductInfo').append(
+		 	    '<p>' +
+    				''+ resobj[i].config +'  '+resobj[i].int_value+
+    				'  '+ resobj[i].unit + '<br>' +
+    			'</p>'
+						
+					);
+			   	}
+    	
+      
+    }
+    
+</script>
+
+</div>
+</body>
+</html>
+
+

@@ -18,14 +18,14 @@ if($action == "savemyprofile")
 	$nearcity	  = (isset($_POST["nearcity"])) 	  ? $_POST["nearcity"]	: "" ;
 	$latitude	  = (isset($_POST["latitude"])) 	  ? $_POST["latitude"]	: "" ;
 	$longitude	  = (isset($_POST["longitude"])) 	  ? $_POST["longitude"]  : "" ;
-	$data = array( $displayname, $operatorname, $email, $address, $zipcode, $contactno, $landmark, $nearcity, $latitude, $longitude);
+	$data = array( $displayname, $operatorname,$email ,$address, $zipcode, $contactno, $landmark, $nearcity, $latitude, $longitude);
 
 	doAddProfile($data);
 }
 
 if($action == "getProfileInfo"){
-	$seller =(isset( $_POST["selller"]))   ? $_POST["seller"]: "" ;
-	getSellerProfile($operatorname);
+	$seller =(isset( $_POST["seller"]))   ? $_POST["seller"]: "" ;
+	getSellerProfile($seller);
 }
 
 
@@ -56,4 +56,3 @@ if($action == "getProfileInfo"){
 	}
 	echo json_encode($list_array);
  }
- 
