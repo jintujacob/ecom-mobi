@@ -28,7 +28,7 @@ function getSellerCategoryListDB($seller){
 }
 
 function getProductsUnderCategoryListDB($seller,$category){
-	$query=" select name,description,prod_id from product_seller ". 
+	$query=" select * from product_seller ". 
 	         "where sellerid = '$seller'".
 			 "and   category = '$category'";
 	$result = mysql_query($query);	

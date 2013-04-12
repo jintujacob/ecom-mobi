@@ -33,10 +33,8 @@
   	<div data-role="footer" id="ftrProfileInfo">
        
         <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
-        	<div class="ui-block-b"><button id="viewcategory" type="button" data-theme="a" data-mini="true">View Product Categories</button></div>
-        	<!--<input type="button" value="Button" />
-		    <a href="" data-role="button" >View Products</a>-->
-		</div>
+        	<h1></h1>
+       </div>
   	</div>
     <!--____________________________for populating seller profile info div end-->
   
@@ -56,23 +54,17 @@
 	    
 	    <div data-role="fieldcontain" >
 		     <label for="category">category:</label>
-		     <!--
-		     <select id="category" data-mini="true">
-		        	<option value="none"> </option>
-			 	</select>
-			  --> 	
-			  <ul data-role="listview" data-inset="true" id="ulCategoryList">
-			
-			  </ul>
+		     <ul  id="ulCategoryList">
+				<!--populate content here through ajax call @runtime-->
+			 </ul>
 	   </div>    
 	    
   	</div>
     
   	<div data-role="footer" id="ftrSellerCategory">
        <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
-        	<div class="ui-block-b"><button id="viewproducts" type="button" data-theme="a" data-mini="true">viewproducts</button></div>
-        	<!--<input type="button" value="Button" />
-		    <a href="" data-role="button" >View Products</a>-->
+        	<h1></h1>
+        	
 		</div>
         
   	</div>
@@ -103,10 +95,8 @@
     
   	<div data-role="footer" id="ftrProductUnderCategory">
        <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
-        	<div class="ui-block-b"><button id="viewproductdetail" type="button" data-theme="a" data-mini="true">viewproductdetail</button></div>
-        	<!--<input type="button" value="Button" />
-		    <a href="" data-role="button" >View Products</a>-->
-		</div>
+        	<h1></h1>
+       </div>
         
   	</div>
   	<!--____________________________for populating seller product info under a particular category div end-->
@@ -129,7 +119,7 @@
     
   	<div data-role="footer" id="ftrSoloProductInfo">
        <div data-role="controlgroup" id="ftrCtrlGrpSoloProductInfo" data-type="horizontal" style="float:center;" >
-        	<a href="javascript:populateResultList();" data-role="button" >Back to search result</a>
+        	<a href="javascript:populateResultList();" data-role="button" >Back to results</a>
        </div>
   	</div>
  	<!--_____________________________for populating a particular product detail div end-->	  
@@ -161,7 +151,6 @@
 		
 		   	<div class="ui-body">
 			<fieldset class="ui-grid-a">
-					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
 					<div class="ui-block-b"><button id="searchproduct" type="submit" data-theme="a" data-mini="true">Search</button></div>
 		    </fieldset>
 			</div>
@@ -197,7 +186,7 @@
 <script type="text/javascript">
 	
 	// javascript global variable declarations:
-	var resobj_search ;
+	var resobj_search = "" ;
 	
 	$(document).ready(function() {
 		showPageSearchForm();
@@ -318,8 +307,9 @@
 			str += '</tr><tr>';
 			str += 	 '<td>Stock</td> 		<td>:</td>	<td><b>'+ resobj_search[i].count + '</b></td>' ;
 			str += '</tr><tr>';		
-			str += 	 '<td>Seller</td> 		<td>:</td>	<td><b>'+ resobj_search[i].sellerid + '</b>' ;
-			str +=			"<a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Profile </a></td>"
+			str += 	 '<td>Seller</td> 		<td>:</td>	<td><b>'+ resobj_search[i].sellerid + '</b></td>' ;
+			str += '</tr><tr>';	
+			str +=	 "<td><br><a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Profile </a><br></td>"
 			str += '</tr>';    
 		    str += '</table> ';
 		$('#contentSoloProductInfo').html("");   
@@ -358,7 +348,7 @@
     			str +=	'</table>';
     			
     			str +=	'<div>';
-    			str +=	  "<a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> Profile </a>" ;
+    			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> Categories  </a><br>" ;
     			str +=	'</div>';
     			
      	 $('#contentProfileInfo').html("");
@@ -391,7 +381,7 @@
     	{
  	    	var str =  "";
  	    		str += '<li>';
- 	    		str +=	  "<a href='javascript:getProductsUnderCategory(\""+resobj[i].category+"\",\""+sellerid+"\");'> "+resobj[i].category+" </a>" ;
+ 	    		str +=	  "<a style='text-decoration:none;' href='javascript:getProductsUnderCategory(\""+resobj[i].category+"\",\""+sellerid+"\");'> "+resobj[i].category+" </a>" ;
  	    		str += '</li>'	
  	    	$('#ulCategoryList').append(str);
 		}

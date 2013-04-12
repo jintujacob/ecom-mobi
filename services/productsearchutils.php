@@ -81,17 +81,21 @@ function getSellerCategoryList($seller) {
 
 function getProductsUnderCategoryList($seller,$category) {
 	$result = getProductsUnderCategoryListDB($seller,$category);
-	$list_array = array();
 	
+	$list_array = array();
 	while($row = mysql_fetch_array($result)){	
 		$array = array(
-						"name" => $row["name"],
-						"description" => $row["description"],
-						"prod_id" => $row["prod_id"]
-						);
+		 "prod_no" => $row["prod_id"],
+		 "sellerid" => $row["sellerid"],
+		 "name" => $row["name"],
+		 "description" => $row["description"],
+		 "category" => $row["category"],
+		 "count" => $row["count"]
+		 );
 		array_push($list_array, $array);
 	}
 	echo json_encode($list_array);
+	
 }
 
 function getSoloProductInfo($prod_id) {
