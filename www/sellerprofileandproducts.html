@@ -33,7 +33,7 @@
   	<div data-role="footer" id="ftrProfileInfo">
        
         <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
-        	<div class="ui-block-b"><button id="viewcategory" type="button" data-theme="a" data-mini="true">viewcategory</button></div>
+        	<div class="ui-block-b"><button id="viewcategory" type="button" data-theme="a" data-mini="true">View Product Categories</button></div>
         	<!--<input type="button" value="Button" />
 		    <a href="" data-role="button" >View Products</a>-->
 		</div>
@@ -147,16 +147,17 @@
 
 <script type="text/javascript">
 
+
 	$(document).ready(function() {
+		/*
 		showSellerProfileInfo();
 		getSellerProfileInfo();
+		*/
+		showSoloProductInfo();
+		getSoloProductInfo(prod_id);
+		
 	});
 
-	/*$('#saveprofile').click(function () {	
-		showTransition();
-		doProcessInputs();
-		return(false); // ! mandatory
-	});*/
 	$('#viewcategory').click(function () {	
 		showTransition();
 		showSellerCategoryList();
@@ -248,9 +249,7 @@
 	}
 	
 	function showSoloProductInfo()
-	{	
-		
-		$('#contentTransition').hide();
+	{	$('#contentTransition').hide();
 		$('#hdrSellerCategory').hide();	
 		$('#contentSellerCategory').hide();
 		$('#ftrSellerCategory').hide();
@@ -263,63 +262,10 @@
 		$('#hdrSoloProductInfo').show();	
 		$('#contentSoloProductInfo').show();
 		$('#ftrSoloProductInfo').show();
-		
-	}
-	
-	/*function showTransition()
-	{getSellerCatagoryList
-		
-		$('#contentSuccess').hide();
-		$('#hdrProfileForm').hide();
-		$('#contentProfileForm').hide();
-		$('#ftrProfileForm').hide();
-		$('#contentTransition').show();
 	}
 
-	function showSuccess()
+	function getSellerProfileInfo() 
 	{
-		$('#contentTransition').hide();	
-		$('#hdrProfileForm').hide();
-		$('#contentProfileForm').hide();
-		$('#ftrProfileForm').hide();
-		$('#contentSuccess').show();
-		
-	}
-   
-	function doProcessInputs()
-	{
-		var displayname=$("#displayname").val();
-        var operatorname=$("#operatorname").val();
-		var email=$("#email").val();
-        var address=$("#address").val();   
-        var zipcode=$("#zipcode").val();            
-		var contactno=$("#contactno").val();
-		var landmark=$("#landmark").val();
-		var nearcity=$("#nearcity").val();
-		var latitude=$("#latitude").val();
-		var longitude=$("#longitude").val();*/
-	//	var address=$("#address").val();
- 	//	var dob=$("#dob").val();
-
- 		//var address='0'; //for what ???
-  		//var dob='0';   //for what ??? 
- 
- 
- 	/*	if (username =='') {
-			return false;
-		} 
-		if (password =='') {
-			return false;
-		}
-		//validate the rest 
-	
-		if (password != confirmpassword) {
-			return false;
-		}
-		*/
-		
-		function getSellerProfileInfo() {
-		  
 		var serviceurl = '../services/sellerprofileaction.php' ;
 		$.post(
 			serviceurl ,
@@ -332,34 +278,33 @@
 			    populateContentProfileInfo(resobj);
 			}
 		);  // end of $.post --
-
 	}
-	function populateContentProfileInfo(resobj){
-    	 
+	
+	function populateContentProfileInfo(resobj)
+	{
     		$('#contentProfileInfo').append(
     			'<table "border=0">' +
-    				
-    				'<tr><td>display_name:</td><td>'+ resobj[0].display_name + '</td></tr>' +
-    				'<tr><td>seller_id:</td><td>'+ resobj[0].seller_id + '</td></tr>' +
-    				'<tr><td>email:</td><td>'+ resobj[0].email + '</td></tr>' +
-    				'<tr><td>address:</td><td>'+ resobj[0].address + '</td></tr>' +
-    				'<tr><td>zipcode:</td><td>'+ resobj[0].zipcode + '</td></tr>' +
-    				'<tr><td>ph_no:</td><td>'+ resobj[0].ph_no + '</td></tr>' +
-    				'<tr><td>landmark:</td><td>'+ resobj[0].landmark + '</td></tr>' +
-    				'<tr><td>near_city:</td><td>'+ resobj[0].near_city + '</td></tr>' +
+    				'<tr><td>display_name:</td><td><b>'+ resobj[0].display_name + '</b></td></tr>' +
+    				'<tr><td>seller_id:</td><td><b>'+ resobj[0].seller_id + '</b></td></tr>' +
+    				'<tr><td>email:</td><td><b>'+ resobj[0].email + '</b></td></tr>' +
+    				'<tr><td>address:</td><td><b>'+ resobj[0].address + '</b></td></tr>' +
+    				'<tr><td>zipcode:</td><td><b>'+ resobj[0].zipcode + '</b></td></tr>' +
+    				'<tr><td>ph_no:</td><td><b>'+ resobj[0].ph_no + '</b></td></tr>' +
+    				'<tr><td>landmark:</td><td><b>'+ resobj[0].landmark + '</b></td></tr>' +
+    				'<tr><td>near_city:</td><td><b>'+ resobj[0].near_city + '</b></td></tr>' +
     			'</table>'
     		);		 	
     	 
     }
     
     
-    function getSellerCategory() {
-		  
+    function getSellerCategory() 
+    {
 		var serviceurl = '../services/productsearchutils.php' ;
 		$.post(
 			serviceurl ,
 			{ 	
-			    seller:'baiju',
+			    seller:'testuser',
 				action:'getSellerCategoryList'	
 			} ,
 		 	function(data){
@@ -390,7 +335,7 @@
 		$.post(
 			serviceurl ,
 			{ 	
-			    seller:'baiju',
+			    seller:'testuser',
 			    category:category,
 				action:'getProductsUnderCategoryList'	
 			} ,
@@ -411,18 +356,16 @@
 						"</option>"
 					);
 			   	}
-    	
-      
     }
     
-    function getSoloProductInfo() {
+    function getSoloProductInfo(prod_id) {
 		  
 		var serviceurl = '../services/productsearchutils.php' ;
 		var prod_id=$("#products").val();
 		$.post(
 			serviceurl ,
 			{ 	
-			    prod_id:prod_id,
+			    prod_id: prod_id,
 				action:'getSoloProduct'	
 			} ,
 		 	function(data){
@@ -444,8 +387,6 @@
 						
 					);
 			   	}
-    	
-      
     }
     
 </script>

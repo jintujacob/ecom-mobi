@@ -1,11 +1,11 @@
 
 <?php
-	$con = mysql_connect("localhost","root","123");
+	$con = mysql_connect("localhost","root","abc");
 	if (!$con)
   	{
   		die('Could not connect: ' . mysql_error());
   	}
-  	mysql_select_db("iekadd", $con);
+  	mysql_select_db("iek", $con);
   	
   	// mysql_close($con);
 ?>

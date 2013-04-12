@@ -9,15 +9,20 @@ $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
 if($action == "searchproduct")
 {
 	$searchkey  = (isset( $_POST["searchkey"] ))  ? $_POST["searchkey"] 	: "" ;	
-	
-	  $data = explode(" ",$searchkey);
-	  getProductList($data);
-	// for($i=0;$i<2;$i++)
-	//echo $data[$i];
-	//echo $data[1];
-		
+	$data = explode(" ",$searchkey);
+	getProductList($data);
 }
 
+
+function setUIContentNavigator($pagecontent){
+	//pagecontent should be either "product" | "seller"
+	//set to session
+	$_SESSION['content_navigator'] = $pagecontent;
+}
+
+function getUIContentNavigator(){
+	echo json_encode(array("content_navigator"=>$_SESSION['content_navigator']));
+}
 
  function getProductList($data)
  {

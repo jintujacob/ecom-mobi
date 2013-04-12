@@ -1,0 +1,586 @@
+<html> 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    
+    <title>Consumer Assistant</title> 
+    <link rel="stylesheet"  href="css/style.css" /> 
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+</head>
+
+<body> 
+
+<div data-role="page" id="pageSellerProfileProducts">
+  
+  	<!--for populating seller profile info div start-->
+	<div data-role="header" data-position="fixed" id="hdrProfileInfo">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Seller Profile 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentProfileInfo"> 
+	    
+	    
+	    
+  	</div>
+  
+  	<div data-role="footer" id="ftrProfileInfo">
+       
+        <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewcategory" type="button" data-theme="a" data-mini="true">View Product Categories</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+  	</div>
+    <!--____________________________for populating seller profile info div end-->
+  
+  	<!--for populating seller category info div start-->
+	<div data-role="header" data-position="fixed" id="hdrSellerCategory">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Seller Category 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentSellerCategory"> 
+	    
+	    <div data-role="fieldcontain" >
+		     <label for="category">category:</label>
+		     <!--
+		     <select id="category" data-mini="true">
+		        	<option value="none"> </option>
+			 	</select>
+			  --> 	
+			  <ul data-role="listview" data-inset="true" id="ulCategoryList">
+			
+			  </ul>
+	   </div>    
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrSellerCategory">
+       <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewproducts" type="button" data-theme="a" data-mini="true">viewproducts</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+        
+  	</div>
+  	<!--______________________________for populating seller category info div end-->
+  
+  	<!--for populating seller product info under a particular category div start-->	
+  	<div data-role="header" data-position="fixed" id="hdrProductUnderCategory">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Products under the Category 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentProductUnderCategory"> 
+	    
+	    <div data-role="fieldcontain" >
+		        <label for="products">products:</label>
+		        <select id="products" data-mini="true">
+		        	<option value="none"> </option>
+			   	</select>
+	    	</div>    
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrProductUnderCategory">
+       <div data-role="controlgroup" data-type="horizontal" style="float:center;" >
+        	<div class="ui-block-b"><button id="viewproductdetail" type="button" data-theme="a" data-mini="true">viewproductdetail</button></div>
+        	<!--<input type="button" value="Button" />
+		    <a href="" data-role="button" >View Products</a>-->
+		</div>
+        
+  	</div>
+  	<!--____________________________for populating seller product info under a particular category div end-->
+  
+   	<!--for populating a particular product detail div start-->	
+  	<div data-role="header" data-position="fixed" id="hdrSoloProductInfo">
+		<div class="headerlogo"> </div>
+		<div class="headertext">
+		   Product Detail 
+		</div>
+		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+		    <a href="index.html" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+	</div>
+ 
+  	<div data-role="content" id="contentSoloProductInfo"> 
+	    
+  	</div>
+    
+  	<div data-role="footer" id="ftrSoloProductInfo">
+       <div data-role="controlgroup" id="ftrCtrlGrpSoloProductInfo" data-type="horizontal" style="float:center;" >
+        	<a href="javascript:populateResultList();" data-role="button" >Back to search result</a>
+       </div>
+  	</div>
+ 	<!--_____________________________for populating a particular product detail div end-->	  
+ 
+ 	<!--for populating lazy search form-->
+ 	<div data-role="header" data-position="fixed" id="hdrLazySearch">
+    
+	    <div class="headerlogo"> </div>
+	    <div class="headertext">
+	       Search Products
+	    </div>
+	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+	        <a href="home.html" rel="external" data-role="button" >Home</a>
+			<a href="?" data-role="button" >Back</a>
+		</div>
+  	</div>
+ 
+  	<div data-role="content" id="contentLazySearch"> 
+	    <p> Drop your search keywords here.We will guide you through the best available products</p> 
+	    
+	    <div id="setErrorMessage" style="color:red;">
+	    	
+    	</div>
+	    
+	    <form name="lazysearchform"  >
+	    	<div align="center" data-role="fieldcontain">
+		         <input type="text" name="searchkey"  placeholder="Enter Search Key" id="searchkey" value="" data-mini="true" />
+		    </div>
+		
+		   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+					<div class="ui-block-a"><button type="reset" data-theme="d" data-mini="true">Cancel</button></div>
+					<div class="ui-block-b"><button id="searchproduct" type="submit" data-theme="a" data-mini="true">Search</button></div>
+		    </fieldset>
+			</div>
+		</form> 
+		<div id="getProductCount">
+    	
+    	</div>
+  	</div>
+	
+	<div data-role="content" id="contentResultList" name="contentResultList">	
+	 <div id="resultContainer" >
+	 	<!-- ajax populate -->
+	 </div>
+	</div>
+	
+	<div data-role="footer" id="ftrLazySearch">
+	     <h1></h1>
+	</div>
+	<!--for populating lazy search form--> 
+ 
+ 
+	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
+	<div data-role="content" id="contentTransition" name="contentTransition">	
+	 <div align="CENTER"><h4>Please wait.</h4></div>
+	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
+	</div><!-- contentTransition -->
+	
+</div>	
+
+<script src="js/jquery.js"></script>
+<script src="js/jquery.mobile-1.2.0.js"></script>
+
+<script type="text/javascript">
+	
+	// javascript global variable declarations:
+	var resobj_search ;
+	
+	$(document).ready(function() {
+		showPageSearchForm();
+		
+	});
+
+	$('#searchproduct').click( function ()  {
+		showPageTransition();
+		doProcessInputs();
+		return false;  // !mandatory
+	});
+
+	$('#viewcategory').click(function () {	
+		showPageTransition();
+		showPageSellerCategoryList();
+		getSellerCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproducts').click(function () {	
+		showPageTransition();
+		showPageProductsUnderCategory();
+		getProductsUnderCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproductdetail').click(function () {	
+		showPageTransition();
+		showPageSoloProductInfo();
+		getSoloProductInfo();
+		return(false); // ! mandatory
+	});
+	
+    
+ 	function doProcessInputs()
+	{
+		var searchkey=$("#searchkey").val();
+		var serviceurl = '../services/lazysearchaction.php' ;
+		
+		$.post(
+			serviceurl ,
+			{ 	
+			    searchkey : searchkey,             
+				action:'searchproduct'	
+			} ,
+		 	function(data){
+		 	    resobj_search =jQuery.parseJSON(data);
+			    showCountOfResult();
+			}
+		);  // end of $.post 
+	}
+	
+	function showCountOfResult(){
+		var productcount=resobj_search.length;  // using the global variable
+		showPageSearchForm();
+		$('#getProductCount').html(
+			productcount+" products matches your search"+"<a href='javascript:populateResultList()'> Click Here </a>"
+		);
+	}
+	
+	function populateResultList(){
+		  
+		 $('#resultContainer').html("");  //clear out previous result since append is used
+    	 showPageSearchResults();  
+    	 for(var i=0; i<resobj_search.length; i++)
+    	 {
+    	 	
+    		var str = "";
+    		str += '<table><tr>';
+    		str += 	'<td>';
+		    str +=		'<p>' ;
+		    str +=			'<b>'+ resobj_search[i].name + '</b><br>' ;
+		    str +=			resobj_search[i].description + '<br>' ;
+		    str +=			'in Category :'+ resobj_search[i].category + '<br>' ;
+		    str +=			'in Stock :'+ resobj_search[i].count + '<br>' ;
+		    str +=		'</p>' ;
+	    	str +=   '</td><td width="50">' ;
+    		str +=    	'<a href="javascript:populateSoloProductInfo('+i+');"> Click Here </a>';
+    		str +=   '</td>' ;
+    		str += '</tr></table>  <br><br>';
+    		
+    		$('#resultContainer').append(str);		 	
+    	 }
+    }
+    
+	/*    
+ 	* 
+ 	function getSoloProductInfo(prod_id) 
+ 	{
+		var serviceurl = '../services/productsearchutils.php' ;
+		var prod_id=$("#products").val();
+		$.post(
+			serviceurl ,
+			{ 	
+			    prod_id: prod_id,
+				action:'getSoloProduct'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateSoloProductInfo(resobj);
+			}
+		);  // end of $.post --
+
+	}
+	*/   
+    
+    function populateSoloProductInfo(i) 
+    {  	// i contains the iterator value;
+    	// using resobj_search since all the search result is available there;
+    	var str = "";
+    		str += '<table>';
+    		str += '<tr>';
+    		str += 	 '<td>Product</td> 		<td>:</td>	<td><b>'+ resobj_search[i].name + '</b></td>' ;
+    		str += '</tr><tr>';
+    		str += 	 '<td>Description</td> 	<td>:</td>	<td><b>'+ resobj_search[i].description + '</b></td>' ;
+    		str += '</tr><tr>';
+			str += 	 '<td>Category</td> 	<td>:</td>	<td><b>'+ resobj_search[i].category + '</b></td>' ;
+			str += '</tr><tr>';
+			str += 	 '<td>Stock</td> 		<td>:</td>	<td><b>'+ resobj_search[i].count + '</b></td>' ;
+			str += '</tr><tr>';		
+			str += 	 '<td>Seller</td> 		<td>:</td>	<td><b>'+ resobj_search[i].sellerid + '</b>' ;
+			str +=			"<a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Profile </a></td>"
+			str += '</tr>';    
+		    str += '</table> ';
+		$('#contentSoloProductInfo').html("");   
+		showPageSoloProductInfo();	
+		$('#contentSoloProductInfo').append(str);
+		
+    }
+    
+   	function getSellerProfileInfo(sellerid) 
+	{
+		var serviceurl = '../services/sellerprofileaction.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:sellerid,
+				action:'getProfileInfo'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateContentProfileInfo(resobj);
+			}
+		);  // end of $.post --
+	}
+	
+	function populateContentProfileInfo(resobj)
+	{	var str = "";
+    			str += '<table "border=0">' ;
+    			str += 		'<tr><td>display_name:</td><td><b>'+ resobj[0].display_name + '</b></td></tr>' ;
+    			str +=		'<tr><td>seller_id:</td><td><b>'+ resobj[0].seller_id + '</b></td></tr>' ;
+    			str +=		'<tr><td>email:</td><td><b>'+ resobj[0].email + '</b></td></tr>' ;
+    			str +=		'<tr><td>address:</td><td><b>'+ resobj[0].address + '</b></td></tr>' ;
+    			str +=      '<tr><td>zipcode:</td><td><b>'+ resobj[0].zipcode + '</b></td></tr>' ;
+    			str +=		'<tr><td>ph_no:</td><td><b>'+ resobj[0].ph_no + '</b></td></tr>' ;
+    			str +=		'<tr><td>landmark:</td><td><b>'+ resobj[0].landmark + '</b></td></tr>' ;	
+    			str +=		'<tr><td>near_city:</td><td><b>'+ resobj[0].near_city + '</b></td></tr>' ;	
+    			str +=	'</table>';
+    			
+    			str +=	'<div>';
+    			str +=	  "<a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> Profile </a>" ;
+    			str +=	'</div>';
+    			
+     	 $('#contentProfileInfo').html("");
+    	 showPageProfileInfo();
+     	 $('#contentProfileInfo').append(str);
+    }
+    
+    function getSellerCategoryList(sellerid) 
+    {	
+    	showPageTransition();
+		var serviceurl = '../services/productsearchutils.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:sellerid,
+				action:'getSellerCategoryList'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateSellerCategoryList(resobj, sellerid);
+			}
+		);  // end of $.post --
+	}
+    
+    function populateSellerCategoryList(resobj, sellerid) 
+    {
+		$('#ulCategoryList').html("");
+    	showPageSellerCategoryList();
+    	for(i=0;i<resobj.length;i++)
+    	{
+ 	    	var str =  "";
+ 	    		str += '<li>';
+ 	    		str +=	  "<a href='javascript:getProductsUnderCategory(\""+resobj[i].category+"\",\""+sellerid+"\");'> "+resobj[i].category+" </a>" ;
+ 	    		str += '</li>'	
+ 	    	$('#ulCategoryList').append(str);
+		}
+    }
+    
+    function getProductsUnderCategory(category, sellerid) 
+    {
+		var serviceurl = '../services/productsearchutils.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:sellerid,
+			    category:category,
+				action:'getProductsUnderCategoryList'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateProductsUnderCategory(resobj);
+			}
+		);  // end of $.post --
+
+	}
+    
+    function populateProductsUnderCategory(resobj) {
+    	resobj_search = resobj;
+    	populateResultList();
+    }
+    
+
+
+		
+    
+/* page builders --------------------------------*/
+	
+	function showPageTransition()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').show();
+	}
+	
+	function showPageSearchForm()
+	{	
+		hideSoloProductInfo();
+		hideSearchResultList();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').hide();
+		showSearchProductForm();
+	}
+	
+	function showPageSearchResults()
+	{	
+		hideSearchProductForm();
+		hideSoloProductInfo();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').hide();
+		showSearchResultList();
+	}	
+	
+	function showPageProfileInfo()
+	{
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		$('#contentTransition').hide();
+		hideSellerCategory();		
+		hideProductUnderCategory();
+		showProfileInfo();
+	}
+	
+	function showPageSellerCategoryList()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		$('#contentTransition').hide();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		showSellerCategory();
+	}
+	
+	function showPageProductsUnderCategory()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		$('#contentTransition').hide();
+		hideSellerCategory();
+		hideProfileInfo();
+		showProductUnderCategory();
+	}
+	
+	function showPageSoloProductInfo()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').hide();
+		showSoloProductInfo();
+	}
+
+	
+	
+	function hideSoloProductInfo(){
+			$('#hdrSoloProductInfo').hide();	
+			$('#contentSoloProductInfo').hide();
+			$('#ftrSoloProductInfo').hide();
+	}	
+		function showSoloProductInfo(){
+				$('#hdrSoloProductInfo').show();	
+				$('#contentSoloProductInfo').show();
+				$('#ftrSoloProductInfo').show();
+		}
+	
+	function hideSellerCategory(){
+			$('#hdrSellerCategory').hide();	
+			$('#contentSellerCategory').hide();
+			$('#ftrSellerCategory').hide();
+	}
+		function showSellerCategory(){
+				$('#hdrSellerCategory').show();	
+				$('#contentSellerCategory').show();
+				$('#ftrSellerCategory').show();
+		}
+	
+	function hideProfileInfo(){
+			$('#hdrProfileInfo').hide();
+			$('#contentProfileInfo').hide();
+			$('#ftrProfileInfo').hide();
+	}
+		function showProfileInfo(){
+				$('#hdrProfileInfo').show();
+				$('#contentProfileInfo').show();
+				$('#ftrProfileInfo').show();
+		}
+	
+	function hideProductUnderCategory(){
+			$('#hdrProductUnderCategory').hide();
+			$('#contentProductUnderCategory').hide();
+			$('#ftrProductUnderCategory').hide();
+	}
+		function showProductUnderCategory(){
+				$('#hdrProductUnderCategory').show();
+				$('#contentProductUnderCategory').show();
+				$('#ftrProductUnderCategory').show();
+		}
+/*---------------------------------------------*/
+	function hideSearchProductForm(){
+		$('#hdrLazySearch').hide();
+		$('#contentLazySearch').hide();
+		$('#ftrLazySearch').hide();
+	}
+		function showSearchProductForm(){
+			$('#hdrLazySearch').show();
+			$('#contentLazySearch').show();
+			$('#ftrLazySearch').show();
+		}
+
+	function hideSearchResultList(){
+		$('#hdrLazySearch').hide();
+		$('#contentResultList').hide();
+		$('#ftrLazySearch').hide();
+	}
+	function showSearchResultList(){
+			$('#hdrLazySearch').show();
+			$('#contentResultList').show();
+			$('#ftrLazySearch').show();
+	}
+
+
+
+    
+</script>
+
+</div>
+
+
+
+</body>
+</html>
+
+

@@ -49,12 +49,11 @@
   	</div>
 	
 	<div data-role="content" id="contentResultList" name="contentResultList">	
-	 
 	 <div id="resultContainer" >
 	 
 	 </div>
-	 
 	</div>
+	
 	<div data-role="footer" id="ftrLazySearch">
 	     <h1></h1>
 	</div>
@@ -149,9 +148,9 @@
     	 for(i=0; i<productcount; i++){
     		$('#resultContainer').append(
     			'<p>' +
-    				'prod_no:'+ resobj[i].prod_no + '<br>' +
-    				'Description :'+ resobj[i].description + '<br>' +
-    				'Category :'+ resobj[i].category + '<br>' +
+    				'<b>'+ resobj[i].name + '</b><br>' +
+    				''+ resobj[i].description + '<br>' +
+    				'in Category :'+ resobj[i].category + '<br>' +
     				'in Stock :'+ resobj[i].count + '<br>' +
     			'</p>'
     		);		 	

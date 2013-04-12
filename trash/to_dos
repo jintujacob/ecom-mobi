@@ -16,6 +16,8 @@
 13.search flow(search & sellerprofileproducts)
 14.rating
 15.admin module
+16.update product option for the seller.
+
 
 $list_array = array();
 
