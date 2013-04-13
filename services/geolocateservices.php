@@ -4,51 +4,36 @@ ini_set("display_errors", 1);
 
 include('../dbfunctions/geolocatefunctions.php');
 
-//$action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
-$action 	= (isset( $_GET['action'])) 	? $_GET['action'] 	: "" ;
+$action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
+//$action 	= (isset( $_GET['action'])) 	? $_GET['action'] 	: "" ;
 
 if($action == "getSellersByDistance")
 {
-	$radius       	= (isset( $_GET['radius'] ))	? $_GET['radius']	: "" ;	
-	$center_lat     = (isset( $_GET['lat'])) 		? $_GET['lat']: "" ;
-	$center_long 	= (isset( $_GET['lng'])) 		? $_GET['lng']: "" ;
+	$radius       	= (isset( $_POST['radius'] ))	? $_POST['radius']	: "" ;	
+	$center_lat     = (isset( $_POST['lat'])) 		? $_POST['lat']: "" ;
+	$center_long 	= (isset( $_POST['lng'])) 		? $_POST['lng']: "" ;
 	
 	getSellersByDistanceSearch($radius, $center_lat, $center_long);
 }
 
 function getSellersByDistanceSearch($radius, $center_lat, $center_long){
 	$result = getSellersByDistanceSearchDB($radius, $center_lat, $center_long);
-	
-	header("Content-type: text/xml");
-	// Start XML file, create parent node
-	$dom = new DOMDocument("1.0");
-	$node = $dom->createElement("markers");
-	$parnode = $dom->appendChild($node);
-	
-	
-	// Iterate through the rows, adding XML nodes for each
-	while ($row = @mysql_fetch_assoc($result)){
-	  $node = $dom->createElement("marker");
-	  $newnode = $parnode->appendChild($node);
-	  $newnode->setAttribute("name", $row['name']);
-	  $newnode->setAttribute("address", $row['address']);
-	  $newnode->setAttribute("lat", $row['lat']);
-	  $newnode->setAttribute("lng", $row['lng']);
-	  $newnode->setAttribute("distance", $row['distance']);
+	$list_array = array();
+	while($row = mysql_fetch_array($result)){	
+		$array = array(
+		 "display_name" => $row["display_name"],
+		 "seller_id" => $row["seller_id"],
+		 "email" => $row["email"],
+		 "address" => $row["address"],
+		 "zipcode" => $row["zipcode"],
+		 "ph_no" => $row["ph_no"],
+		 "landmark" => $row["landmark"],
+		 "near_city" => $row["near_city"],
+		 "distance" => substr($row["distance"], 0, 5)     
+		 );
+		array_push($list_array, $array);
 	}
-	
-	echo $dom->saveXML();
-	
-	/*
-	 while($row = mysql_fetch_array($result)){
-		echo $row[0];
-		echo $row[1];
-	}
-	 * 
-	 */
-	 
-	 
-	 
+	echo json_encode($list_array);
 }
 
 
