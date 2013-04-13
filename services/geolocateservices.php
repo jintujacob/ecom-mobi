@@ -9,16 +9,37 @@ $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
 
 if($action == "getSellersByDistance")
 {
+	$searchkey  = (isset( $_POST["searchkey"] ))  ? $_POST["searchkey"] 	: "" ;	
 	$radius       	= (isset( $_POST['radius'] ))	? $_POST['radius']	: "" ;	
 	$center_lat     = (isset( $_POST['lat'])) 		? $_POST['lat']: "" ;
 	$center_long 	= (isset( $_POST['lng'])) 		? $_POST['lng']: "" ;
 	
-	getSellersByDistanceSearch($radius, $center_lat, $center_long);
+	getSellersByDistanceSearch($searchkey, $radius, $center_lat, $center_long);
 }
 
-function getSellersByDistanceSearch($radius, $center_lat, $center_long){
-	$result = getSellersByDistanceSearchDB($radius, $center_lat, $center_long);
+function getSellersByDistanceSearch($searchkey, $radius, $center_lat, $center_long){
+		
+	$data = explode(" ",$searchkey);
+		
+	$result = getSellersByDistanceSearchDB($data, $radius, $center_lat, $center_long);
+	
 	$list_array = array();
+	while($row = mysql_fetch_array($result)){	
+		$array = array(
+		 "prod_no" => $row["prod_id"],
+		 "sellerid" => $row["sellerid"],
+		 "name" => $row["name"],
+		 "description" => $row["description"],
+		 "category" => $row["category"],
+		 "count" => $row["count"],
+		 "distance" => $row["distance"]
+		 );
+		array_push($list_array, $array);
+	}
+	echo json_encode($list_array);
+	
+	
+	/*
 	while($row = mysql_fetch_array($result)){	
 		$array = array(
 		 "display_name" => $row["display_name"],
@@ -33,7 +54,10 @@ function getSellersByDistanceSearch($radius, $center_lat, $center_long){
 		 );
 		array_push($list_array, $array);
 	}
-	echo json_encode($list_array);
+	 * echo json_encode($list_array);
+	 * 
+	 */
+	
 }
 
 
