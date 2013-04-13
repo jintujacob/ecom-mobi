@@ -9,30 +9,52 @@ $action 	= (isset( $_GET['action'])) 	? $_GET['action'] 	: "" ;
 
 if($action == "getSellersByDistance")
 {
-	/*
-	$dist       	= (isset( $_POST['prod_id'] ))		? $_POST['prod_id'] 	: "" ;	
-	$searchlat      = (isset( $_POST['sellerid'])) 	? $_POST['sellerid']: "" ;
-	$searchlong 	= (isset( $_POST['name'])) 	? $_POST['sellerid']: "" ;
-	*/
+	$radius       	= (isset( $_GET['radius'] ))	? $_GET['radius']	: "" ;	
+	$center_lat     = (isset( $_GET['lat'])) 		? $_GET['lat']: "" ;
+	$center_long 	= (isset( $_GET['lng'])) 		? $_GET['lng']: "" ;
 	
-	$dist       	= (isset( $_GET['dist'] ))		? $_GET['dist'] 	: "" ;	
-	$searchlat      = (isset( $_GET['searchlat'])) 	? $_GET['searchlat']: "" ;
-	$searchlong 	= (isset( $_GET['searchlong'])) 	? $_GET['searchlong']: "" ;
-	
-	getSellersByDistanceSearch($dist, $searchlat, $searchlong);
-		
+	getSellersByDistanceSearch($radius, $center_lat, $center_long);
 }
 
-function getSellersByDistanceSearch($dist, $searchlat, $searchlong){
-	$result = getSellersByDistanceSearchDB($dist, $searchlat, $searchlong);
-
+function getSellersByDistanceSearch($radius, $center_lat, $center_long){
+	$result = getSellersByDistanceSearchDB($radius, $center_lat, $center_long);
+	
+	header("Content-type: text/xml");
+	// Start XML file, create parent node
+	$dom = new DOMDocument("1.0");
+	$node = $dom->createElement("markers");
+	$parnode = $dom->appendChild($node);
+	
+	
+	// Iterate through the rows, adding XML nodes for each
+	while ($row = @mysql_fetch_assoc($result)){
+	  $node = $dom->createElement("marker");
+	  $newnode = $parnode->appendChild($node);
+	  $newnode->setAttribute("name", $row['name']);
+	  $newnode->setAttribute("address", $row['address']);
+	  $newnode->setAttribute("lat", $row['lat']);
+	  $newnode->setAttribute("lng", $row['lng']);
+	  $newnode->setAttribute("distance", $row['distance']);
+	}
+	
+	echo $dom->saveXML();
+	
+	/*
 	 while($row = mysql_fetch_array($result)){
 		echo $row[0];
 		echo $row[1];
 	}
-	
+	 * 
+	 */
+	 
+	 
+	 
 }
+
 
 //testing
 //url : http://hackbox/iekrepo/services/geolocateservices.php?action=getSellersByDistance&dist=10&searchlat=37&searchlong=-122 
 ?>
+
+
+
