@@ -121,14 +121,12 @@
 	</div>
  
   	<div data-role="content" id="contentSellerCategory"> 
-	    
-	    <div data-role="fieldcontain" >
-		     <label for="category">category:</label>
-		     <ul  id="ulCategoryList">
+	     <label for="category">category:</label><br><br>
+	     <div style="border-left: 10px;">	   
+	        <ul  id="ulCategoryList" data-role="listview" data-filter="true">
 				<!--populate content here through ajax call @runtime-->
-			 </ul>
-	   </div>    
-	    
+			</ul>
+		 </div>
   	</div>
     
   	<div data-role="footer" id="ftrSellerCategory">
@@ -275,7 +273,7 @@
     	 {
     	 	
     		var str = "";
-    		str += '<table><tr>';
+    		str += '<table width="95%"><tr>';
     		str += 	'<td>';
 		    str +=		'<p>' ;
 		    str +=			'<b>'+ resobj_search[i].name + '</b><br>' ;
@@ -283,9 +281,10 @@
 		    str +=			'in Category :'+ resobj_search[i].category + '<br>' ;
 		    str +=			'in Stock :'+ resobj_search[i].count + '<br>' ;
 		    str +=			'distance : '+ resobj_search[i].distance + '<br>' ;
+		    str +=			'Seller : '+ resobj_search[i].sellerid  + '<br>' ;
 		    str +=		'</p>' ;
-	    	str +=   '</td><td width="50">' ;
-    		str +=    	'<a href="javascript:populateSoloProductInfo('+i+');"> Click Here </a>';
+	    	str +=   '</td><tr><td>' ;
+    		str +=    	'<a href="javascript:populateSoloProductInfo('+i+');"> View Product </a><hr>';
     		str +=   '</td>' ;
     		str += '</tr></table>  <br><br>';
     		
@@ -293,17 +292,16 @@
     	 }
     }
     
-	/*    
- 	* 
- 	function getSoloProductInfo(prod_id) 
+
+ 	function getProductConfig(prod_id) 
  	{
 		var serviceurl = '../services/productsearchutils.php' ;
-		var prod_id=$("#products").val();
+		
 		$.post(
 			serviceurl ,
 			{ 	
 			    prod_id: prod_id,
-				action:'getSoloProduct'	
+				action:'getProductConfiguration'	
 			} ,
 		 	function(data){
 			    var resobj =jQuery.parseJSON(data);
@@ -312,7 +310,6 @@
 		);  // end of $.post --
 
 	}
-	*/   
     
     function populateSoloProductInfo(i) 
     {  	// i contains the iterator value;
@@ -330,7 +327,7 @@
 			str += '</tr><tr>';		
 			str += 	 '<td>Seller</td> 		<td>:</td>	<td><b>'+ resobj_search[i].sellerid + '</b></td>' ;
 			str += '</tr><tr>';	
-			str +=	 "<td><br><a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Profile </a><br></td>"
+			str +=	 "<td><br><a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Seller Profile > </a><br></td>"
 			str += '</tr>';    
 		    str += '</table> ';
 		$('#contentSoloProductInfo').html("");   
@@ -341,7 +338,7 @@
     
    	function getSellerProfileInfo(sellerid) 
 	{
-		var serviceurl = '../services/sellerprofileaction.php' ;
+		var serviceurl = '../services/accesscontrolaction.php' ;
 		$.post(
 			serviceurl ,
 			{ 	
@@ -369,7 +366,7 @@
     			str +=	'</table>';
     			
     			str +=	'<div>';
-    			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> Categories  </a><br>" ;
+    			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> View Store  </a><br>" ;
     			str +=	'</div>';
     			
      	 $('#contentProfileInfo').html("");
@@ -396,7 +393,7 @@
     
     function populateSellerCategoryList(resobj, sellerid) 
     {
-		$('#ulCategoryList').html("");
+		$('#ulCategoryList').html("<li> </li>");
     	showPageSellerCategoryList();
     	for(i=0;i<resobj.length;i++)
     	{

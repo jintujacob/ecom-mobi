@@ -20,7 +20,6 @@ if($action == "getSellersByDistance")
 function getSellersByDistanceSearch($searchkey, $radius, $center_lat, $center_long){
 		
 	$data = explode(" ",$searchkey);
-		
 	$result = getSellersByDistanceSearchDB($data, $radius, $center_lat, $center_long);
 	
 	$list_array = array();
@@ -32,33 +31,13 @@ function getSellersByDistanceSearch($searchkey, $radius, $center_lat, $center_lo
 		 "description" => $row["description"],
 		 "category" => $row["category"],
 		 "count" => $row["count"],
-		 "distance" => $row["distance"]
+		 "distance" => substr($row["distance"], 0, 5)
 		 );
 		array_push($list_array, $array);
 	}
 	echo json_encode($list_array);
-	
-	
-	/*
-	while($row = mysql_fetch_array($result)){	
-		$array = array(
-		 "display_name" => $row["display_name"],
-		 "seller_id" => $row["seller_id"],
-		 "email" => $row["email"],
-		 "address" => $row["address"],
-		 "zipcode" => $row["zipcode"],
-		 "ph_no" => $row["ph_no"],
-		 "landmark" => $row["landmark"],
-		 "near_city" => $row["near_city"],
-		 "distance" => substr($row["distance"], 0, 5)     
-		 );
-		array_push($list_array, $array);
-	}
-	 * echo json_encode($list_array);
-	 * 
-	 */
-	
 }
+
 
 
 //testing

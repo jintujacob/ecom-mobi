@@ -13,13 +13,13 @@ if($action == "getAllCategoryList"){
 }
 if($action=="compareProductList"){	//$products=$_POST['productlist'];
 	$products=$_GET['productlist'];
-    doPopulateComparsonResult($products);		
+    doPopulateComparisonResult($products);		
 }	
 
 
 
 //------------------ utility methodes
-function doPopulateComparsonResult($products){
+function doPopulateComparisonResult($products){
 	//print_r($products);
 	$productlist=explode("|",$products);
 	

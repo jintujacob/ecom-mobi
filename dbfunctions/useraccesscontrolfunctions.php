@@ -26,9 +26,9 @@ function doAddToLoginDB($usr, $pass, $profiletype)
 				$usr 	."', '".
 				$pass 	."', '".
 				$profiletype	."') " ;
-				
+			//echo $query;	
 	$resaddlog = mysql_query($query);
-	return $resaddlog;		 
+	return true;		 
 }
 
 function doAddUserSessionDB($username,$type)
@@ -60,7 +60,8 @@ function doRegisterConsumerDB($data)
 				$data[3] 	."', '".
 				$data[4] 	."') " ;			
 	$resregcon = mysql_query($query);		
-	return $resregcon; 
+	return true;
+	//return $resregcon; 
 }
 
 function doRegisterSellerDB($data)
@@ -77,7 +78,42 @@ function doRegisterSellerDB($data)
 				$data[3] 	."', '".
 				$data[4]  	."') " ;
 	$resregsel = mysql_query($query);		 
-	return $resregsel;
+	return true;
+}
+
+function doAddProfileDB($data  ){
+
+$query ="insert into sellerprofile ".
+			"(	display_name  ,
+				seller_id	  ,
+				email         ,
+				address       ,
+				zipcode       ,
+				ph_no         ,
+				landmark      ,
+				near_city     ,
+				latitude      ,
+				longitude 
+ 			 )values ( '".
+				$data[0] 	."', '".
+				$data[1] 	."', '".
+				$data[2] 	."', '".
+				$data[3] 	."', '".
+				$data[4] 	."', '".
+				$data[5] 	."', '".
+				$data[6] 	."', '".
+				$data[7] 	."', '".
+				$data[8] 	."', '".
+				$data[9] 	."') " ;
+
+	$result = mysql_query($query);
+	return true;		 	
+}
+
+function getSellerProfileDB($seller){
+	$query =   "select * from sellerprofile where seller_id='$seller'" ;
+	$result = mysql_query($query);
+	return $result;
 }
 
 

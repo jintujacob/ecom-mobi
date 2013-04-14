@@ -43,7 +43,7 @@
 		    
 			<div data-role="fieldcontain" >
 		        <label for="category">category:</label>
-		        <select id="category" data-mini="true">
+		        <select id="category"  data-mini="true">
 		        	<option value="none"> </option>
 			   	</select>
 	    	</div>    
@@ -151,7 +151,7 @@
 			serviceurl ,
 			{ 	action:'getAllCategoryList'	} ,
 		 	function(data){
-		 		alert(data);
+		 		
 		 	    categoryList =jQuery.parseJSON(data);
 		 	    for(i=0;i<categoryList.length;i++){
 		 	    	$('#category').append(
