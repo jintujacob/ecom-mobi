@@ -25,7 +25,7 @@ include("connection.php");
 	$querytail="))";				
 	$query2=$querystart.$condition.$querytail;	
 	
-	$query3 = "SELECT * FROM ". $query1 . " A LEFT JOIN ". $query2. " B on A.seller_id=B.sellerid";
+	$query3 = "SELECT * FROM ". $query1 . " A LEFT JOIN ". $query2. " B on A.seller_id=B.sellerid where B.prod_id <>''";
 	
 	//echo $query3;
 	$result = mysql_query($query3);

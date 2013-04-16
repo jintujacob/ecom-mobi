@@ -1,5 +1,3 @@
-<!-- do maintain the cache.manifest file to cache the pages. --> 
-
 <html> 
 <head>
     <meta charset="utf-8">
@@ -119,7 +117,7 @@
 				action:'doLogin'  	
 			} ,
 		 	function(data){
-		 	
+		 		alert(data);
 			    var resobj =jQuery.parseJSON(data);
 			    //alert(resobj.result);
 			    manageLoginResult(resobj);
