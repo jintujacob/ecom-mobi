@@ -47,22 +47,20 @@ elseif($action == "registerSeller")
 	$email		= (isset($_POST["email"])) 		? $_POST["email"]	: "" ;
 	$mobile		= (isset($_POST["mobile"])) 	? $_POST["mobile"]	: "" ;
 	$profiletype= (isset($_POST["profiletype"])) 		? $_POST["profiletype"]	: "" ;
-	$data = array( $username, $password, $name, $email, $mobile);
 	
-	//order of array elements is mandatory
-	
-
 	$displayname  = (isset( $_POST["displayname"] ))  ? $_POST["displayname"] 	: "" ;	
-	$operatorname =(isset( $_POST["operatorname"]))   ? $_POST["operatorname"]: "" ;
-	$email 	      = (isset( $_POST["email"]))         ? $_POST["email"]: "" ;
+	//$operatorname =(isset( $_POST["operatorname"]))   ? $_POST["operatorname"]: "" ;
+	//$email 	      = (isset( $_POST["email"]))         ? $_POST["email"]: "" ;
 	$address      = (isset($_POST["address"]))        ? $_POST["address"]: "" ;
 	$zipcode      = (isset($_POST["zipcode"]))        ? $_POST["zipcode"]: "" ;
-	$contactno	  = (isset($_POST["contactno"])) 	  ? $_POST["contactno"]	: "" ;
+	//$contactno	  = (isset($_POST["contactno"])) 	  ? $_POST["contactno"]	: "" ;
 	$landmark	  = (isset($_POST["landmark"])) 	  ? $_POST["landmark"]	: "" ;
 	$nearcity	  = (isset($_POST["nearcity"])) 	  ? $_POST["nearcity"]	: "" ;
 	$latitude	  = (isset($_POST["latitude"])) 	  ? $_POST["latitude"]	: "" ;
 	$longitude	  = (isset($_POST["longitude"])) 	  ? $_POST["longitude"]  : "" ;
-	$dataprofile = array( $displayname, $operatorname,$email ,$address, $zipcode, $contactno, $landmark, $nearcity, $latitude, $longitude);
+	
+	$data = array( $username, $password, $name, $email, $mobile);
+	$dataprofile = array( $displayname, $username, $email ,$address, $zipcode, $mobile, $landmark, $nearcity, $latitude, $longitude);
 
 	doRegisterSeller($data,$dataprofile, $profiletype);
 		
@@ -98,9 +96,9 @@ function doValidateLogin($username, $password)
 	}	
 	
 	if($flag == TRUE)
-		echo json_encode(array("result"=>TRUE));
+		echo json_encode(array("result"=>TRUE, "type" => $type));
 	else 
-		echo json_encode(array("result"=>FALSE));	
+		echo json_encode(array("result"=>FALSE, "type" => "failed" ));	
 }
 		
 

@@ -102,14 +102,15 @@
 		$('#ftrMain').hide();
 	}
 
-	function doProcessInputs(){
+	function doProcessInputs()
+	{
 		var username=$("#username").val();
 		var password=$("#password").val();
 		if (username ==''||password=='') {
-		 error=manageError();
-			
+		 	$('#setloginerror').append("mandatory fields empty.Please try again");
+			return(false);
 		} 
-		if(error==true){
+		
 		var serviceurl = '../services/accesscontrolaction.php' ;
 		
 		$.post(
@@ -118,18 +119,21 @@
 				action:'doLogin'  	
 			} ,
 		 	function(data){
+		 		alert(data);
 			    var resobj =jQuery.parseJSON(data);
 			    //alert(resobj.result);
-			    manageLoginResult(resobj.result);
+			    manageLoginResult(resobj);
 			}
-		); } // end of $.post --
+		);  // end of $.post --
 	}
 	
 	
-	function manageLoginResult(result){
-		if(result == true){
-			location.href = 'home.html';
-			//or to the home page.
+	function manageLoginResult(resobj){
+		if(resobj.result == true){
+			if(resobj.type == "seller")
+					location.href = 'sellerhome.html';
+			if(resobj.type == "consumer")
+					location.href = 'consumerhome.html';		
 		}
 		else{
 			showContentMain();
@@ -137,15 +141,6 @@
 		}
 	}
 	
-     function manageError(){
-
-			showContentMain();
-			$('#setformerror').append("mandatory fields empty.Please try again");
-			return(false);
-	}
-	
-		
-    
 </script>
 
 </div>

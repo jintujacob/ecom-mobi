@@ -123,11 +123,13 @@
 		        <input type="text" name="displayname" id="displayname" value="" data-mini="true" />
 		    </div>
 		
+			<!--
 		    <div data-role="fieldcontain">
 		        <label for="operatorname">Operatorname:</label>
 		        <input type="text" name="operatorname" id="operatorname" value="" data-mini="true" />
 		    </div>
-		    
+		   
+		   
 		   <div data-role="fieldcontain">
 		        <label for="email">Email:</label>
 		        <input type="text" name="email" id="email" value="" data-mini="true" />
@@ -137,7 +139,8 @@
 		        <label for="contactno">Contact no:</label>
 		        <input type="text" name="contactno" id="contactno" value="" data-mini="true" />
 		    </div>
-		    
+		   
+		   --> 
 			<div data-role="fieldcontain">
 		        <label for="address">Address:</label>
 		        <input type="text" name="address" id="address" value="" data-mini="true" />
@@ -295,13 +298,8 @@
 	}
     
     	
-//seller profile management
-//
-//
-//
-//
-//
-//
+//___________seller profile management___________________________
+
 
 $('#saveprofile').click(function () {	
 		showProfileTransition();
@@ -329,9 +327,9 @@ $('#saveprofile').click(function () {
 			var email=$("#email").val();
         	var address=$("#address").val();   
         	var zipcode=$("#zipcode").val();            
-			var contactno=$("#contactno").val();
+			//var contactno=$("#contactno").val();
 			var landmark=$("#landmark").val();	
-			if(displayname==''||operatorname==''||email==''||address==''||zipcode==''||contactno==''||landmark==''||nearcity=='')
+			if(displayname==''||operatorname==''||address==''||zipcode==''||landmark==''||nearcity=='')
 			  { alert("inside");
 			  	showProfileContentMain();
 	    		$('#setprofileformerror').append("mandatory field empty.please try again");
@@ -348,11 +346,8 @@ $('#saveprofile').click(function () {
 			    mobile : mobile,	
 				profiletype:profiletype, 	
 				displayname : displayname,
-                operatorname :operatorname,
-			    email:email,
                 address:address,
 			    zipcode:zipcode,
-			    contactno:contactno,
 			    landmark:landmark,
 			    nearcity:nearcity,
 			    latitude:latitude,
