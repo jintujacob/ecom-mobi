@@ -117,6 +117,17 @@ function doAddKeywordsDB($product_id, $keyword){
 	return $result;
 }
 
+function dogetBasicproductInfoDB($prod_id){
+	$query="select * from product_seller where prod_id='$prod_id' LIMIT 1";
+	
+	$result=mysql_query($query);
+	return $result;
+} 
+function dogetProductConfigDB($prod_id){
+	$query="select PC.*, CC.unit from product_configuration PC LEFT JOIN config_category CC ON PC.config_name = CC.config where PC.prod_id = $prod_id;";
+	$result1=mysql_query($query);
+	return $result1;
+}
 
 
 ?>

@@ -69,8 +69,6 @@ function populateProductInfo($prod_id){
 		return $productinfo;
 		
 	}
-			
-
 }
 ?>
 

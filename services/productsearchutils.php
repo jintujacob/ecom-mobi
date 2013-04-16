@@ -42,6 +42,12 @@ if ($action == "doAddProduct"){
 	doAddProduct($name,$descripion, $category, $count, $configset);
 }
 
+if($action == "getProductConfiguration"){
+	$prod_id		= (isset( $_POST['prod_id'])) 	? $_POST['prod_id'] 	: "" ;
+	populateProductInfo($prod_id);
+}
+
+
 
 
 //------------------ utility methodes
@@ -176,3 +182,43 @@ function doAddKeywords($product_id,$keyword_list){
 		doAddKeywordsDB($product_id, $keyword_list[$i]);
 	}
 } 
+
+function populateProductInfo($prod_id){
+	$productvalue=array();
+	$productkey=array();
+	
+	$resultbasic=dogetBasicproductInfoDB($prod_id);
+	$resultconfig=dogetProductConfigDB($prod_id);
+	
+	while($row=mysql_fetch_array($resultbasic)){
+		$productkey[] = "Name" ; 		$productvalue[]=$row["name"];
+		$productkey[] = "Product id" ;		$productvalue[]=$row["prod_id"];
+		$productkey[] = "Seller" ;	$productvalue[]=$row["sellerid"];
+		$productkey[] = "Description" ;	$productvalue[]=$row["description"];
+		$productkey[] = "Category" ;	$productvalue[]=$row["category"];
+		$productkey[] = "Stock" ;		$productvalue[]=$row["count"];
+	}
+	while($row=mysql_fetch_array($resultconfig)){
+		
+		$unit = $row["unit"];
+		
+//		echo "unit : ".$row['unit']. "intval : ". $row["int_value"]. "string val : ". $row["string_value"];
+		if(strlen($unit) > 0) {
+			$configval=$row["int_value"];	}
+		else {
+			$configval=$row["string_value"]; }
+//		echo "configval : ".$configval;
+//		echo "\n";
+		$productkey[] = $row["config_name"] ;	$productvalue[]=$configval." ". $row["unit"] ;
+	}
+	
+	
+	$productarray = array();
+	for($i=0; $i< count($productkey); $i++){
+		$productarray[$productkey[$i]] =  $productvalue[$i];
+	}
+
+	echo json_encode($productarray);
+		
+}	
+

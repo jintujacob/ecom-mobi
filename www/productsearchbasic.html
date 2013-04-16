@@ -51,10 +51,9 @@
 	</div>
  
   	<div data-role="content" id="contentSellerCategory"> 
-	    
-	    <div data-role="fieldcontain" >
-		     <label for="category">category:</label>
-		     <ul  id="ulCategoryList">
+	     <label for="category">category:</label><br><br>
+	     <div style="border-left: 10px;">	   
+	        <ul  id="ulCategoryList" data-role="listview" data-filter="true">
 				<!--populate content here through ajax call @runtime-->
 			 </ul>
 	   </div>    
@@ -161,6 +160,12 @@
   	</div>
 	
 	<div data-role="content" id="contentResultList" name="contentResultList">	
+	     <div id="getProductCount">
+	    	<!-- ajax populate -->
+	     </div>
+
+
+
 	 <div id="resultContainer" >
 	 	<!-- ajax populate -->
 	 </div>
@@ -187,6 +192,7 @@
 	
 	// javascript global variable declarations:
 	var resobj_search = "" ;
+	var resobj_prodlist = "" ;
 	
 	$(document).ready(function() {
 		showPageSearchForm();
@@ -234,18 +240,11 @@
 			} ,
 		 	function(data){
 		 	    resobj_search =jQuery.parseJSON(data);
-			    showCountOfResult();
+			    populateResultList();
 			}
 		);  // end of $.post 
 	}
 	
-	function showCountOfResult(){
-		var productcount=resobj_search.length;  // using the global variable
-		showPageSearchForm();
-		$('#getProductCount').html(
-			productcount+" products matches your search"+"<a href='javascript:populateResultList()'> Click Here </a>"
-		);
-	}
 	
 	function populateResultList(){
 		  
@@ -255,16 +254,17 @@
     	 {
     	 	
     		var str = "";
-    		str += '<table><tr>';
+    		str += '<table width="95%"><tr>';
     		str += 	'<td>';
 		    str +=		'<p>' ;
 		    str +=			'<b>'+ resobj_search[i].name + '</b><br>' ;
 		    str +=			resobj_search[i].description + '<br>' ;
 		    str +=			'in Category :'+ resobj_search[i].category + '<br>' ;
 		    str +=			'in Stock :'+ resobj_search[i].count + '<br>' ;
+		    str +=			'Seller : '+ resobj_search[i].sellerid  + '<br>' ;
 		    str +=		'</p>' ;
-	    	str +=   '</td><td width="50">' ;
-    		str +=    	'<a href="javascript:populateSoloProductInfo('+i+');"> Click Here </a>';
+	    	str +=   '</td><tr><td>' ;
+    		str +=    	'<a href="javascript:getProductConfig('+i+');"> View Product </a><hr>';
     		str +=   '</td>' ;
     		str += '</tr></table>  <br><br>';
     		
@@ -272,44 +272,37 @@
     	 }
     }
     
-	/*    
- 	* 
- 	function getSoloProductInfo(prod_id) 
+
+ 	function getProductConfig(i) 
  	{
-		var serviceurl = '../services/productsearchutils.php' ;
-		var prod_id=$("#products").val();
+ 		var serviceurl = '../services/productsearchutils.php' ;
+		
 		$.post(
 			serviceurl ,
 			{ 	
-			    prod_id: prod_id,
-				action:'getSoloProduct'	
+			    prod_id: resobj_search[i].prod_no,
+				action:'getProductConfiguration'	
 			} ,
 		 	function(data){
-			    var resobj =jQuery.parseJSON(data);
+		 		var resobj =jQuery.parseJSON(data);
 			    populateSoloProductInfo(resobj);
 			}
 		);  // end of $.post --
 
 	}
-	*/   
     
-    function populateSoloProductInfo(i) 
-    {  	// i contains the iterator value;
-    	// using resobj_search since all the search result is available there;
+    function populateSoloProductInfo(resobj) 
+    {  	
     	var str = "";
     		str += '<table>';
-    		str += '<tr>';
-    		str += 	 '<td>Product</td> 		<td>:</td>	<td><b>'+ resobj_search[i].name + '</b></td>' ;
-    		str += '</tr><tr>';
-    		str += 	 '<td>Description</td> 	<td>:</td>	<td><b>'+ resobj_search[i].description + '</b></td>' ;
-    		str += '</tr><tr>';
-			str += 	 '<td>Category</td> 	<td>:</td>	<td><b>'+ resobj_search[i].category + '</b></td>' ;
-			str += '</tr><tr>';
-			str += 	 '<td>Stock</td> 		<td>:</td>	<td><b>'+ resobj_search[i].count + '</b></td>' ;
-			str += '</tr><tr>';		
-			str += 	 '<td>Seller</td> 		<td>:</td>	<td><b>'+ resobj_search[i].sellerid + '</b></td>' ;
-			str += '</tr><tr>';	
-			str +=	 "<td><br><a href='javascript:getSellerProfileInfo(\""+resobj_search[i].sellerid+"\");'> Profile </a><br></td>"
+    		
+		for (var propName in resobj) {
+			//  console.log("Iterating through prop with name", propName, " its value is ", resobj[propName])
+			str += '<tr>';		
+			str += 	 '<td>'+propName+'</td> 		<td>:</td>	<td><b>'+ resobj[propName] + '</b></td>' ;
+			str += '</tr>';	
+		}			
+			str +=	 "<tr><td><br><a href='javascript:getSellerProfileInfo(\""+resobj.Seller+"\");'> Seller Profile > </a><br></td>"
 			str += '</tr>';    
 		    str += '</table> ';
 		$('#contentSoloProductInfo').html("");   
@@ -348,7 +341,7 @@
     			str +=	'</table>';
     			
     			str +=	'<div>';
-    			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> Categories  </a><br>" ;
+    			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> View Store  </a><br>" ;
     			str +=	'</div>';
     			
      	 $('#contentProfileInfo').html("");
@@ -375,7 +368,7 @@
     
     function populateSellerCategoryList(resobj, sellerid) 
     {
-		$('#ulCategoryList').html("");
+		$('#ulCategoryList').html("<li> </li>");
     	showPageSellerCategoryList();
     	for(i=0;i<resobj.length;i++)
     	{
