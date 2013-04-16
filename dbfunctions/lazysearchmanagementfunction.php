@@ -6,7 +6,6 @@ include("connection.php");
 
 
 function getProductListDB($data  ){
-	
 	$count=count($data);
 	$querystart ="select * from product_seller where prod_Id in( SELECT distinct product_id FROM keyword_searchengine where";
 			
@@ -28,7 +27,14 @@ function getProductListDB($data  ){
 	return $result;
 }
 
-
+function getItemsUnderCategoryByKeyDB($category, $key){
+	
+	$query ="select * from product_seller where category='$category' and prod_Id in( SELECT distinct product_id FROM keyword_searchengine where keyword like '%$key%') ";
+	//echo $query;
+	$result = mysql_query($query);
+	
+	return $result;
+}
 
 
 

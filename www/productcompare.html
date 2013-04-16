@@ -1,68 +1,72 @@
 <html> 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
     
     <title>Consumer Assistant</title> 
     <link rel="stylesheet"  href="css/style.css" /> 
-    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" />  
+    <link rel="stylesheet"  href="css/jquery.mobile-1.2.0.css" /> 
+  	<link rel="stylesheet"  href="css/jquery-ui.min.css" /> 
 </head>
 
 <body> 
 
-<div data-role="page" id="loginconsumer">
+<div data-role="page" id="pageProductCompare">
  
-	<div data-role="header" data-position="fixed" id="hdrMain">
+	<div data-role="header" data-position="fixed" id="hdrForm">
     	<div class="headerlogo"> </div>
 		<div class="headertext">
-		   Login
+		   Compare Products
 		</div>
 		<div data-role="controlgroup" data-type="horizontal" style="float:right;" >
-		    <a href="home.html" rel="external" data-role="button" >Home</a>
-			<a href="landing.html" data-role="button" >Back</a>
+		    <a href="#" rel="external" data-role="button" >Home</a>
+			<a href="#" data-role="button" >Back</a>
 		</div>
   	</div>
  
-  	<div data-role="content" id="contentMain"> 
-	    <p> 
-	        Login here to access get access to all the functionalities in the app.
-	        If you are new to here click the<a rel="external" href="registerConsumer.html"> register </a>here to start.
-	    </p>
-	    
-		<span id="setloginerror" style="color:red;">
-			<!-- js populate --> 
-		</span>
-			
-	    <form name="loginform">
-	        <div data-role="fieldcontain">
-		        <label for="username">Username:</label>
-		        <input type="text" name="username" id="username" data-mini="true" />
-		    </div>
-		
-		    <div data-role="fieldcontain">
-		        <label for="password">Password:</label>
-		        <input type="password" name="password" id="password"  data-mini="true" />
-		    </div>
-		    <span id="setformerror" style="color:red;">
-			<!-- js populate --> 
-		 </span>
+ 	<div data-role="content" id="contentCategory">
+ 		<br>
+ 		Pick a category to start
+ 		<br>
+ 		<select id="categorylist">
+			<option value="0"></option>
+			<!--  ajax populate -->	 			
+ 		</select>
+ 		<br>
+ 		<button id="buttonNext" data-theme="e" data-mini="true">  Next  </button>
+ 	</div>	
 
-		
-		   	<div class="ui-body">
-				<fieldset class="ui-grid-a">
-					<div class="ui-block-a">
-						<!--<input type="submit"  value = "Login" data-theme="e" data-mini="true" />-->  
-						<button id="logmein" data-theme="e" data-mini="true">  Login  </button>
-					</div>
-			    </fieldset>
-			</div>
-	    </form> 
+  	<div data-role="content" id="contentForm">
+		Select the items to compare <br><br>
+        
+        <input type="text" name="itemone" id="itemone" data-mini="true" /><br>
+        <input type="text" name="itemtwo" id="itemtwo" data-mini="true" /><br>
+        <input type="text" name="itemthree" id="itemthree" data-mini="true" /><br>
+    
+	    <span id="setformerror" style="color:red;">	<!-- js populate --> 	</span>
+	
+	   	<div class="ui-body">
+			<fieldset class="ui-grid-a">
+				<div class="ui-block-a">
+					<button id="buttonCompare" data-theme="e" data-mini="true">  Compare  </button>
+				</div>
+		    </fieldset>
+		</div>
 	</div>
 	
-  	<div data-role="footer" id="ftrMain">
+	<div data-role="content" id="contentResultsBasic">
+		Comaprison results		
+		<div id="comparisonResult">
+			
+		</div>
+		
+	</div>
+
+  	<div data-role="footer" id="ftrForm">
     	<h2></h2>
   	</div>
 	
+
 	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentTransition" name="contentTransition">	
 	 <div align="CENTER"><h4>Please wait.</h4></div>
@@ -72,72 +76,195 @@
   
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
-
+<script src="js/jquery-1.9.1.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
 <script type="text/javascript">
-	var error=true;
-	$(document).ready(function() {
-		showContentMain();
-	});
-
-	$('#logmein').click(function () {	
-		showTransition();
-		doProcessInputs();
-		
-		return(false);	// ! mandatory
-	});
-
-	function showContentMain(){
-		$('#hdrMain').show();
-		$('#contentMain').show();
-		$('#ftrMain').show();
-		$('#contentTransition').hide();
-	}
 	
-	function showTransition(){
-		$('#contentTransition').show();
-		$('#contentMain').hide();
-		$('#hdrMain').hide();
-		$('#ftrMain').hide();
-	}
+	$(document).ready(function() {
+		populateCategoryListPage();
+	});
 
-	function doProcessInputs()
-	{
-		var username=$("#username").val();
-		var password=$("#password").val();
-		if (username ==''||password=='') {
-		 	$('#setloginerror').append("mandatory fields empty.Please try again");
-			return(false);
-		} 
-		
-		var serviceurl = '../services/accesscontrolaction.php' ;
-		
+	$('#buttonNext').click(function(){ 
+		var category = $('#categorylist').val();
+		populateProductCompareFormPage(category);
+	});
+	
+	$('#buttonCompare').click(function(){
+		var prod1 = $('#itemone').val().split(".");
+		var prod2 = $('#itemtwo').val().split(".");
+		var prod3 = $('#itemthree').val().split(".");
+	
+		var productlist = prod1[1] + "|" + prod2[1] + "|" + prod3[1] ;
+		getComparisonResult(productlist);
+	});
+	
+	function populateCategoryListPage(){
+		showPageTransition();
+		var serviceurl = '../services/productsearchutils.php' ;
 		$.post(
 			serviceurl ,
-			{ 	username:username, 	password:password, 
-				action:'doLogin'  	
+			{ 	 
+				action:'getAllCategoryList'  	
 			} ,
 		 	function(data){
-		 		alert(data);
-			    var resobj =jQuery.parseJSON(data);
-			    //alert(resobj.result);
-			    manageLoginResult(resobj);
+		 		categoryList =jQuery.parseJSON(data);
+		 	    showPageCategory();
+		 	    for(i=0;i<categoryList.length;i++){
+		 	    	$('#categorylist').append(
+						"<option value='" + categoryList[i].category + " ' >" + 
+							categoryList[i].category + 
+						"</option>"
+					);
+			   	}
+			}
+		);  // end of $.post --
+	}
+		
+	function populateProductCompareFormPage(category){
+		showPageForm();
+		var serviceurl = '../services/lazysearchaction.php' ;
+		var params = '?action=getProdListByKey&category='+category;
+		var target = serviceurl+params; 
+		 
+		$('#itemone').autocomplete({
+			source: target,
+			minLength: 1
+		});				
+	
+		$('#itemtwo').autocomplete({
+			source: target,
+			minLength: 1
+		});			
+		
+		$('#itemthree').autocomplete({
+			source: target,
+			minLength: 1
+		});		
+	}	
+
+
+	function getComparisonResult(productlist)
+	{
+		var serviceurl = '../services/productsearchutils.php' ;
+		$.post(
+			serviceurl ,
+			{ 	  action: 'compareProductList',
+				  productlist: productlist,
+			} ,
+		 	function(data){
+		 		var resobj =jQuery.parseJSON(data);
+				populateComparisonResult(resobj);    
 			}
 		);  // end of $.post --
 	}
 	
-	
-	function manageLoginResult(resobj){
-		if(resobj.result == true){
-			if(resobj.type == "seller")
-					location.href = 'sellerhome.html';
-			if(resobj.type == "consumer")
-					location.href = 'consumerhome.html';		
+	function populateComparisonResult(resobj)
+	{
+		var labels = [];
+		var product1 = [];
+		var product2 = [];
+		var product3 = []; 
+		
+		for(var i=0; i<resobj.length; i++){
+			obj = resobj[i];	
+			for (var propName in obj ) {
+				if(i==0) {	
+					labels.push(propName);
+					product1.push(obj[propName]); 	
+				}
+				else if(i==1){
+					product2.push(obj[propName]);
+				}
+				else if(i==2){
+					product3.push(obj[propName]);
+				}
+			}
 		}
-		else{
-			showContentMain();
-			$('#setloginerror').append("invalid username / password. Please try again");
+		
+		var str = "<table width='100%' border='1'>";
+		for(var i=0; i<labels.length ; i++){
+			str += "<tr>";
+			str += 		"<td>"+labels[i]+"</td>";
+			str += 		"<td>"+product1[i]+"</td>";
+			str += 		"<td>"+product2[i]+"</td>";
+			str += 		"<td>"+product3[i]+"</td>";
+			str += "</tr>";
 		}
+		str += "</table>";	
+		
+		
+		showPageResultsBasic();
+		$('#comparisonResult').html(str);
+					
 	}
+	
+	function showPageTransition(){
+		hideContentForm();
+		hideContentCategory();
+		hidecontentResultsBasic();
+		$('#contentTransition').show();
+	}
+
+	function showPageForm(){
+		hideContentCategory();
+		hidecontentResultsBasic();
+		$('#contentTransition').hide();
+		showContentForm();
+	}
+	
+	function showPageCategory(){
+		hideContentForm();
+		$('#contentTransition').hide();
+		hidecontentResultsBasic();
+		showContentCategory();
+	}
+	
+	function showPageResultsBasic(){
+		hideContentCategory();
+		$('#contentTransition').hide();
+		hideContentForm();
+		showcontentResultsBasic();
+	}
+
+	function hideContentForm(){
+		$('#contentForm').hide();
+		$('#hdrForm').hide();
+		$('#ftrForm').hide();
+	}
+	
+	function showContentForm(){
+	//	$('#hdrForm').show();
+		$('#contentForm').show();
+	//	$('#ftrForm').show();	
+	}
+	
+	function showContentCategory(){
+		$('#hdrForm').show();
+		$('#contentCategory').show();
+		$('#ftrForm').show();	
+	}
+	function hideContentCategory(){
+	//	$('#hdrForm').hide();
+		$('#contentCategory').hide();
+	//	$('#ftrForm').hide();	
+	}
+	
+	function hidecontentResultsBasic(){
+		$('#contentResultsBasic').hide();
+	//	$('#hdrForm').hide();
+	//	$('#ftrForm').hide();
+	}
+	
+	function showcontentResultsBasic(){
+	//	$('#hdrForm').show();
+		$('#contentResultsBasic').show();
+	//	$('#ftrForm').show();	
+	}
+	
+	
+	
+
+	
 	
 </script>
 

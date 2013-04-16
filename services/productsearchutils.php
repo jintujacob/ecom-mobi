@@ -47,14 +47,13 @@ if($action == "getProductConfiguration"){
 	populateProductInfo($prod_id);
 }
 
-
-
+if($action=="compareProductList"){
+	$products=$_POST['productlist'];
+	//$products=$_GET['productlist'];
+    doPopulateComparisonResult($products);		
+}	
 
 //------------------ utility methodes
-
-	
-	
-
 
 function getAllCategoryList() {
 	$result = getAllCategoryListDB();
@@ -184,6 +183,11 @@ function doAddKeywords($product_id,$keyword_list){
 } 
 
 function populateProductInfo($prod_id){
+	$return_array = getProductInfoComplete($prod_id);
+	echo json_encode($return_array);
+}
+
+function getProductInfoComplete($prod_id){
 	$productvalue=array();
 	$productkey=array();
 	
@@ -199,26 +203,32 @@ function populateProductInfo($prod_id){
 		$productkey[] = "Stock" ;		$productvalue[]=$row["count"];
 	}
 	while($row=mysql_fetch_array($resultconfig)){
-		
 		$unit = $row["unit"];
-		
-//		echo "unit : ".$row['unit']. "intval : ". $row["int_value"]. "string val : ". $row["string_value"];
 		if(strlen($unit) > 0) {
 			$configval=$row["int_value"];	}
 		else {
 			$configval=$row["string_value"]; }
-//		echo "configval : ".$configval;
-//		echo "\n";
 		$productkey[] = $row["config_name"] ;	$productvalue[]=$configval." ". $row["unit"] ;
 	}
-	
-	
+
 	$productarray = array();
 	for($i=0; $i< count($productkey); $i++){
 		$productarray[$productkey[$i]] =  $productvalue[$i];
 	}
 
-	echo json_encode($productarray);
-		
+	return $productarray;
 }	
 
+function doPopulateComparisonResult($products){
+	//print_r($products);
+	$productlist=explode("|",$products);
+	$master_array = array();
+	for ($i=0; $i <count($productlist); $i++) {
+		$singleproduct=getProductInfoComplete($productlist[$i]) ; 
+	    array_push($master_array, $singleproduct);
+	}
+	echo json_encode($master_array);
+}
+
+
+?>

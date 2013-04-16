@@ -5,6 +5,7 @@ ini_set("display_errors", 1);
 include('../dbfunctions/lazysearchmanagementfunction.php');
 
 $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
+$action_get = (isset( $_GET['action'])) 	? $_GET['action'] 	: "" ;
 
 if($action == "searchproduct")
 {
@@ -12,20 +13,28 @@ if($action == "searchproduct")
 	$data = explode(" ",$searchkey);
 	getProductList($data);
 }
-
-
-function setUIContentNavigator($pagecontent){
-	//pagecontent should be either "product" | "seller"
-	//set to session
-	$_SESSION['content_navigator'] = $pagecontent;
+if($action_get == "getProdListByKey"){
+	
+	$category 	= (isset( $_GET['category'])) 	? $_GET['category'] 	: "" ;
+	$term 		= (isset( $_GET['term'])) 		? $_GET['term'] 		: "" ;
+	
+	getItemsUnderCategoryByKey($category, $term);
 }
 
-function getUIContentNavigator(){
-	echo json_encode(array("content_navigator"=>$_SESSION['content_navigator']));
+function getItemsUnderCategoryByKey($category, $term){
+	$result = getItemsUnderCategoryByKeyDB($category, $term);
+		
+	$return_array = array();
+	while($row = mysql_fetch_array($result)){	
+		$return_array[] = $row['name']."  .".$row['prod_id']."" ;
+	}
+	
+	echo json_encode($return_array);
 }
 
- function getProductList($data)
- {
+
+function getProductList($data)
+{
     $result= getProductListDB($data);
 	$list_array = array();
 	while($row = mysql_fetch_array($result)){	
