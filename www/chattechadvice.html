@@ -23,28 +23,6 @@
 		</div>
 	</div>
   	
-  	<div data-role="content" id="contentOnlineSellers"> 
-	    Sellers available online are :
-	     
-       	<table id="sellersOnline">
-       		<tr>
-       			<td> 
-       				<a id="sellernametest" > name1 </a> 
-       			</td>
-       			<td> firm1 </td>
-       		</tr>
-       		<tr>
-       			<td>name</td>
-       			<td>firm2 </td>
-       		</tr>
-   		</table>
-	</div>  
-	
-	<div data-role="footer" id="ftrOnlineSellers">
-		<h2>hello</h2>
-  	</div>
-
-
  	
  	<!-- ------------------chat box hdr, content & ftr ------------------------->
  	<div data-role="header" data-position="fixed" id="hdrChatBox">
@@ -87,40 +65,104 @@
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
 <script type="text/javascript">
-	
 	$(document).ready(function() {
-		showPageOnlineSellers();
-	});
-	
-	$('#sellernametest').click(function () {	
 		showPageChatBox();
+		setInterval("getUnreadMessages()",10000);
 	});
+
+	$('#submitchat').click(function () {		
+		manageUnreadMessages();
+		return false;
+	});	
 	
-	$('#backChatBox').click(function (){
-		showPageOnlineSellers();
-	});
-	
-	function showPageOnlineSellers(){
-		hideContentChatBox();
-		showContentOnlineSellers();
+	function manageUnreadMessages(){
+		var message = $('textarea[name=chatmessage]').val();
+		$('.loading').show();
+		var serviceurl = '../services/chataction.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    message : message,             
+				action:'doAddMessage'	
+			} ,
+		 	function(data){
+		 		showUnreadMessage("me", message, "" );
+				$('textarea[name=chatmessage]').val(null);
+			}
+		);  // end of $.post
+	}	
+
+	function getUnreadMessages(){
+		var serviceurl = '../services/chataction.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    action:'getUnreadMessages'	
+			} ,
+		 	function(data){
+		 	    resObj =jQuery.parseJSON(data);
+   				for(var i = 0; i < resObj.length; i++){
+					showUnreadMessage(resObj[i].sender, resObj[i].message, resObj[i].time);
+				}
+			}
+		);  // end of $.post
 	}
 	
-	function showPageChatBox(){
-		hideContentOnlineSellers();
-		showContentChatBox();
+	function showUnreadMessage(sender, message, time ){
+		$('#chathistory tr:last').after(
+			'<tr>'+
+				'<td><b>'+ sender  + ':</b></td>' +
+				'<td>'+ message + '</td>'	+
+			'</tr>'
+		);
 	}
+			
 	
-		function showContentOnlineSellers()	{
-			$('#hdrOnlineSellers').show();
-			$('#contentOnlineSellers').show();
-			$('#ftrOnlineSellers').show();
-		}
-		function hideContentOnlineSellers()	{
-			$('#hdrOnlineSellers').hide();
-			$('#contentOnlineSellers').hide();
-			$('#ftrOnlineSellers').hide();
-		}
+	
+	/*
+	$('#getonlinesellerlist').click(function () {		
+		var data = 	'action=' + 'viewOnlineAdmins' ;
+	
+		$.ajax({
+			url: "./actionhandler/chataction.php",	
+			type: "GET",
+			data: data,		
+			success: function (result) {				
+				var resObj = jQuery.parseJSON(result);
+				for(var i = 0; i < resObj.length; i++){
+					showOnlineUsers(resObj[i].username);
+				}
+			}		
+		});
+	});
+	
+	function showOnlineUsers(username){
+		$('#onlinesellerslist').append(
+			'<div><a href="#chattechadvice">' + 
+				username +
+			'</a></div>'
+		);	
+	}
+
+	*/
+	
+
+
+
+	
+	
+	
 		
+	function showPageChatBox(){
+		//showContentChatBox();
+		$('#ftrChatBox').show();
+		$('#contentChatBox').show();
+		$('#hdrChatBox').show();
+	}
+	
+	
+	
+		/*
 		function hideContentChatBox(){
 			$('#ftrChatBox').hide();
 			$('#contentChatBox').hide();
@@ -131,9 +173,7 @@
 			$('#contentChatBox').show();
 			$('#hdrChatBox').show();
 		}
-
-/*
-*/	
+		*/	
 
     
 </script>

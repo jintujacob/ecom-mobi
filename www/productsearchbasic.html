@@ -25,9 +25,7 @@
 	</div>
  
   	<div data-role="content" id="contentProfileInfo"> 
-	    
-	    
-	    
+  		<div id="chatAvailabilityMessage"> </div>
   	</div>
   
   	<div data-role="footer" id="ftrProfileInfo">
@@ -163,12 +161,9 @@
 	     <div id="getProductCount">
 	    	<!-- ajax populate -->
 	     </div>
-
-
-
-	 <div id="resultContainer" >
-	 	<!-- ajax populate -->
-	 </div>
+		 <div id="resultContainer" >
+		 	<!-- ajax populate -->
+		 </div>
 	</div>
 	
 	<div data-role="footer" id="ftrLazySearch">
@@ -176,12 +171,46 @@
 	</div>
 	<!--for populating lazy search form--> 
  
- 
 	<!-- contentTransition is displayed after the form is submitted until a response is received back. -->
 	<div data-role="content" id="contentTransition" name="contentTransition">	
 	 <div align="CENTER"><h4>Please wait.</h4></div>
 	 <div align="CENTER"><img id="spin" name="spin" src="css/images/ajax-loader.gif"/></div>
 	</div><!-- contentTransition -->
+
+	 	
+	<!--for populating technical advice landing page-->
+ 	<div data-role="header" data-position="fixed" id="hdrTechAdvice">
+	    <div class="headerlogo"> </div>
+	    <div class="headertext">
+	      Get Technical Advice
+	    </div>
+	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+	        <a href="index.html" data-role="button" >Home</a>
+			<a href="viewitemlist.html" data-role="button" >Back</a>
+		</div>
+  	</div>
+ 
+  	<div data-role="content" id="contentTechAdvice"> 
+	  	<br />
+	  	<div id="buttonChat">
+	    	<a href="chattechadvice.html" rel="external" data-role="button" data-theme="a" > Chat with experts </a>
+	    </div><br />
+	    
+	    <div id="divChatAvailability"> <!--  ajax populate--> </div>
+	    
+	    <div id="buttonEmail">
+	    	<a href="emailtechadvice.html" rel="external" data-role="button" data-theme="a" > Send an Email </a>
+	    </div>	
+	    <br />
+  	</div>
+  
+  	<!--
+	<div data-role="footer" id="ftrTechAdvice">
+	   	<h1>footer</h1>
+	</div>
+	-->
+
+
 	
 </div>	
 
@@ -344,6 +373,10 @@
     			str +=	  "<br><a href='javascript:getSellerCategoryList(\""+resobj[0].seller_id+"\");'> View Store  </a><br>" ;
     			str +=	'</div>';
     			
+    			str +=	'<div>';
+    			str +=	  "<br><a href='javascript:sendChatRequestforSeller(\""+resobj[0].seller_id+"\");'> Chat with Seller  </a><br>" ;
+    			str +=	'</div>';
+    			
      	 $('#contentProfileInfo').html("");
     	 showPageProfileInfo();
      	 $('#contentProfileInfo').append(str);
@@ -365,6 +398,31 @@
 			}
 		);  // end of $.post --
 	}
+	
+	function sendChatRequestforSeller(seller){
+		showPageTransition();
+		var serviceurl = '../services/chataction.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:seller,
+				action:'checkSellerAvailability'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateTechAdviceHome(resobj);
+			}
+		);  // end of $.post --
+	}
+	
+	function populateTechAdviceHome(resobj){
+		if (resobj.status == "offline"){
+			$('#buttonChat').hide();
+			$('#divChatAvailability').html("<br> <b>Seller not available online for Chat</b><br><br>");
+		}
+		showPageTechAdvice();
+	}
+	
     
     function populateSellerCategoryList(resobj, sellerid) 
     {
@@ -417,6 +475,7 @@
 		hideSellerCategory();
 		hideProfileInfo();
 		hideProductUnderCategory();
+		hideTechAdviceHome();
 		$('#contentTransition').show();
 	}
 	
@@ -428,6 +487,7 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		hideTechAdviceHome();
 		showSearchProductForm();
 	}
 	
@@ -439,6 +499,7 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		hideTechAdviceHome();
 		showSearchResultList();
 	}	
 	
@@ -450,6 +511,7 @@
 		$('#contentTransition').hide();
 		hideSellerCategory();		
 		hideProductUnderCategory();
+		hideTechAdviceHome();
 		showProfileInfo();
 	}
 	
@@ -461,6 +523,7 @@
 		$('#contentTransition').hide();
 		hideProfileInfo();
 		hideProductUnderCategory();
+		hideTechAdviceHome();
 		showSellerCategory();
 	}
 	
@@ -472,6 +535,7 @@
 		$('#contentTransition').hide();
 		hideSellerCategory();
 		hideProfileInfo();
+		hideTechAdviceHome();
 		showProductUnderCategory();
 	}
 	
@@ -483,10 +547,23 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		hideTechAdviceHome();
 		showSoloProductInfo();
 	}
-
 	
+	function showPageTechAdvice()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').hide();
+		showTechAdviceHome();
+	}
+	
+		
 	
 	function hideSoloProductInfo(){
 			$('#hdrSoloProductInfo').hide();	
@@ -548,11 +625,22 @@
 		$('#contentResultList').hide();
 		$('#ftrLazySearch').hide();
 	}
-	function showSearchResultList(){
-			$('#hdrLazySearch').show();
-			$('#contentResultList').show();
-			$('#ftrLazySearch').show();
+		function showSearchResultList(){
+				$('#hdrLazySearch').show();
+				$('#contentResultList').show();
+				$('#ftrLazySearch').show();
+		}
+	
+	function hideTechAdviceHome(){
+		$('#hdrTechAdvice').hide();
+		$('#contentTechAdvice').hide();
+		$('#ftrTechAdvice').hide();
 	}
+		function showTechAdviceHome(){
+			$('#hdrTechAdvice').show();
+			$('#contentTechAdvice').show();
+			$('#ftrTechAdvice').show();
+		}
 
 
 

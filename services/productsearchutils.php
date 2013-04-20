@@ -224,8 +224,13 @@ function doPopulateComparisonResult($products){
 	$productlist=explode("|",$products);
 	$master_array = array();
 	for ($i=0; $i <count($productlist); $i++) {
-		$singleproduct=getProductInfoComplete($productlist[$i]) ; 
-	    array_push($master_array, $singleproduct);
+		if (is_numeric($productlist[$i])){ 
+			$singleproduct=getProductInfoComplete($productlist[$i]) ; 
+	    	array_push($master_array, $singleproduct);
+		}
+		else{
+			array_push($master_array, array("Name" => "Invalid Item"));
+		}	
 	}
 	echo json_encode($master_array);
 }

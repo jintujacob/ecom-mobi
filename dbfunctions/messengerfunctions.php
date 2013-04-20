@@ -4,12 +4,12 @@ ini_set("display_errors", 1);
 include("connection.php");
  
 
-function getUnreadMessagesDB($sender, $recipient)
+function getUnreadMessagesDB($sessionuser, $sender )
 {
 	$readflag = "n";
 	$query =  " select * from chatbox ".
-			  " where sender = '". $sender ."'"	.
-			  	" and 	recipient = '". $recipient ."'"	.
+			  " where recipient = '". $sessionuser ."'"	.
+			  	" and sender = '". $sender ."'"	.	
 			  	" and 	readflag = '". $readflag ."'" ;
 			  
 	$rs_messages = mysql_query($query);
@@ -48,6 +48,13 @@ function doAddMessageDB($sender, $recipient, $message){
 	echo $query ;
 	$result = mysql_query($query);		 
 }
+
+function checkSellerAvailabilityDB($seller){
+	$query =  " select user_id from active_sessions where user_id='$seller'" ;
+	$result = mysql_query($query);
+	return $result;
+}
+
 
 function viewOnlineSellersDB()
 {
