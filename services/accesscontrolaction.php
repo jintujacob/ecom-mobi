@@ -19,7 +19,14 @@ if($action == "doLogin")
 elseif($action == "doLogOff") 
 {
 	doLogOffUser($username);
-		
+}
+
+
+elseif($action == "doRateSeller") 
+{
+	$rating 	= (isset( $_POST['rating'])) 	? $_POST['rating']: "" ;
+	$seller 	= (isset( $_POST['seller'])) 	? $_POST['seller']: "" ;
+	doAddRatingForSeller($seller, $rating );
 }
 
 elseif($action == "registerConsumer")
@@ -36,7 +43,6 @@ elseif($action == "registerConsumer")
 	
 	//order of array elements is mandatory
 	doRegisterConsumer($data, $profiletype);
-	
 }
 
 elseif($action == "registerSeller")
@@ -63,8 +69,6 @@ elseif($action == "registerSeller")
 	$dataprofile = array( $displayname, $username, $email ,$address, $zipcode, $mobile, $landmark, $nearcity, $latitude, $longitude);
 
 	doRegisterSeller($data,$dataprofile, $profiletype);
-		
-
 }
 
 
@@ -170,9 +174,7 @@ if($action == "getProfileInfo"){
 	getSellerProfile($seller);
 }
 
-
- 
- function getSellerProfile($seller){
+function getSellerProfile($seller){
  	$result = getSellerProfileDB($seller);
 	$list_array = array();
 	while($row = mysql_fetch_array($result)){	
@@ -190,6 +192,15 @@ if($action == "getProfileInfo"){
 	}
 	echo json_encode($list_array);
  }
+
+function doAddRatingForSeller($seller, $rating ){
+	$result = updateRatingForSellerDB($seller, $rating);
+	if($result != 1)
+		echo json_encode(array("result"=>FALSE));
+	else
+		echo json_encode(array("result"=>TRUE));
+}
+
 
 /*	TEST CONSIDERATIONS :
  *  ---------------------

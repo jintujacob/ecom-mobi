@@ -12,15 +12,16 @@ $action 	= (isset( $_POST['action'])) 	? $_POST['action'] 	: "" ;
 
 if($action == "getUnreadMessages")
 {	
-	$sessionuser = $_SESSION['username'];	
-	$chattingwith = (isset( $_SESSION['chattingwith'])) 	? $_SESSION['chattingwith']	: "" ;
+	$sender 	= (isset( $_POST['sender'])) 	? $_POST['sender'] 	: "" ;
+	$reciever	= $_SESSION['username'];	
 	getUnreadMessages($sessionuser, $chattingwith);
 }
 
 if($action == "doAddMessage")
 {
 	$message 	= (isset( $_POST['message'])) 	? $_POST['message'] 	: "" ;
-	$chattingwith = (isset( $_SESSION['chattingwith'])) 	? $_SESSION['chattingwith']	: "" ;
+	$reciever 	= (isset( $_POST['reciever'])) 	? $_POST['reciever'] 	: "" ;
+	$sender		= $_SESSION['username'];
 	doAddMessageDB($sessionuser, $chattingwith, $message);
 }
 
@@ -43,7 +44,7 @@ function doCheckSellerAvailability($seller){
 	$count=mysql_num_rows($result);
 	
 	if($count > 0 ){
-		$_SESSION['chattingwith'] = $seller;
+		//$_SESSION['chattingwith'] = $seller;
 		echo json_encode(array("status"=> "online"));
 	}
 	else{

@@ -6,9 +6,7 @@ include("connection.php");
 
 
 function doValidateLoginDB($usr, $pass){
-	$sql=" SELECT * FROM login ".
-		 " 	 WHERE username ='".$usr."' ".
-		 " 	 and password ='".$pass."'" ;
+	$sql=" SELECT * FROM login WHERE username ='$usr' and password ='$pass' " ;
 	  // " 	 and type ='".$type."'" ; 
 		 
 	$result=mysql_query($sql);
@@ -18,14 +16,7 @@ function doValidateLoginDB($usr, $pass){
 
 function doAddToLoginDB($usr, $pass, $profiletype)
 {
-	$query ="insert into login ".
-			"(	username, 
- 				password,
- 				type
- 			 )values ( '".
-				$usr 	."', '".
-				$pass 	."', '".
-				$profiletype	."') " ;
+	$query ="insert into login ( username,password,	type )values ( '$usr', '$pass', '$profiletype') " ;
 			//echo $query;	
 	$resaddlog = mysql_query($query);
 	return true;		 
@@ -39,10 +30,7 @@ function doAddUserSessionDB($username,$type)
  				user_id, 
  				login_time,
  				user_type 
- 			) values ( '".
-				$username 	."', ".
-				$time		." , '".
-				$type       ."') " ;	
+ 			) values ( '$username', $time, '$type') " ;	
 	$result = mysql_query($query);		 
 }
 
@@ -54,11 +42,7 @@ function doRegisterConsumerDB($data)
  				name,
  				email,
  				mobile
- 				)values ( '".
-				$data[0] 	."', '".
-				$data[2] 	."', '".
-				$data[3] 	."', '".
-				$data[4] 	."') " ;			
+ 				)values ( '$data[0]', '$data[2]', '$data[3]', '$data[4]') " ;			
 	$resregcon = mysql_query($query);		
 	return true;
 	//return $resregcon; 
@@ -72,11 +56,7 @@ function doRegisterSellerDB($data)
  				name,
  				email,
  				mobile
- 				) values ( '".
-				$data[0] 	."', '".
-				$data[2] 	."', '".
-				$data[3] 	."', '".
-				$data[4]  	."') " ;
+ 				) values ( '$data[0]', '$data[2]', '$data[3]', '$data[4]') " ;
 	$resregsel = mysql_query($query);		 
 	return true;
 }
@@ -94,17 +74,7 @@ $query ="insert into sellerprofile ".
 				near_city     ,
 				latitude      ,
 				longitude 
- 			 )values ( '".
-				$data[0] 	."', '".
-				$data[1] 	."', '".
-				$data[2] 	."', '".
-				$data[3] 	."', '".
-				$data[4] 	."', '".
-				$data[5] 	."', '".
-				$data[6] 	."', '".
-				$data[7] 	."', '".
-				$data[8] 	."', '".
-				$data[9] 	."') " ;
+ 			 )values ( '$data[0]', '$data[1]', '$data[2]', '$data[3]', '$data[4]', '$data[5]', '$data[6]', '$data[7]', '$data[8]', '$data[9]' ) " ;
 
 	$result = mysql_query($query);
 	return true;		 	
@@ -116,5 +86,10 @@ function getSellerProfileDB($seller){
 	return $result;
 }
 
+function updateRatingForSellerDB($seller, $rating){
+	$query =   "update sellerprofile set sum_of_stars=sum_of_stars+$rating, no_of_ratings=no_of_ratings + 1 where seller_id='$seller'" ;
+	$result = mysql_query($query);
+	return $result;
+}
 
 ?>

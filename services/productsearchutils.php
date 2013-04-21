@@ -51,7 +51,9 @@ if($action=="compareProductList"){
 	$products=$_POST['productlist'];
 	//$products=$_GET['productlist'];
     doPopulateComparisonResult($products);		
-}	
+}
+
+	
 
 //------------------ utility methodes
 

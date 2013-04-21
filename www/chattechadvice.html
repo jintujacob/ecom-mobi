@@ -65,8 +65,11 @@
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
 <script type="text/javascript">
+	var reciever = "";	//global
 	$(document).ready(function() {
+		reciever = $_GET('seller');
 		showPageChatBox();
+		
 		setInterval("getUnreadMessages()",10000);
 	});
 
@@ -74,7 +77,19 @@
 		manageUnreadMessages();
 		return false;
 	});	
-	
+
+	function $_GET(varName)
+	{
+		varName = varName.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+		var regexS = "[\\?&]" + varName + "=([^&#]*)";
+		var regex = new RegExp( regexS );
+		var results = regex.exec( window.location.href );
+		if( results == null )
+	    	return "";
+		else
+	    	return results[1];
+	}
+		
 	function manageUnreadMessages(){
 		var message = $('textarea[name=chatmessage]').val();
 		$('.loading').show();
@@ -82,7 +97,8 @@
 		$.post(
 			serviceurl ,
 			{ 	
-			    message : message,             
+			    message : message,  
+			    reciever : reciever,           
 				action:'doAddMessage'	
 			} ,
 		 	function(data){
@@ -96,7 +112,7 @@
 		var serviceurl = '../services/chataction.php' ;
 		$.post(
 			serviceurl ,
-			{ 	
+			{ 	sender : reciever,
 			    action:'getUnreadMessages'	
 			} ,
 		 	function(data){

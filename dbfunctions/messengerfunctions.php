@@ -33,19 +33,8 @@ function doAddMessageDB($sender, $recipient, $message){
 		
 	$time = "CURRENT_TIMESTAMP" ;	//sql function
 	$readflag = "n" ;
-	$query = "insert into chatbox ( 
- 				sender, 
- 				recipient, 
- 				message, 
- 				time, 
- 				readflag 
- 			) values ( '".
-				$sender 		."', '".
-				$recipient 		."', '".
-				$message		."', ".
-				$time			.", '".
-				$readflag		."') " ;	
-	echo $query ;
+	$query = "insert into chatbox ( sender, recipient, message, time, readflag ) values ( '$sender', '$recipient', '$message', $time, '$readflag') " ;	
+	//echo $query ;
 	$result = mysql_query($query);		 
 }
 

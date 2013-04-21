@@ -193,7 +193,8 @@
   	<div data-role="content" id="contentTechAdvice"> 
 	  	<br />
 	  	<div id="buttonChat">
-	    	<a href="chattechadvice.html" rel="external" data-role="button" data-theme="a" > Chat with experts </a>
+	    	<a href="chattechadvice.html" id="linkChat" rel="external" data-role="button" data-theme="a" > Chat with experts </a>
+	    		
 	    </div><br />
 	    
 	    <div id="divChatAvailability"> <!--  ajax populate--> </div>
@@ -203,17 +204,59 @@
 	    </div>	
 	    <br />
   	</div>
-  
-  	<!--
-	<div data-role="footer" id="ftrTechAdvice">
-	   	<h1>footer</h1>
+  	<div data-role="footer" id="ftrTechAdvice">
+	   	<h1>footer - techadvice</h1>
 	</div>
-	-->
-
-
 	
-</div>	
+		<!--for populating Seller offers  page-->
+ 	<div data-role="header" data-position="fixed" id="hdrSellerOffers">
+	    <div class="headerlogo"> </div>
+	    <div class="headertext">
+	      Offers
+	    </div>
+	    <div data-role="controlgroup" data-type="horizontal" style="float:right;" >
+	        <a href="index.html" data-role="button" >Home</a>
+			<a href="viewitemlist.html" data-role="button" >Back</a>
+		</div>
+  	</div>
+ 
+  	<div data-role="content" id="contentSellerOffers"> 
+  		offers page
+  		<div id="offerlistcontainer"> <!-- ajax populate -->  </div>
+  	</div>
+  
+  	<div data-role="footer" id="ftrSellerOffers">
+	   	<h1>footer- offers</h1>
+	</div>
 
+		<!--for populating Seller offers  page-->
+  	<div data-role="content" id="contentRateSeller"> 
+		<p id="paraShowRatingResponse">
+			<!-- ajax populate. message on submission-->
+		</p>
+		
+		<fieldset data-role="controlgroup" id="radiosetRateSeller">
+			<legend>Rate Seller</legend>
+		     	<input type="radio" name="stars" id="radio-choice-5" value="5"  />
+		     	<label for="radio-choice-5">5 stars</label>
+		
+		     	<input type="radio" name="stars" id="radio-choice-4" value="4"  />
+		     	<label for="radio-choice-4">4 Stars</label>
+		
+				<input type="radio" name="stars" id="radio-choice-3" value="3"  />
+		     	<label for="radio-choice-3">3 Stars</label>
+		     	
+		     	<input type="radio" name="stars" id="radio-choice-2" value="2"  />
+		     	<label for="radio-choice-2">2 Stars</label>
+		     	
+		     	<input type="radio" name="stars" id="radio-choice-1" value="1"  />
+		     	<label for="radio-choice-1">1 Star</label>
+		</fieldset>
+		<br>
+	   	<a id="submitrating" rel="external" data-role="button" data-theme="f" > Submit </a>
+	</div>
+  	
+	
 <script src="js/jquery.js"></script>
 <script src="js/jquery.mobile-1.2.0.js"></script>
 
@@ -222,10 +265,12 @@
 	// javascript global variable declarations:
 	var resobj_search = "" ;
 	var resobj_prodlist = "" ;
+	var sellerid_global = "";
 	
 	$(document).ready(function() {
 		showPageSearchForm();
-		
+		//showPageSellerOffers();
+		//
 	});
 
 	$('#searchproduct').click( function ()  {
@@ -233,29 +278,16 @@
 		doProcessInputs();
 		return false;  // !mandatory
 	});
+	
+	$('#submitrating').click( function ()  {
+		
+		doProcessInputs();
+		return false;  // !mandatory
+	});
 
-	$('#viewcategory').click(function () {	
-		showPageTransition();
-		showPageSellerCategoryList();
-		getSellerCategory();
-		return(false); // ! mandatory
-	});
 	
-	$('#viewproducts').click(function () {	
-		showPageTransition();
-		showPageProductsUnderCategory();
-		getProductsUnderCategory();
-		return(false); // ! mandatory
-	});
 	
-	$('#viewproductdetail').click(function () {	
-		showPageTransition();
-		showPageSoloProductInfo();
-		getSoloProductInfo();
-		return(false); // ! mandatory
-	});
 	
-    
  	function doProcessInputs()
 	{
 		var searchkey=$("#searchkey").val();
@@ -275,8 +307,7 @@
 	}
 	
 	
-	function populateResultList(){
-		  
+	function populateResultList(){		  
 		 $('#resultContainer').html("");  //clear out previous result since append is used
     	 showPageSearchResults();  
     	 for(var i=0; i<resobj_search.length; i++)
@@ -357,7 +388,9 @@
 	}
 	
 	function populateContentProfileInfo(resobj)
-	{	var str = "";
+	{	
+		sellerid_global = resobj[0].seller_id;	 //set global sellerid	
+		var str = "";
     			str += '<table "border=0">' ;
     			str += 		'<tr><td>display_name:</td><td><b>'+ resobj[0].display_name + '</b></td></tr>' ;
     			str +=		'<tr><td>seller_id:</td><td><b>'+ resobj[0].seller_id + '</b></td></tr>' ;
@@ -377,9 +410,18 @@
     			str +=	  "<br><a href='javascript:sendChatRequestforSeller(\""+resobj[0].seller_id+"\");'> Chat with Seller  </a><br>" ;
     			str +=	'</div>';
     			
+    			str +=	'<div>';
+    			str +=	  "<br><a href='javascript:getSellerOffers(\""+resobj[0].seller_id+"\");'> Offers and News  </a><br>" ;
+    			str +=	'</div>';
+    			
+    			str +=	'<div>';
+    			str +=	  "<br><a href='javascript:showPageRateSeller();'> Rate Seller  </a><br>" ;
+    			str +=	'</div>';
+    			
+    			
      	 $('#contentProfileInfo').html("");
+    	 $('#contentProfileInfo').append(str);
     	 showPageProfileInfo();
-     	 $('#contentProfileInfo').append(str);
     }
     
     function getSellerCategoryList(sellerid) 
@@ -410,20 +452,89 @@
 			} ,
 		 	function(data){
 			    var resobj =jQuery.parseJSON(data);
-			    populateTechAdviceHome(resobj);
+			    populateTechAdviceHome(resobj,seller);
 			}
 		);  // end of $.post --
 	}
 	
-	function populateTechAdviceHome(resobj){
+	function populateTechAdviceHome(resobj, seller){
 		if (resobj.status == "offline"){
 			$('#buttonChat').hide();
 			$('#divChatAvailability').html("<br> <b>Seller not available online for Chat</b><br><br>");
 		}
+		
+	 	$('#linkChat').attr('href', 'chattechadvice.html?seller='+seller);
+		
 		showPageTechAdvice();
 	}
 	
-    
+	function getSellerOffers(seller){
+		showPageTransition();
+		var serviceurl = '../services/offersandnewsservice.php' ;
+		$.post(
+			serviceurl ,
+			{ 	
+			    seller:seller,
+				action:'getSellerOffers'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    populateSellerOffers(resobj);
+			}
+		);  // end of $.post --
+	}
+	
+	function populateSellerOffers(resobj){
+		$('#offerlistcontainer').html("");
+		
+		var str = "";
+		for(var i=0; i<resobj.length; i++)
+    	{	str +=	'<div>';
+   			str +=	  '<br>reference :'+ resobj[i].offerid ;
+   			str +=	  '<br>Description : <b>'+ resobj[i].title +'</b>' ;
+   			str +=	  '<br>'+ resobj[i].description ;
+   			str +=	  '<br>period :'+ resobj[i].period ;
+   			str +=	  '<br><hr>' ;
+   			str +=	'</div>';
+   		}
+   			str +=	'<div>';
+   		    str +=	"<a href='javascript:getSellerProfileInfo(\""+resobj[0].sellerid+"\");'> Seller Profile > </a>";   		
+   			str +=	'</div>';
+   		$('#offerlistcontainer').html(str);
+   		showPageSellerOffers();
+	}
+	
+	
+	$('#submitrating').click(function() {
+		showPageTransition();
+		sellerid = sellerid_global;
+		var rating = $('input[name=stars]:checked').val();
+		var serviceurl = '../services/accesscontrolaction.php' ;
+		$.post(
+			serviceurl ,
+			{
+				rating : rating, 	
+			    seller:sellerid,
+				action:'doRateSeller'	
+			} ,
+		 	function(data){
+			    var resobj =jQuery.parseJSON(data);
+			    doModifyRatingPage(resobj);
+			}
+		);  // end of $.post --
+	});
+	
+	function doModifyRatingPage(resobj){
+		$('#radiosetRateSeller').hide();
+		$('#submitrating').hide();
+		showPageRateSeller();
+		$('#paraShowRatingResponse').html(
+			"<b>Thank you for Rating!   </b><br><br>" +
+			"<a href='javascript:getSellerProfileInfo(\""+sellerid_global+"\");'> Back to Seller Profile > </a>"
+		);
+	}
+	
+	
     function populateSellerCategoryList(resobj, sellerid) 
     {
 		$('#ulCategoryList').html("<li> </li>");
@@ -463,7 +574,30 @@
     
 
 
-		
+
+/*
+	$('#viewcategory').click(function () {	
+		showPageTransition();
+		showPageSellerCategoryList();
+		getSellerCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproducts').click(function () {	
+		showPageTransition();
+		showPageProductsUnderCategory();
+		getProductsUnderCategory();
+		return(false); // ! mandatory
+	});
+	
+	$('#viewproductdetail').click(function () {	
+		showPageTransition();
+		showPageSoloProductInfo();
+		getSoloProductInfo();
+		return(false); // ! mandatory
+	});
+	
+*/		
     
 /* page builders --------------------------------*/
 	
@@ -476,7 +610,23 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		hideTechAdviceHome();
+		hideSellerOffers();
+		$('#contentRateSeller').hide();
 		$('#contentTransition').show();
+	}
+	
+	function showPageRateSeller()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		hideTechAdviceHome();
+		hideSellerOffers();
+		$('#contentTransition').hide();
+		$('#contentRateSeller').show();
 	}
 	
 	function showPageSearchForm()
@@ -487,7 +637,9 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showSearchProductForm();
 	}
 	
@@ -499,7 +651,9 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showSearchResultList();
 	}	
 	
@@ -509,9 +663,11 @@
 		hideSearchResultList();
 		hideSoloProductInfo();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideSellerCategory();		
 		hideProductUnderCategory();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showProfileInfo();
 	}
 	
@@ -521,9 +677,11 @@
 		hideSearchResultList();
 		hideSoloProductInfo();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideProfileInfo();
 		hideProductUnderCategory();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showSellerCategory();
 	}
 	
@@ -533,9 +691,11 @@
 		hideSearchResultList();
 		hideSoloProductInfo();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideSellerCategory();
 		hideProfileInfo();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showProductUnderCategory();
 	}
 	
@@ -547,8 +707,11 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
 		hideTechAdviceHome();
+		hideSellerOffers();
 		showSoloProductInfo();
+	
 	}
 	
 	function showPageTechAdvice()
@@ -560,10 +723,26 @@
 		hideProfileInfo();
 		hideProductUnderCategory();
 		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
+		hideSellerOffers();
 		showTechAdviceHome();
+
 	}
 	
-		
+	function showPageSellerOffers()
+	{	
+		hideSearchProductForm();
+		hideSearchResultList();
+		hideSoloProductInfo();
+		hideSellerCategory();
+		hideProfileInfo();
+		hideProductUnderCategory();
+		$('#contentTransition').hide();
+		$('#contentRateSeller').hide();
+		hideTechAdviceHome();
+		showSellerOffers();
+	}
+	
 	
 	function hideSoloProductInfo(){
 			$('#hdrSoloProductInfo').hide();	
@@ -641,6 +820,17 @@
 			$('#contentTechAdvice').show();
 			$('#ftrTechAdvice').show();
 		}
+
+	function hideSellerOffers(){
+		$('#hdrSellerOffers').hide();
+		$('#contentSellerOffers').hide();
+		$('#ftrSellerOffers').hide();
+	}
+		function showSellerOffers(){
+			$('#hdrSellerOffers').show();
+			$('#contentSellerOffers').show();
+			$('#ftrSellerOffers').show();
+	}
 
 
 
